@@ -84,7 +84,7 @@ class RummyTile(QWidget):
         self.setObjectName("rummyTile")
         self.MasterIndex = index
         self.labelText = "hello world"
-
+        self.cellListIndex = 0
 
     @staticmethod
     def _on_destroyed():
@@ -92,7 +92,7 @@ class RummyTile(QWidget):
         pass
 
     def mousePressEvent(self, event):
-        print("mouse press event: gameBoard.setStartCellIndex = ", str(self.cellListIndex))
+        print("mouse press event: gameBoard.setStartCellIndex = ", str(self.parent.cellListIndex))
         gameBoard.setStartDragCellIndex(self.cellListIndex)                 # this tells us where the drag started
         gameBoard.setStartDragTileIndex(self.MasterIndex)     # this tells us which cell is being dragged
         gameBoard.removeTile(self.cellListIndex)
@@ -258,6 +258,7 @@ class ControlPanel(QFrame):
 
 
 class BoardCell(QFrame):
+    dragStartCell = 0
     def __init__(self, row, col):
         super(BoardCell, self).__init__()
         self.setFrameStyle(QFrame.Box)
@@ -297,7 +298,6 @@ class BoardCell(QFrame):
         newTile.show()
         self.layout.addWidget(newTile)
 
-
     def getResidentTileValue(self):
         residentCell = self.findChild(RummyTile)
         if residentCell != None:
@@ -329,6 +329,8 @@ class BoardCell(QFrame):
             return "Empty"
         else:
             print("Cell Status::-", str(self.cellListIndex), " contains ", cellContents.color, cellContents.value)
+            print("cell index = ", str(self.cellListIndex))
+            print("Cell index in tile = ", str(cellContents.getCellListIndex()))
             return cellContents.color, cellContents.value
 
     def getPosition(self):
