@@ -1,12 +1,9 @@
-import sys, random
-from PyQt5 import QtGui, QtCore
+import random
 
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QTreeView, QFileSystemModel, QLineEdit, \
-    QLabel, QFrame, QTextEdit, QHBoxLayout, QGridLayout, QVBoxLayout, QMainWindow, QFontComboBox, QPlainTextEdit, QColorDialog
 
-from PyQt5.QtGui import QFont, QColor
+from PyQt5.QtWidgets import QFrame, QGridLayout
 
-from PyQt5.QtCore import QRect, QPoint
+from PyQt5.QtGui import QColor
 
 from Cell import BoardCell
 from Tile import RummyTile
@@ -119,7 +116,7 @@ class TileBag():
         else:
             tile = self.tileBag.pop()
             tile.owner = "board"
-            controlPanel.setNumberOfTiles(len(self.tileBag) - 1)
+            # controlPanel.setNumberOfTiles(len(self.tileBag) - 1)
             return tile
 
     def getNoOfTilesInBag(self):
@@ -153,13 +150,17 @@ class TileCollection():
             return self.tiles[index]
 
     def printTileList(self):
-        controlPanel.clearInfoBox()
+        # controlPanel.clearInfoBox()
         for tile in self.tiles:
             fred1 = str(tile.MasterIndex)
             fred2 = str(tile.color)
             fred3 = str(tile.value)
             fred4 = str(tile.owner)
             cellStr = fred1 + " - " + fred2 + " " + fred3 + " owner = " + fred4
-            controlPanel.appendInfo(cellStr)
+            # controlPanel.appendInfo(cellStr)
 
+player1Grid = PlayerGrid()
+player2Grid = PlayerGrid()
+gameBoard = GameBoard()
 tileCollection = TileCollection()
+tileBag = TileBag()
