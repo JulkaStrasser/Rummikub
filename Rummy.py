@@ -2,7 +2,7 @@ import sys, random
 from PyQt5 import QtGui, QtCore
 
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QTreeView, QFileSystemModel, QLineEdit, \
-    QLabel, QFrame, QTextEdit, QHBoxLayout, QGridLayout, QVBoxLayout, QMainWindow, QFontComboBox, QPlainTextEdit, QColorDialog
+    QLabel, QFrame, QTextEdit, QHBoxLayout, QGridLayout, QVBoxLayout, QMainWindow, QFontComboBox, QPlainTextEdit, QColorDialog, QSizePolicy
 
 from PyQt5.QtGui import QFont, QColor
 from PyQt5.QtCore import QRect, QPoint
@@ -27,6 +27,25 @@ class MyButton(QPushButton):
         self.setFixedHeight(25)
         self.setFont(QFont('SansSerif', 10))
         self.setText(text)
+
+class MyLabel(QWidget):
+    def __init__(self, legend):
+        super(MyLabel, self).__init__()
+        self.myLayout = QHBoxLayout()
+        self.myLayout.setAlignment(QtCore.Qt.AlignLeft)
+        self.myLegend = QLabel()
+        self.myLegend.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
+        self.myLegend.setText(legend)
+        self.myLayout.addWidget(self.myLegend)
+        self.setLayout(self.myLayout)
+        self.setFont(QFont('SansSerif', 12))
+        self.pal = self.palette()
+        self.pal.setColor(self.backgroundRole(), QColor('#FFFF00'))
+        self.pal.setColor(self.foregroundRole(), QColor('#7030A0'))  # 6600cc
+        self.setPalette(self.pal)
+        self.setAutoFillBackground(True)
+    def updateText(self, newText):
+        self.myText.setText(newText)
 
 # ++++++++++++++++++++++++++++++++++++++++++++++
 #          CONTROL PANEL
@@ -161,6 +180,40 @@ class TileGridBaseClass(QFrame):
         for cell in self.cellList:
             cell.setForegroundColor(color)
 
+class PlayerControls(QFrame):
+    def __init__(self, bgColor, fgColor, playerName):
+        super(PlayerControls, self).__init__()
+        self.setFrameStyle(QFrame.Panel | QFrame.Sunken)
+        self.layout = QVBoxLayout()
+        self.layout.setAlignment((QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop))
+        self.setLayout(self.layout)
+        self.TakeTileButton = MyButton("Take Tile")
+        self.playerNameLabel = MyLabel(playerName)
+        self.pal = self.palette()
+        self.pal.setColor(self.backgroundRole(), bgColor)
+        self.pal.setColor(self.foregroundRole(), fgColor)  # 6600cc
+        self.setPalette(self.pal)
+        self.setAutoFillBackground(True)
+
+        def setBackgroundColor(self, color):
+            self.pal.setColor(self.backgroundRole(), QColor(color))
+            self.setPalette(self.pal)
+            for cell in self.cellList:
+                cell.setBackgroundColor(color)
+
+        def AddTileFromBag(self, tile):
+            print("AddTileFromBag")
+            # take a tile from the bag and put it in the
+            # next empty cell
+            # go through the cell list calling getStatus(). The first
+            # cell that returns empty is the one to add the tile to
+            for cell in self.cellList:
+                status = cell.getCellStatus()
+                if status == "Empty":
+                    # cellIndex = cell.getCellListIndex()
+                    # tile.setCellListIndex(cellIndex)
+                    cell.addTile(tile)
+                    break
 
 class GameBoard(TileGridBaseClass):
     def __init__(self):
@@ -203,13 +256,11 @@ class GameBoard(TileGridBaseClass):
 
 class PlayerGrid(TileGridBaseClass):
     def __init__(self):
-        super(PlayerGrid, self).__init__(2,28)
-        self.setFrameStyle(QFrame.Panel | QFrame.Sunken)
-
-        QRect = self.contentsRect()
-
-        self.tileGrid = QGridLayout()
-
+        super(PlayerGrid, self).__init__(2, 28)
+        self.controls = PlayerControls(QColor('#FFEFAB'), QColor('#7030A0'), "Player 1")
+        self.layout = QHBoxLayout()
+        self.layout.addWidget(self.tileGrid)
+        self.layout.addWidget(self.controls)
         self.setLayout(self.tileGrid)
 
 class TileBag():

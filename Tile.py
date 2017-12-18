@@ -10,7 +10,7 @@ class DragLabel(QLabel):
     def __init__(self, color, text, parent):
         super(DragLabel, self).__init__(parent)
         widthText = "13"
-        tileFont = QFont("Consolas", 10)
+        tileFont = QFont("DejaVu Sans Mono", 10)
         self.setFont(tileFont)
         metric = QtGui.QFontMetrics(self.font())
         size = metric.size(QtCore.Qt.TextSingleLine, widthText)
@@ -27,27 +27,29 @@ class DragLabel(QLabel):
         painter = QtGui.QPainter()
         painter.begin(image)
         if color == "red":
-            painter.setBrush(QtCore.Qt.red)
-            painter.setPen(QtCore.Qt.red)
+            painter.setBrush(QColor('#FFA48F'))
+            painter.setPen(QColor('#EA2D00'))
         elif color == "blue":
-            painter.setBrush(QtCore.Qt.blue)
-            painter.setPen(QtCore.Qt.blue)
+            painter.setBrush(QColor('#BFD8EF'))
+            painter.setPen(QColor('#2E75B6'))
         elif color == "yellow":
-            painter.setBrush(QtCore.Qt.yellow)
-            painter.setPen(QtCore.Qt.yellow)
+            painter.setBrush(QColor('#FFEFAB'))
+            painter.setPen(QColor('#FFCC00'))
         else:
-            painter.setBrush(QtCore.Qt.black)
-            painter.setPen(QtCore.Qt.black)
+            painter.setBrush(QColor('#BFDDAB'))
+            painter.setPen(QColor('#548235'))
+            # painter.setBrush(QtCore.Qt.black)
+            # painter.setPen(QtCore.Qt.black)
 
         painter.setRenderHint(QtGui.QPainter.Antialiasing)
         # painter.setBrush(QtCore.Qt.white)
-        painter.setBrush(QColor('#999999'))
+        # painter.setBrush(QColor('#FFFFCC'))
         painter.drawRoundedRect(QtCore.QRectF(0.5, 0.5, image.width() - 1,
                                               image.height() - 4), 30, 30, QtCore.Qt.RelativeSize)
 
         painter.setFont(tileFont)
 
-        painter.setBrush(QtCore.Qt.blue)
+        painter.setPen(QtCore.Qt.blue)
 
         painter.drawText(QRect(QPoint(6, 6), size), QtCore.Qt.AlignCenter, text)
         painter.end()
