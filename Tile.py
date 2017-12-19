@@ -10,13 +10,15 @@ class DragLabel(QLabel):
     def __init__(self, color, text, parent):
         super(DragLabel, self).__init__(parent)
         widthText = "13"
-        tileFont = QFont("DejaVu Sans Mono", 10)
+        tileFont = QFont("DejaVu Sans Mono", 12)
         self.setFont(tileFont)
         metric = QtGui.QFontMetrics(self.font())
         size = metric.size(QtCore.Qt.TextSingleLine, widthText)
 
-        image = QtGui.QImage(size.width() + 12, size.height() + 22,
-                             QtGui.QImage.Format_ARGB32_Premultiplied)
+        # image = QtGui.QImage(size.width() + 12, size.height() + 22,
+        #                      QtGui.QImage.Format_ARGB32_Premultiplied)
+
+        image = QtGui.QImage(28, 39, QtGui.QImage.Format_ARGB32_Premultiplied)
 
         # image = QtGui.QImage(self.width, self.height, QtGui.QImage.Format_ARGB32_Premultiplied)
         image.fill(QtGui.qRgba(0, 0, 0, 0))
@@ -51,7 +53,7 @@ class DragLabel(QLabel):
 
         painter.setPen(QtCore.Qt.blue)
 
-        painter.drawText(QRect(QPoint(6, 6), size), QtCore.Qt.AlignCenter, text)
+        painter.drawText(QRect(QPoint(4, 3), size), QtCore.Qt.AlignCenter, text)
         painter.end()
 
         self.setPixmap(QtGui.QPixmap.fromImage(image))
@@ -110,6 +112,9 @@ class RummyTile(QWidget):
 
     def getCellListIndex(self, listIndex):
         return self.cellListIndex
+
+    def setOwner(self, owner):
+        self.owner = owner
 
     def __str__(self):
         myStr = ""

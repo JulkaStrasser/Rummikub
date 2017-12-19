@@ -13,7 +13,7 @@ from Tile import RummyTile
 class BoardCell(QFrame):
     dragStartCell = 0
 
-    def __init__(self, row, col):
+    def __init__(self, row, col, bgColor, fgColor):
         super(BoardCell, self).__init__()
         self.setFrameStyle(QFrame.Box)
         self.layout = QVBoxLayout()
@@ -27,8 +27,8 @@ class BoardCell(QFrame):
         # self.cellListIndex = 0
 
         self.pal = self.palette()
-        self.pal.setColor(self.backgroundRole(), QColor('#888844'))
-        self.pal.setColor(self.foregroundRole(), QColor('#999955'))  # 6600cc
+        self.pal.setColor(self.backgroundRole(), bgColor)
+        self.pal.setColor(self.foregroundRole(), fgColor)  # 6600cc
         self.setPalette(self.pal)
         self.setAutoFillBackground(True)
 
@@ -40,12 +40,6 @@ class BoardCell(QFrame):
 
     def getDragStartCell(self):
         return BoardCell.dragStartCell
-
-    # def setCellListIndex(self, listIndex):
-    #     self.cellListIndex = listIndex
-    #
-    # def getCellListIndex(self):
-    #     return self.cellListIndex
 
     def enterEvent(self, a0: QtCore.QEvent):
         print("Mouse entered", self.row, self.col)
