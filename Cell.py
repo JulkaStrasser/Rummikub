@@ -49,7 +49,7 @@ class BoardCell(QFrame):
     def addTile(self, newTile):
         print("Cell ", str(self.row), str(self.col), " add tile ", str(newTile.getColor()), " ",
               str(newTile.getValue()))
-        # newTile.setCellListIndex = self.cellListIndex
+
         newTile.show()
         self.layout.addWidget(newTile)
 
@@ -109,6 +109,7 @@ class BoardCell(QFrame):
             mime = event.mimeData()
             sourceTile = RummyTile.dragTile
             residentTile = self.getResidentTileValue()
+            self.getDragStartCell().removeTile()
             if residentTile != None:
                 # the cell we are dropping onto already contains a tile. So we want to put this tile into
                 # the cell where the drag started. Thereby swapping the tiles

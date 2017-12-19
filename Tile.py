@@ -80,15 +80,16 @@ class RummyTile(QWidget):
     # def getDragTile():
     #     return RummyTile.dragTile
 
-    def mousePressEvent(self, event):
+    def mouseReleaseEvent(self, a0: QtGui.QMouseEvent):
+        print("Mouse release")
 
-        # gameBoard.setStartDragCellIndex(self.cellListIndex)                 # this tells us where the drag started
-        # gameBoard.setStartDragTileIndex(self.MasterIndex)     # this tells us which cell is being dragged
+    def mousePressEvent(self, event):
+        print("Mouse press")
         self.setDragTile(self)
         mimeData = QtCore.QMimeData()
         mimeData.setText("hello world")
         self.parent().setDragStartCell(self.parent())
-        self.setParent(None)
+        # self.setParent(None)
         drag = QtGui.QDrag(self)
         drag.setMimeData(mimeData)
         drag.setHotSpot(event.pos() - self.rect().topLeft())
