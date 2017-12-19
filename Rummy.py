@@ -181,38 +181,43 @@ class TileGridBaseClass(QFrame):
             cell.setForegroundColor(color)
 
 class PlayerControls(QFrame):
-    def __init__(self, bgColor, fgColor, playerName):
+    def __init__(self, bgColor, fgColor, playerGrid, playerName):
         super(PlayerControls, self).__init__()
+        self.playerGrid = playerGrid
+        self.playerName = playerName
         self.setFrameStyle(QFrame.Panel | QFrame.Sunken)
         self.layout = QVBoxLayout()
         self.layout.setAlignment((QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop))
         self.setLayout(self.layout)
         self.TakeTileButton = MyButton("Take Tile")
+        self.TakeTileButton.clicked.connect(self.takeTile)
+
         self.playerNameLabel = MyLabel(playerName)
+
+        self.layout.addWidget(self.playerNameLabel)
+        self.layout.addWidget(self.TakeTileButton)
+
         self.pal = self.palette()
         self.pal.setColor(self.backgroundRole(), bgColor)
         self.pal.setColor(self.foregroundRole(), fgColor)  # 6600cc
         self.setPalette(self.pal)
         self.setAutoFillBackground(True)
 
-        def setBackgroundColor(self, color):
-            self.pal.setColor(self.backgroundRole(), QColor(color))
-            self.setPalette(self.pal)
-            for cell in self.cellList:
-                cell.setBackgroundColor(color)
+    def setBackgroundColor(self, color):
+        self.pal.setColor(self.backgroundRole(), QColor(color))
+        self.setPalette(self.pal)
+        for cell in self.cellList:
+            cell.setBackgroundColor(color)
 
-        def AddTileFromBag(self, tile):
-            print("AddTileFromBag")
-            # take a tile from the bag and put it in the
-            # next empty cell
-            # go through the cell list calling getStatus(). The first
-            # cell that returns empty is the one to add the tile to
-            for cell in self.cellList:
+    def takeTile(self, tile):
+        global tileBag
+        if tileBag.getNoOfTilesInBag() > 0:
+            nextTile = tileBag.getTileFromBag()
+            print(self.playerName, " takes a tile. It's ", str(nextTile.getColor()), str(nextTile.getValue()))
+            for cell in self.playerGrid.cellList:
                 status = cell.getCellStatus()
                 if status == "Empty":
-                    # cellIndex = cell.getCellListIndex()
-                    # tile.setCellListIndex(cellIndex)
-                    cell.addTile(tile)
+                    cell.addTile(nextTile)
                     break
 
 class GameBoard(TileGridBaseClass):
@@ -257,11 +262,8 @@ class GameBoard(TileGridBaseClass):
 class PlayerGrid(TileGridBaseClass):
     def __init__(self):
         super(PlayerGrid, self).__init__(2, 28)
-        self.controls = PlayerControls(QColor('#FFEFAB'), QColor('#7030A0'), "Player 1")
-        self.layout = QHBoxLayout()
-        self.layout.addWidget(self.tileGrid)
-        self.layout.addWidget(self.controls)
-        self.setLayout(self.tileGrid)
+        # self.controls = PlayerControls(QColor('#FFEFAB'), QColor('#7030A0'), "Player 1")
+
 
 class TileBag():
     def __init__(self):
@@ -341,9 +343,10 @@ class MainWin(QMainWindow):
         # ++++++++++++++++++++++++++++++++++++++++++++++++
         self.gameLayout = QGridLayout()
         self.gameLayout.addWidget(player1Grid, 0, 0)
+        self.gameLayout.addWidget(player1Controls, 0, 1)
         self.gameLayout.addWidget(gameBoard, 1, 0, 3, 1)
         self.gameLayout.addWidget(player2Grid, 4, 0)
-        self.gameLayout.addWidget(self.controlPanel, 0, 1, 5 ,1)
+        self.gameLayout.addWidget(self.controlPanel, 1, 1, 3 ,1)
 
         self.mainWidget = QWidget()
         self.mainWidget.setLayout(self.gameLayout)
@@ -388,6 +391,8 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
 
     player1Grid = PlayerGrid()
+    player1Controls = PlayerControls(QColor('#FFEFAB'), QColor('#7030A0'), player1Grid, "Player 1")
+
     player2Grid = PlayerGrid()
     gameBoard = GameBoard()
     tileCollection = TileCollection()
