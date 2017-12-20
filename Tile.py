@@ -51,7 +51,7 @@ class DragLabel(QLabel):
 
         painter.setFont(tileFont)
 
-        painter.setPen(QtCore.Qt.blue)
+        # painter.setPen(QtCore.Qt.blue)
 
         painter.drawText(QRect(QPoint(4, 3), size), QtCore.Qt.AlignCenter, text)
         painter.end()

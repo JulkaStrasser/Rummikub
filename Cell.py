@@ -24,8 +24,8 @@ class BoardCell(QFrame):
         self.setFixedWidth(38)
         self.row = row
         self.col = col
-        # self.cellListIndex = 0
-
+        self.bgColor = bgColor
+        self.fgColor = fgColor
         self.pal = self.palette()
         self.pal.setColor(self.backgroundRole(), bgColor)
         self.pal.setColor(self.foregroundRole(), fgColor)  # 6600cc
@@ -34,6 +34,7 @@ class BoardCell(QFrame):
 
         self.setMouseTracking(True)
         self.setAcceptDrops(True)
+        self.highlightIsOn = False
 
     def setDragStartCell(self, cell):
         BoardCell.dragStartCell = cell
@@ -73,6 +74,14 @@ class BoardCell(QFrame):
         self.pal.setColor(self.backgroundRole(), QColor(color))
         self.setPalette(self.pal)
 
+    def hightlightOn(self):
+        self.setBackgroundColor(QColor('#FF9999'))
+        self.highlightIsOn = True
+
+    def highlightOff(self):
+        self.setBackgroundColor(self.bgColor)
+        self.highlightIsOn = False
+
     def setForegroundColor(self, color):
         self.pal.setColor(self.foregroundRole(), QColor(color))
         self.setPalette(self.pal)
@@ -105,6 +114,15 @@ class BoardCell(QFrame):
     dragMoveEvent = dragEnterEvent
 
     def dropEvent(self, event):
+        if self.getDragStartCell().getPosition() == self.getPosition():
+            print("Drag start and end position was the same - toggle highlight")
+            if self.highlightIsOn:
+                self.highlightOff()
+            else:
+                self.hightlightOn()
+            return
+        if self.getDragStartCell().highlightIsOn:
+            self.getDragStartCell().highlightOff()
         if event.mimeData().hasFormat('text/plain'):
             mime = event.mimeData()
             sourceTile = RummyTile.dragTile
