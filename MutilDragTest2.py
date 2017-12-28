@@ -73,7 +73,7 @@ class RummyTile(QWidget):
         self.MasterIndex = index
         self.labelText = "hello world"
         self.cellListIndex = 0
-        RummyTile.mdrag.multiDragStartSig.connect(self.handleStartMultiDrag)
+        # RummyTile.mdrag.multiDragStartSig.connect(self.handleStartMultiDrag)
 
     def setDragTile(self, val):
         RummyTile.dragTile = val
@@ -88,23 +88,7 @@ class RummyTile(QWidget):
             if self.parent() in self.parent().getMultiDragList():
                 print("Start multi drag at ", str(self.parent().getPosition()))
 
-                self.setDragTile(self)
-                mimeData = QtCore.QMimeData()
-                mimeData.setText("hello world")
-                self.parent().setDragStartCell(self.parent())
-                # self.setParent(None)
-                drag = QtGui.QDrag(self)
-                drag.setMimeData(mimeData)
-                (row, col) = self.parent().getPosition()
-                drag.setHotSpot(QPoint(col, row))
-                drag.setPixmap(self.tileLabel.pixmap())
-                # self.hide()
 
-                if drag.exec_(QtCore.Qt.MoveAction | QtCore.Qt.CopyAction,
-                              QtCore.Qt.CopyAction) == QtCore.Qt.MoveAction:
-                    self.close()
-                else:
-                    self.show()
 
     def mouseMoveEvent(self, event):
         print("Mouse move")
@@ -153,7 +137,9 @@ class RummyTile(QWidget):
             #  # return '<%s => %s>' % (self.__class__.__name__, self.name)
             # return myStr
 
-
+def getCellCol(cell):
+    print("getCellCol")
+    return cell.getCol()
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #     CELL
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -172,6 +158,8 @@ class BoardCell(QFrame):
         self.setFixedWidth(38)
         self.row = row
         self.col = col
+        self.left = None  # the cell to the left of this one
+        self.right = None  # the cell to the right of this one
         self.bgColor = bgColor
         self.fgColor = fgColor
         self.pal = self.palette()
@@ -186,20 +174,58 @@ class BoardCell(QFrame):
 
         BoardCell.mdrop.multiDropSig.connect(self.handleMultiDrop)
 
+    def setNeighbours(self, left, right):
+        self.left = left
+        self.right = right
+
     def getMultiDragList(self):
         return BoardCell.multiDragList
 
+    def getCol(self):
+        return self.col
+
     def mouseReleaseEvent(self, a0: QtGui.QMouseEvent):
-        print("cell Mouse press")
-        if self.highlightIsOn:
-            self.highlightOff()
-            BoardCell.multiDragList.remove(self)
-            print("Remove from multi drag list ", str(self.getPosition()))
+        global getCellCol
+        if self.getResidentTileValue():
+            #This cell contains a tile so toggle the highlight
+            print("cell Mouse press")
+            if self.highlightIsOn:
+                self.highlightOff()
+                BoardCell.multiDragList.remove(self)
+                print("Remove from multi drag list ", str(self.getPosition()))
+            else:
+                self.hightlightOn()
+                BoardCell.multiDragList.append(self)
+                print("Add to multi drag list ", str(self.getPosition()))
+            return
         else:
-            self.hightlightOn()
-            BoardCell.multiDragList.append(self)
-            print("Add to multi drag list ", str(self.getPosition()))
-        return
+            #This cell does not contain a tile so we may want to move highlighted tiles here
+            #first sort the multi drop list by column
+            BoardCell.multiDragList.sort(key=getCellCol)
+            BoardCell.multiDragList.reverse()
+            # getCellCol(self)
+            if len(BoardCell.multiDragList) > 0:
+                cell = BoardCell.multiDragList.pop()
+                tile = cell.getResidentTile()
+                cell.removeTile()
+                self.addTile(tile)
+                cell.highlightOff()
+                if len(BoardCell.multiDragList) > 0 and self.right:
+                    self.right.handleMultiDrop()
+
+
+    def handleMultiDrop(self):
+        if BoardCell.multiDragList == []:
+            return
+        else:
+            cell = BoardCell.multiDragList.pop()
+            tile = cell.getResidentTile()
+            cell.removeTile()
+            self.addTile(tile)
+            cell.highlightOff()
+            if len(BoardCell.multiDragList) > 0 and self.right:
+                self.right.handleMultiDrop()
+
     def setDragStartCell(self, cell):
         BoardCell.dragStartCell = cell
 
@@ -227,6 +253,11 @@ class BoardCell(QFrame):
         else:
             print("No resident tile at cell ", str(self.row), str(self.col))
             return
+
+    def getResidentTile(self):
+        residentCell = self.findChild(RummyTile)
+        return residentCell
+
 
     def removeTile(self):
         print("Remove tile in cell ", str(self.row), str(self.col))
@@ -277,9 +308,6 @@ class BoardCell(QFrame):
 
     dragMoveEvent = dragEnterEvent
 
-    def handleMultiDrop(self):
-        if self in BoardCell.multiDragList:
-            print("Cell ", str(self.getPosition()), "received multi drop signal")
 
     def dropEvent(self, event):
         BoardCell.mdrop.multiDropSig.emit()
@@ -423,13 +451,31 @@ class TileGridBaseClass(QFrame):
         self.pal.setColor(self.foregroundRole(), fgColor)
         self.setPalette(self.pal)
         self.setAutoFillBackground(True)
+        # Create all the cells
         for row in range(self.rows):
             for col in range(self.cols):
                 newCell = BoardCell(row, col, bgColor, fgColor)
-                # newCell.setCellListIndex(len(self.cellList))
                 self.tileGrid.addWidget(newCell, row, col)  # i=row j=col
                 self.cellList.append(newCell)
         self.setLayout(self.tileGrid)
+        # tell each cell who it's neighbours are
+        for n in range(len(self.cellList)):
+            cell = self.cellList[n]
+            (row, col) = cell.getPosition()
+            if col == 0:
+                left = None
+                right = self.cellList[n+1]
+                print("Cell ", str(row), " ", str(col), " has neighbours ", "None", " and ", str(right.getPosition()))
+            elif col == self.cols - 1:
+                left = self.cellList[n - 1]
+                right = None
+                print("Cell ", str(row), " ", str(col), " has neighbours ", str(left.getPosition()), " and ", "None")
+            else:
+                left = self.cellList[n - 1]
+                right = self.cellList[n + 1]
+                print("Cell ", str(row), " ", str(col), " has neighbours ", str(left.getPosition()), " and ",
+                      str(right.getPosition()))
+            cell.setNeighbours(left, right)
 
     def setBackgroundColor(self, color):
         self.pal.setColor(self.backgroundRole(), QColor(color))

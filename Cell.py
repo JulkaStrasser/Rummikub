@@ -10,10 +10,15 @@ from PyQt5.QtCore import QRect, QPoint
 
 from Tile import RummyTile
 
+def getCellCol(cell):
+    print("getCellCol")
+    return cell.getCol()
+
 class BoardCell(QFrame):
     dragStartCell = 0
-
-    def __init__(self, row, col, bgColor, fgColor):
+    multiDragList = []
+    NoOfVacantCellsAvailableForMultiMove = 0
+    def __init__(self, row, col, bgColor, fgColor, parent):
         super(BoardCell, self).__init__()
         self.setFrameStyle(QFrame.Box)
         self.layout = QVBoxLayout()
@@ -24,6 +29,8 @@ class BoardCell(QFrame):
         self.setFixedWidth(38)
         self.row = row
         self.col = col
+        self.left = None  # the cell to the left of this one
+        self.right = None  # the cell to the right of this one
         self.bgColor = bgColor
         self.fgColor = fgColor
         self.pal = self.palette()
@@ -35,6 +42,72 @@ class BoardCell(QFrame):
         self.setMouseTracking(True)
         self.setAcceptDrops(True)
         self.highlightIsOn = False
+        self.parentGridName = parent
+
+    def setNeighbours(self, left, right):
+        self.left = left
+        self.right = right
+
+    def getCol(self):
+        return self.col
+
+    def printMultiDragList(self):
+        print("The multi drag list contains the following tiles")
+        if len(BoardCell.multiDragList) > 0:
+            for cell in BoardCell.multiDragList:
+                color = cell.getResidentTile().getColor()
+                value = cell.getResidentTile().getValue()
+                print(cell.getParentGridName(), " - ", str(color), " ", str(value))
+        else:
+            print("Empty")
+
+
+
+    def mouseReleaseEvent(self, a0: QtGui.QMouseEvent):
+        print("cell mouse release event")
+        global getCellCol
+        if self.getResidentTile():
+            #This cell contains a tile so toggle the highlight
+            print("cell Mouse press")
+            if self.highlightIsOn:
+                self.highlightOff()
+            else:
+                self.hightlightOn()
+            return
+        else:
+            #This cell does not contain a tile so we may want to move highlighted tiles here
+            #first sort the multi drop list by column
+            BoardCell.multiDragList.sort(key=getCellCol)
+            # BoardCell.multiDragList.reverse()
+            # getCellCol(self)
+            BoardCell.NoOfVacantCellsAvailableForMultiMove = 0
+            if len(BoardCell.multiDragList) > 0:
+                self.countEmptyCells()
+
+    def countEmptyCells(self):
+        if self.getResidentTile() == None:
+            BoardCell.NoOfVacantCellsAvailableForMultiMove += 1
+            if BoardCell.NoOfVacantCellsAvailableForMultiMove == len(BoardCell.multiDragList):
+                # We've got enough empty cells to do the multi move
+                self.handleMultiDrop()
+            elif self.right:
+                self.right.countEmptyCells()
+            else:
+                print("Not enough empty cells for move operation")
+        else:
+            print("Not enough empty cells for move operation")
+
+    def handleMultiDrop(self):
+        if BoardCell.multiDragList == []:
+            return
+        else:
+            cell = BoardCell.multiDragList.pop()
+            tile = cell.getResidentTile()
+            cell.removeTile()
+            self.addTile(tile)
+            cell.highlightOff()
+            if len(BoardCell.multiDragList) > 0 and self.left:
+                self.left.handleMultiDrop()
 
     def setDragStartCell(self, cell):
         BoardCell.dragStartCell = cell
@@ -43,26 +116,31 @@ class BoardCell(QFrame):
         return BoardCell.dragStartCell
 
     def enterEvent(self, a0: QtCore.QEvent):
-        print("Mouse entered", self.row, self.col)
+        # print("Mouse entered", self.row, self.col)
         self.getCellStatus()
         return
 
     def addTile(self, newTile):
         print("Cell ", str(self.row), str(self.col), " add tile ", str(newTile.getColor()), " ",
               str(newTile.getValue()))
+        # newTile.show()
+        self.layout.addWidget(newTile)
 
+        newTile.show()
+        print("show tile")
+
+    def addTileWithPreShow(self, newTile):
+        print("Cell ", str(self.row), str(self.col), " add tile ", str(newTile.getColor()), " ",
+              str(newTile.getValue()))
         newTile.show()
         self.layout.addWidget(newTile)
 
-    def getResidentTileValue(self):
+    def getParentGridName(self):
+        return self.parentGridName
+
+    def getResidentTile(self):
         residentCell = self.findChild(RummyTile)
-        if residentCell != None:
-            print("Found resident tile at cell ", str(self.row), str(self.col), str(residentCell.getColor()), " ",
-                  str(residentCell.getValue()))
-            return residentCell
-        else:
-            print("No resident tile at cell ", str(self.row), str(self.col))
-            return
+        return residentCell
 
     def removeTile(self):
         print("Remove tile in cell ", str(self.row), str(self.col))
@@ -77,10 +155,15 @@ class BoardCell(QFrame):
     def hightlightOn(self):
         self.setBackgroundColor(QColor('#FF9999'))
         self.highlightIsOn = True
+        BoardCell.multiDragList.append(self)
+        self.printMultiDragList()
 
     def highlightOff(self):
         self.setBackgroundColor(self.bgColor)
         self.highlightIsOn = False
+        if self in BoardCell.multiDragList:
+            BoardCell.multiDragList.remove(self)
+        self.printMultiDragList()
 
     def setForegroundColor(self, color):
         self.pal.setColor(self.foregroundRole(), QColor(color))
@@ -90,10 +173,10 @@ class BoardCell(QFrame):
         cellContents = self.findChild(RummyTile)
 
         if cellContents == None:
-            print("Cell Status: cell ", str(self.row), str(self.col), " is empty")
+            # print("Cell Status: cell ", str(self.row), str(self.col), " is empty", " grid = ", str(self.parentGridName))
             return "Empty"
         else:
-            print("Cell Status:-", str(self.row), str(self.col), " contains ", cellContents.color, cellContents.value)
+            # print("Cell Status:-", str(self.row), str(self.col), " contains ", cellContents.color, cellContents.value, " grid = ", str(self.parentGridName))
             return cellContents.color, cellContents.value
 
     def getPosition(self):
@@ -111,10 +194,10 @@ class BoardCell(QFrame):
         else:
             event.ignore()
 
-    dragMoveEvent = dragEnterEvent
+    # dragMoveEvent = dragEnterEvent
 
     def dropEvent(self, event):
-        if self.getDragStartCell().getPosition() == self.getPosition():
+        if self.getDragStartCell().getPosition() == self.getPosition() and self.getDragStartCell().getParentGridName() == self.parentGridName:
             print("Drag start and end position was the same - toggle highlight")
             if self.highlightIsOn:
                 self.highlightOff()
@@ -126,7 +209,7 @@ class BoardCell(QFrame):
         if event.mimeData().hasFormat('text/plain'):
             mime = event.mimeData()
             sourceTile = RummyTile.dragTile
-            residentTile = self.getResidentTileValue()
+            residentTile = self.getResidentTile()
             self.getDragStartCell().removeTile()
             if residentTile != None:
                 # the cell we are dropping onto already contains a tile. So we want to put this tile into
@@ -134,24 +217,12 @@ class BoardCell(QFrame):
                 self.removeTile()
                 self.getDragStartCell().addTile(residentTile)
 
-            self.addTile(sourceTile)
+            self.addTileWithPreShow(sourceTile)
 
             if event.source() in self.children():
                 event.setDropAction(QtCore.Qt.MoveAction)
                 event.accept()
             else:
                 event.acceptProposedAction()
-                # elif event.mimeData().hasText():
-                # pieces = event.mimeData().text().split()
-                # position = event.pos()
-                #
-                # for piece in pieces:
-                #     newLabel = RummyTile.DragLabel(piece, self)
-                #     newLabel.move(position)
-                #     newLabel.show()
-                #
-                #     position += QtCore.QPoint(newLabel.width(), 0)
-                #
-                # event.acceptProposedAction()
         else:
             event.ignore()

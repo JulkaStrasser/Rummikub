@@ -74,16 +74,13 @@ class RummyTile(QWidget):
         self.labelText = "hello world"
         self.cellListIndex = 0
 
+        self.setMinimumWidth(28)
+        self.setMinimumHeight(38)
+
     def setDragTile(self, val):
         RummyTile.dragTile = val
 
-    # def getDragTile():
-    #     return RummyTile.dragTile
-
-    def mouseReleaseEvent(self, a0: QtGui.QMouseEvent):
-        print("Mouse release")
-
-    def mousePressEvent(self, event):
+    def mouseMoveEvent(self, event):
         print("Mouse press")
         self.setDragTile(self)
         mimeData = QtCore.QMimeData()
@@ -94,7 +91,8 @@ class RummyTile(QWidget):
         drag.setMimeData(mimeData)
         drag.setHotSpot(event.pos() - self.rect().topLeft())
         drag.setPixmap(self.tileLabel.pixmap())
-        self.hide()
+        # print("hide tile")
+        # self.hide()
 
         if drag.exec_(QtCore.Qt.MoveAction | QtCore.Qt.CopyAction, QtCore.Qt.CopyAction) == QtCore.Qt.MoveAction:
             self.close()
