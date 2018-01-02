@@ -40,8 +40,9 @@ class ImageLabel2(QLabel):
         self.setAlignment(Qt.AlignLeft)
         self.setAlignment(Qt.AlignTop)
         self.setFrameStyle(QFrame.Panel)
-
-        self.setMinimumHeight(40)
+        self.setFixedWidth(120)
+        self.setFixedHeight(37)
+        # self.setMinimumHeight(40)
 
     def showImageByPath(self, path):
 
@@ -59,6 +60,7 @@ class ImageLabel2(QLabel):
                 self.size()*scalingFactor,
                 Qt.KeepAspectRatio,
                 Qt.SmoothTransformation))
+
             self.show()
 
 class MyButton(QPushButton):
@@ -89,6 +91,52 @@ class MyLabel(QWidget):
     def updateText(self, newText):
         self.myText.setText(newText)
 
+class RemainingTilesIndicator(QWidget):
+    def __init__(self, legend):
+        super(RemainingTilesIndicator, self).__init__()
+
+        self.myLayout = QHBoxLayout()
+        self.myLayout.setAlignment(QtCore.Qt.AlignCenter)
+        self.myLegend = QLabel()
+        self.myLegend.setFrameShape(QFrame.Panel)
+        self.myLegend.setFrameShadow(QFrame.Sunken)
+        self.myLegend.setLineWidth(3)
+        # self.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
+
+        self.myLegend.setText(legend)
+        self.myLayout.addWidget(self.myLegend)
+        self.setLayout(self.myLayout)
+        self.setFont(QFont('SansSerif', 36))
+        self.pal = self.palette()
+        self.pal.setColor(self.backgroundRole(), QColor('#FFFF00'))
+        self.pal.setColor(self.foregroundRole(), QColor('#7030A0'))  # 6600cc
+        self.setPalette(self.pal)
+        self.setAutoFillBackground(True)
+
+    def updateText(self, newText):
+        self.myLegend.setText(newText)
+
+class RemainingTilesIndicator2(QLabel):
+    def __init__(self, legend):
+        super(RemainingTilesIndicator2, self).__init__()
+
+        self.setFrameShape(QFrame.Panel)
+        self.setFrameShadow(QFrame.Sunken)
+        self.setLineWidth(3)
+        # self.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
+
+        self.setText(legend)
+
+        self.setFont(QFont('SansSerif', 36))
+        self.pal = self.palette()
+        self.pal.setColor(self.backgroundRole(), QColor('#FFFF00'))
+        self.pal.setColor(self.foregroundRole(), QColor('#7030A0'))  # 6600cc
+        self.setPalette(self.pal)
+        self.setAutoFillBackground(True)
+
+    def updateText(self, newText):
+        self.setText(newText)
+
 # ++++++++++++++++++++++++++++++++++++++++++++++
 #          CONTROL PANEL
 # ++++++++++++++++++++++++++++++++++++++++++++++
@@ -101,7 +149,7 @@ class ControlPanel(QFrame):
         self.layout.setAlignment((QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop))
         self.setLayout(self.layout)
         self.setMinimumHeight(300)
-        self.setMinimumWidth(200)
+        self.setMinimumWidth(140)
         self.buttonBar = QVBoxLayout()
 
         # ++++++++++++++++++++++++++++++++++++++++++++++++
@@ -128,13 +176,18 @@ class ControlPanel(QFrame):
         self.MasterListButton = MyButton("Master Tile List")
         self.MasterListButton.clicked.connect(self.masterTileList)
 
+        self.logo = ImageLabel2()
+        self.logo.showImageByPath("images/LOGO_200_width.jpg")
+
         self.buttonBar.addWidget(self.addTileButton)
         self.buttonBar.addWidget(self.newGameButton)
         self.buttonBar.addWidget(self.ExitButton)
         self.buttonBar.addWidget(self.ChangeBackgroundColorButton)
         self.buttonBar.addWidget(self.ChangeForegroundColorButton)
+        self.buttonBar.addWidget(self.logo)
         # self.buttonBar.addWidget(self.ListBoardButton)
         # self.buttonBar.addWidget(self.MasterListButton)
+
 
         self.layout.addLayout(self.buttonBar)
         self.infoBar = QVBoxLayout()
@@ -143,12 +196,16 @@ class ControlPanel(QFrame):
         # ++++++++++++++++++++++++++++++++++++++++++++++++
         # Create info box
         # ++++++++++++++++++++++++++++++++++++++++++++++++
-        self.tilesLeftInfoBox = QPlainTextEdit()
-        tileLeftFont = QFont("Consolas", 10)
-        self.tilesLeftInfoBox.setFont(tileLeftFont)
-        self.tilesLeftInfoBox.setPlainText("All tiles in bag")
-        self.infoBar.addWidget(self.tilesLeftInfoBox)
-        self.layout.addLayout(self.infoBar)
+        # self.tilesLeftInfoBox = QPlainTextEdit()
+        # tileLeftFont = QFont("Consolas", 10)
+        # self.tilesLeftInfoBox.setFont(tileLeftFont)
+        # self.tilesLeftInfoBox.setPlainText("All tiles in bag")
+        # self.infoBar.addWidget(self.tilesLeftInfoBox)
+        # self.layout.addLayout(self.infoBar)
+
+        self.NoOfTilesInBagIndicator = RemainingTilesIndicator2("hjhh")
+        self.layout.addWidget(self.NoOfTilesInBagIndicator)
+        self.NoOfTilesInBagIndicator.updateText("0")
 
     def masterTileList(self):
         tileCollection.printTileList()
@@ -250,9 +307,9 @@ class TileGridBaseClass(QFrame):
         for cell in self.cellList:
             cell.removeTile()
 
-
-
-
+# ++++++++++++++++++++++++++++++++++++++++++++++
+#          PLAYER CONTROLS
+# ++++++++++++++++++++++++++++++++++++++++++++++
 class PlayerControls(QFrame):
     def __init__(self, bgColor, fgColor, playerGrid, playerName):
         super(PlayerControls, self).__init__()
@@ -260,7 +317,7 @@ class PlayerControls(QFrame):
         self.playerName = playerName
         self.setFrameStyle(QFrame.Panel | QFrame.Sunken)
         self.layout = QVBoxLayout()
-        self.layout.setAlignment((QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop))
+        self.layout.setAlignment((QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop))
         self.setLayout(self.layout)
         self.TakeTileButton = MyButton("Take Tile")
         self.TakeTileButton.clicked.connect(self.takeTile)
@@ -298,6 +355,9 @@ class PlayerControls(QFrame):
     def getPlayerName(self):
         return self.playerName
 
+# ++++++++++++++++++++++++++++++++++++++++++++++
+#          GAME BOARD
+# ++++++++++++++++++++++++++++++++++++++++++++++
 class GameBoard(TileGridBaseClass):
     def __init__(self, bgColor, fgColor, gridName):
         super(GameBoard, self).__init__(8, 28, bgColor, fgColor, gridName)
@@ -329,6 +389,9 @@ class GameBoard(TileGridBaseClass):
     def removeTile(self, index):
         self.cellList[index].removeTile()
 
+# ++++++++++++++++++++++++++++++++++++++++++++++
+#          PLAYER GRID
+# ++++++++++++++++++++++++++++++++++++++++++++++
 class PlayerGrid(TileGridBaseClass):
     def __init__(self, bgColor, fgColor, gridName):
         super(PlayerGrid, self).__init__(2, 28, bgColor, fgColor, gridName)
@@ -353,7 +416,9 @@ class PlayerGrid(TileGridBaseClass):
                 print("Whoops - tile bag is empty")
                 break
 
-
+# ++++++++++++++++++++++++++++++++++++++++++++++
+#          TILE BAG
+# ++++++++++++++++++++++++++++++++++++++++++++++
 class TileBag():
     def __init__(self):
         self.tileBag = []
@@ -376,6 +441,7 @@ class TileBag():
             tile = self.tileBag.pop()
             tile.owner = "board"
             # controlPanel.setNumberOfTiles(len(self.tileBag) - 1)
+            RummyKub.controlPanel.NoOfTilesInBagIndicator.setText(str(len(self.tileBag) - 1))
             return tile
 
     def getNoOfTilesInBag(self):
@@ -400,10 +466,11 @@ class TileCollection():
     def __init__(self):
         self.tiles = []
         index = 0
-        for tileColor in tileColors:
-            for tileVal in tileValues:
-                self.tiles.append(RummyTile(tileColor, tileVal, index))
-                index += 1
+        for n in [1,2]:
+            for tileColor in tileColors:
+                for tileVal in tileValues:
+                    self.tiles.append(RummyTile(tileColor, tileVal, index))
+                    index += 1
 
     def getTile(self):
         if self.tiles == []:
