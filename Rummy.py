@@ -9,7 +9,21 @@ from PyQt5.QtCore import Qt, QRectF, pyqtSignal, QT_VERSION_STR, QPoint, QDir, Q
 
 from Tile import RummyTile
 from Cell import BoardCell
+from GridArchive import GridArchiveManager
 
+"""
+Todo List.
+1. Need to have a concept of whose go it is. When it is player 1's go, player 2's grid should be locked. 
+And vice versa
+2. Need the board to be able to analyse itself to see if all tiles are in a valid group. It should highlight which tiles
+are not in a valid group.
+3. Need to have a method of logging grid states so that moves can be undone back through the queue.
+
+
+
+
+
+"""
 
 # from Board import player1Grid, player2Grid, gameBoard, tileCollection, tileBag
 
@@ -106,7 +120,7 @@ class RemainingTilesIndicator(QWidget):
         self.myLegend.setText(legend)
         self.myLayout.addWidget(self.myLegend)
         self.setLayout(self.myLayout)
-        self.setFont(QFont('SansSerif', 36))
+        self.setFont(QFont('SansSerif', 18))
         self.pal = self.palette()
         self.pal.setColor(self.backgroundRole(), QColor('#FFFF00'))
         self.pal.setColor(self.foregroundRole(), QColor('#7030A0'))  # 6600cc
@@ -127,7 +141,7 @@ class RemainingTilesIndicator2(QLabel):
 
         self.setText(legend)
 
-        self.setFont(QFont('SansSerif', 36))
+        self.setFont(QFont('SansSerif', 18))
         self.pal = self.palette()
         self.pal.setColor(self.backgroundRole(), QColor('#FFFF00'))
         self.pal.setColor(self.foregroundRole(), QColor('#7030A0'))  # 6600cc
@@ -176,6 +190,12 @@ class ControlPanel(QFrame):
         self.MasterListButton = MyButton("Master Tile List")
         self.MasterListButton.clicked.connect(self.masterTileList)
 
+        self.SaveGameStateButton = MyButton("Save")
+        self.SaveGameStateButton.clicked.connect(self.saveBoardState)
+
+        self.RestoreGameStateButton = MyButton("Restore")
+        self.RestoreGameStateButton.clicked.connect(self.restoreBoardState)
+
         self.logo = ImageLabel2()
         self.logo.showImageByPath("images/LOGO_200_width.jpg")
 
@@ -184,6 +204,8 @@ class ControlPanel(QFrame):
         self.buttonBar.addWidget(self.ExitButton)
         self.buttonBar.addWidget(self.ChangeBackgroundColorButton)
         self.buttonBar.addWidget(self.ChangeForegroundColorButton)
+        self.buttonBar.addWidget(self.SaveGameStateButton)
+        self.buttonBar.addWidget(self.RestoreGameStateButton)
         self.buttonBar.addWidget(self.logo)
         # self.buttonBar.addWidget(self.ListBoardButton)
         # self.buttonBar.addWidget(self.MasterListButton)
@@ -246,6 +268,15 @@ class ControlPanel(QFrame):
     def appendInfo(self, tempStr):
         self.tilesLeftInfoBox.appendPlainText(tempStr)
 
+    def saveBoardState(self):
+        gridArchiveManager.saveGameState()
+
+    def saveBoardState(self):
+        gridArchiveManager.saveGameState()
+
+    def restoreBoardState(self):
+        gridArchiveManager.restoreGameState()
+
 # ++++++++++++++++++++++++++++++++++++++++++++++
 #          BOARD
 # ++++++++++++++++++++++++++++++++++++++++++++++
@@ -306,6 +337,27 @@ class TileGridBaseClass(QFrame):
         print("Remove all tiles from the board")
         for cell in self.cellList:
             cell.removeTile()
+
+    def getGridState(self):
+        gridState = []
+        for cell in self.cellList:
+            tileIndex = cell.getTileMasterIndex()
+            gridState.append(tileIndex)
+        return gridState
+
+    def restoreGridState(self, grid):
+        self.removeAllTiles()
+        if len(self.cellList) != len(grid):
+            print("ERROR - trying to restore a grid of the wrong size !")
+            return
+        for n in range(len(grid)):
+            index = grid[n]
+            if index is not None:
+                tile = tileCollection.getTileAtIndex(index)
+                self.cellList[n].addTile(tile)
+
+
+
 
 # ++++++++++++++++++++++++++++++++++++++++++++++
 #          PLAYER CONTROLS
@@ -578,6 +630,8 @@ if __name__ == "__main__":
     player2Controls = PlayerControls(playerBgColor, playerFgColor, player1Grid, "Player 2")
 
     gameBoard = GameBoard(boardBgColor, boardFgColor, "GameBoard")
+
+    gridArchiveManager = GridArchiveManager(player1Grid, player2Grid, gameBoard)
 
     tileCollection = TileCollection()
     tileBag = TileBag()

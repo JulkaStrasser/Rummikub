@@ -115,6 +115,9 @@ class RummyTile(QWidget):
     def setOwner(self, owner):
         self.owner = owner
 
+    def getMasterIndex(self):
+        return self.MasterIndex
+
     def __str__(self):
         myStr = ""
         if self.tileBag == []:

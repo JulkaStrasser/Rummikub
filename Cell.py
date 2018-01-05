@@ -72,7 +72,7 @@ class BoardCell(QFrame):
             if self.highlightIsOn:
                 self.highlightOff()
             else:
-                self.hightlightOn()
+                self.highlightOn()
             return
         else:
             #This cell does not contain a tile so we may want to move highlighted tiles here
@@ -152,7 +152,7 @@ class BoardCell(QFrame):
         self.pal.setColor(self.backgroundRole(), QColor(color))
         self.setPalette(self.pal)
 
-    def hightlightOn(self):
+    def highlightOn(self):
         self.setBackgroundColor(QColor('#FF9999'))
         self.highlightIsOn = True
         BoardCell.multiDragList.append(self)
@@ -171,7 +171,6 @@ class BoardCell(QFrame):
 
     def getCellStatus(self):
         cellContents = self.findChild(RummyTile)
-
         if cellContents == None:
             # print("Cell Status: cell ", str(self.row), str(self.col), " is empty", " grid = ", str(self.parentGridName))
             return "Empty"
@@ -181,6 +180,13 @@ class BoardCell(QFrame):
 
     def getPosition(self):
         return self.row, self.col
+
+    def getTileMasterIndex(self):
+        cellContents = self.findChild(RummyTile)
+        if cellContents == None:
+            return
+        else:
+            return cellContents.getMasterIndex()
 
     def dragEnterEvent(self, event):
         if event.mimeData().hasFormat('application/x-fridgemagnet'):
@@ -202,7 +208,7 @@ class BoardCell(QFrame):
             if self.highlightIsOn:
                 self.highlightOff()
             else:
-                self.hightlightOn()
+                self.highlightOn()
             return
         if self.getDragStartCell().highlightIsOn:
             self.getDragStartCell().highlightOff()
