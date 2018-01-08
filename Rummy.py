@@ -33,6 +33,8 @@ are not in a valid group.
 tileColors = ["red", "black", "blue", "yellow"]
 tileOwner = ["none", "player", "board", "bag"]
 tileValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+numberOfColumns = 4
+numberOfTilesToDeal = 3
 
 def getCellCol(cell):
     print("getCellCol")
@@ -85,25 +87,21 @@ class MyButton(QPushButton):
         self.setFont(QFont('SansSerif', 10))
         self.setText(text)
 
-class MyLabel(QWidget):
+class MyLabel(QLabel):
     def __init__(self, legend):
         super(MyLabel, self).__init__()
-        self.myLayout = QHBoxLayout()
-        self.myLayout.setAlignment(QtCore.Qt.AlignCenter)
-        self.myLegend = QLabel()
-        self.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
 
-        self.myLegend.setText(legend)
-        self.myLayout.addWidget(self.myLegend)
-        self.setLayout(self.myLayout)
+        self.setText(legend)
+
         self.setFont(QFont('SansSerif', 12))
         self.pal = self.palette()
         self.pal.setColor(self.backgroundRole(), QColor('#FFFF00'))
         self.pal.setColor(self.foregroundRole(), QColor('#7030A0'))  # 6600cc
         self.setPalette(self.pal)
         self.setAutoFillBackground(True)
+
     def updateText(self, newText):
-        self.myText.setText(newText)
+        self.setText(newText)
 
 class RemainingTilesIndicator(QWidget):
     def __init__(self, legend):
@@ -295,6 +293,7 @@ class TileGridBaseClass(QFrame):
         self.pal.setColor(self.foregroundRole(), fgColor)
         self.setPalette(self.pal)
         self.setAutoFillBackground(True)
+        self.frozen = False
         for row in range(self.rows):
             for col in range(self.cols):
                 newCell = BoardCell(row, col, bgColor, fgColor, gridName)
@@ -320,6 +319,19 @@ class TileGridBaseClass(QFrame):
                 print("Cell ", str(row), " ", str(col), " has neighbours ", str(left.getPosition()), " and ",
                       str(right.getPosition()))
             cell.setNeighbours(left, right)
+
+    def isFrozen(self):
+        return self.frozen
+
+    def freeze(self):
+        self.frozen = True
+        for cell in self.cellList:
+            cell.freeze()
+
+    def thaw(self):
+        self.frozen = False
+        for cell in self.cellList:
+            cell.thaw()
 
     def setBackgroundColor(self, color):
         self.pal.setColor(self.backgroundRole(), QColor(color))
@@ -371,8 +383,15 @@ class PlayerControls(QFrame):
         self.layout = QVBoxLayout()
         self.layout.setAlignment((QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop))
         self.setLayout(self.layout)
+
         self.TakeTileButton = MyButton("Take Tile")
         self.TakeTileButton.clicked.connect(self.takeTile)
+
+        self.FreezeButton = MyButton("Freeze/Thaw")
+        self.FreezeButton.clicked.connect(self.freeze)
+
+        self.FrozenStateLabel = MyLabel("Not Frozen")
+
 
         # self.playerNameLabel = MyLabel(playerName)
         self.playerNameLabel = ImageLabel2()
@@ -380,12 +399,23 @@ class PlayerControls(QFrame):
 
         self.layout.addWidget(self.playerNameLabel)
         self.layout.addWidget(self.TakeTileButton)
+        self.layout.addWidget(self.FreezeButton)
+        self.layout.addWidget(self.FrozenStateLabel)
 
         self.pal = self.palette()
         self.pal.setColor(self.backgroundRole(), bgColor)
         self.pal.setColor(self.foregroundRole(), fgColor)  # 6600cc
         self.setPalette(self.pal)
         self.setAutoFillBackground(True)
+
+    def freeze(self):
+        if self.playerGrid.isFrozen():
+            self.playerGrid.thaw()
+            self.FrozenStateLabel.updateText("Thawed")
+        else:
+            self.playerGrid.freeze()
+            self.FrozenStateLabel.updateText("Frozen")
+
 
     def setBackgroundColor(self, color):
         self.pal.setColor(self.backgroundRole(), QColor(color))
@@ -411,8 +441,8 @@ class PlayerControls(QFrame):
 #          GAME BOARD
 # ++++++++++++++++++++++++++++++++++++++++++++++
 class GameBoard(TileGridBaseClass):
-    def __init__(self, bgColor, fgColor, gridName):
-        super(GameBoard, self).__init__(8, 28, bgColor, fgColor, gridName)
+    def __init__(self, bgColor, fgColor, gridName, rows, cols):
+        super(GameBoard, self).__init__(rows, cols, bgColor, fgColor, gridName)
         self.listItems()
 
     def listItems(self):
@@ -445,8 +475,8 @@ class GameBoard(TileGridBaseClass):
 #          PLAYER GRID
 # ++++++++++++++++++++++++++++++++++++++++++++++
 class PlayerGrid(TileGridBaseClass):
-    def __init__(self, bgColor, fgColor, gridName):
-        super(PlayerGrid, self).__init__(2, 28, bgColor, fgColor, gridName)
+    def __init__(self, bgColor, fgColor, gridName, rows, cols):
+        super(PlayerGrid, self).__init__(rows, cols, bgColor, fgColor, gridName)
         self.pal = self.palette()
         self.pal.setColor(self.backgroundRole(), bgColor)
         self.pal.setColor(self.foregroundRole(), fgColor)  # 6600cc
@@ -454,8 +484,8 @@ class PlayerGrid(TileGridBaseClass):
         self.setAutoFillBackground(True)
 
     def newDeal(self):
-        global tileBag, player1Controls
-        for n in range(14):
+        global tileBag, player1Controls, numberOfTilesToDeal
+        for n in range(numberOfTilesToDeal):
             if tileBag.getNoOfTilesInBag() > 0:
                 nextTile = tileBag.getTileFromBag()
                 print(player1Controls.getPlayerName(), " takes a tile. It's ", str(nextTile.getColor()), str(nextTile.getValue()))
@@ -467,6 +497,7 @@ class PlayerGrid(TileGridBaseClass):
             else:
                 print("Whoops - tile bag is empty")
                 break
+
 
 # ++++++++++++++++++++++++++++++++++++++++++++++
 #          TILE BAG
@@ -623,13 +654,13 @@ if __name__ == "__main__":
     boardBgColor = QColor('#F2F2F2')
     boardFgColor = QColor('#FFCC00')
 
-    player1Grid = PlayerGrid(playerBgColor, playerFgColor, "Player1")
+    player1Grid = PlayerGrid(playerBgColor, playerFgColor, "Player1", 2, numberOfColumns)
     player1Controls = PlayerControls(playerBgColor, playerFgColor, player1Grid, "Player 1")
 
-    player2Grid = PlayerGrid(playerBgColor, playerFgColor, "Player2")
+    player2Grid = PlayerGrid(playerBgColor, playerFgColor, "Player2", 2, numberOfColumns)
     player2Controls = PlayerControls(playerBgColor, playerFgColor, player1Grid, "Player 2")
 
-    gameBoard = GameBoard(boardBgColor, boardFgColor, "GameBoard")
+    gameBoard = GameBoard(boardBgColor, boardFgColor, "GameBoard", 8, numberOfColumns)
 
     gridArchiveManager = GridArchiveManager(player1Grid, player2Grid, gameBoard)
 

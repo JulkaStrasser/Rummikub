@@ -43,6 +43,19 @@ class BoardCell(QFrame):
         self.setAcceptDrops(True)
         self.highlightIsOn = False
         self.parentGridName = parent
+        self.frozen = False
+
+    def freeze(self):
+        self.frozen = True
+        tile = self.getResidentTile()
+        if tile is not None:
+            tile.freeze()
+
+    def thaw(self):
+        self.frozen = False
+        tile = self.getResidentTile()
+        if tile is not None:
+            tile.thaw()
 
     def setNeighbours(self, left, right):
         self.left = left
@@ -64,6 +77,9 @@ class BoardCell(QFrame):
 
 
     def mouseReleaseEvent(self, a0: QtGui.QMouseEvent):
+        if self.frozen:
+            return
+
         print("cell mouse release event")
         global getCellCol
         if self.getResidentTile():
@@ -98,6 +114,9 @@ class BoardCell(QFrame):
             print("Not enough empty cells for move operation")
 
     def handleMultiDrop(self):
+        if self.frozen:
+            return
+
         if BoardCell.multiDragList == []:
             return
         else:

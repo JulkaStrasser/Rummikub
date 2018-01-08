@@ -76,11 +76,21 @@ class RummyTile(QWidget):
 
         self.setMinimumWidth(28)
         self.setMinimumHeight(38)
+        self.frozen = False
+
+    def freeze(self):
+        self.frozen = True
+
+    def thaw(self):
+        self.frozen = False
 
     def setDragTile(self, val):
         RummyTile.dragTile = val
 
     def mouseMoveEvent(self, event):
+        if self.frozen:
+            return
+
         print("Mouse press")
         self.setDragTile(self)
         mimeData = QtCore.QMimeData()
