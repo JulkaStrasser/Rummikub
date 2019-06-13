@@ -33,7 +33,7 @@ are not in a valid group.
 tileColors = ["red", "black", "blue", "yellow"]
 tileOwner = ["none", "player", "board", "bag"]
 tileValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
-numberOfColumns = 4
+numberOfColumns = 15
 numberOfTilesToDeal = 3
 
 def getCellCol(cell):
@@ -587,6 +587,10 @@ class TileCollection():
         for tile in self.tiles:
             tile.owner = "none"
 
+class TileDestinations():
+    def __init__(self):
+        self.validDestinations = []
+
 class MainWin(QMainWindow):
     def __init__(self):
         super(MainWin, self).__init__()
@@ -654,13 +658,14 @@ if __name__ == "__main__":
     boardBgColor = QColor('#F2F2F2')
     boardFgColor = QColor('#FFCC00')
 
-    player1Grid = PlayerGrid(playerBgColor, playerFgColor, "Player1", 2, numberOfColumns)
+    player1Grid = PlayerGrid(playerBgColor, playerFgColor, "Player1Grid", 2, numberOfColumns)
     player1Controls = PlayerControls(playerBgColor, playerFgColor, player1Grid, "Player 1")
 
-    player2Grid = PlayerGrid(playerBgColor, playerFgColor, "Player2", 2, numberOfColumns)
+    player2Grid = PlayerGrid(playerBgColor, playerFgColor, "Player2Grid", 2, numberOfColumns)
     player2Controls = PlayerControls(playerBgColor, playerFgColor, player1Grid, "Player 2")
 
     gameBoard = GameBoard(boardBgColor, boardFgColor, "GameBoard", 8, numberOfColumns)
+    print("gameBoard is of type ", str(type(gameBoard)))
 
     gridArchiveManager = GridArchiveManager(player1Grid, player2Grid, gameBoard)
 
