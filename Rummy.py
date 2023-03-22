@@ -10,7 +10,7 @@ from PyQt5.QtCore import Qt, QRectF, pyqtSignal, QT_VERSION_STR, QPoint, QDir, Q
 from Tile import RummyTile
 from Cell import BoardCell
 from GridArchive import GridArchiveManager
-
+import time
 """
 Todo List.
 1. Tury jesli jest tura gracza 1, to gracz 2 musi byc 'zamrozony' - frozen i a potem odmrazanie go gdy bedzie jego tura
@@ -31,6 +31,8 @@ tileOwner = ["none", "player", "board", "bag"]
 tileValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
 numberOfColumns = 15
 numberOfTilesToDeal = 15
+player_turn = 0
+change = False
 
 def getCellCol(cell):
     print("getCellCol")
@@ -380,12 +382,19 @@ class PlayerControls(QFrame):
         self.setAutoFillBackground(True)
 
     def freeze(self):
-        if self.playerGrid.isFrozen():
-            self.playerGrid.thaw()
-            self.FrozenStateLabel.updateText("Twoja tura")
-        else:
-            self.playerGrid.freeze()
-            self.FrozenStateLabel.updateText("Nie twoja tura")
+        global change
+        global player_turn
+        print(self.playerName[6])
+        if player_turn == int(self.playerName[6])-1:
+            if self.playerGrid.isFrozen():
+                self.playerGrid.thaw()
+                self.FrozenStateLabel.updateText("Twoja tura")
+            else:
+                self.playerGrid.freeze()
+                self.FrozenStateLabel.updateText("Nie twoja tura")
+                change = True
+                player_turn = (player_turn+1) % 4
+                print(change)
 
 
     def setBackgroundColor(self, color):
@@ -631,6 +640,83 @@ class FontSelector(QWidget):
         self.horizontalLayout.addWidget(self.fontComboBox)
         self.setLayout(self.horizontalLayout)
 
+def play():
+    global player_turn
+    gameTurn = 1
+    game = True
+
+    # Czy pierwsza tura
+    first_turn = True
+
+    #Sprawdzanie czy mozesz wziac zeton albo czy mozesz spasowac, na razie zawsze mozna zpasowac
+    # pas_option = False 
+    takeToken = True
+    global change
+    print(change)
+    print(player_turn)
+    freezePlayers(player_turn)
+    if change == True:
+        freezePlayers(player_turn)
+    # time.sleep(1)
+    # player_turn += 1
+    # freezePlayers(player_turn)
+    # player2Controls.freeze()
+    # player3Controls.freeze()
+    # player4Controls.freeze()
+
+def freezePlayers(player_turn):
+    global change
+    change = False
+
+    # self.playerGrid.thaw()
+    #     player_turn = (player_turn+1) % 4
+    #         self.FrozenStateLabel.updateText("Twoja tura")
+    #     else:
+    #         self.playerGrid.freeze()
+    #         self.FrozenStateLabel.updateText("Nie twoja tura")
+    if player_turn == 0:
+        #budzimy playera 1
+        player1Controls.playerGrid.thaw()
+        player1Controls.FrozenStateLabel.updateText("Twoja tura")
+
+        player2Controls.playerGrid.freeze()
+        player2Controls.FrozenStateLabel.updateText("Nie twoja tura")
+        player3Controls.playerGrid.freeze()
+        player3Controls.FrozenStateLabel.updateText("Nie twoja tura")
+        player4Controls.playerGrid.freeze()
+        player4Controls.FrozenStateLabel.updateText("Nie twoja tura")
+    elif(player_turn == 1):
+        player2Controls.playerGrid.thaw()
+        player2Controls.FrozenStateLabel.updateText("Twoja tura")
+        
+        player1Controls.playerGrid.freeze()
+        player1Controls.FrozenStateLabel.updateText("Nie twoja tura")
+        player3Controls.playerGrid.freeze()
+        player3Controls.FrozenStateLabel.updateText("Nie twoja tura")
+        player4Controls.playerGrid.freeze()
+        player4Controls.FrozenStateLabel.updateText("Nie twoja tura")
+    elif(player_turn == 2):
+        player3Controls.playerGrid.thaw()
+        player3Controls.FrozenStateLabel.updateText("Twoja tura")
+        
+        player1Controls.playerGrid.freeze()
+        player1Controls.FrozenStateLabel.updateText("Nie twoja tura")
+        player2Controls.playerGrid.freeze()
+        player2Controls.FrozenStateLabel.updateText("Nie twoja tura")
+        player4Controls.playerGrid.freeze()
+        player4Controls.FrozenStateLabel.updateText("Nie twoja tura")
+    elif(player_turn == 3):
+        player4Controls.playerGrid.thaw()
+        player4Controls.FrozenStateLabel.updateText("Twoja tura")
+
+        player1Controls.playerGrid.freeze()
+        player1Controls.FrozenStateLabel.updateText("Nie twoja tura")
+        player3Controls.playerGrid.freeze()
+        player3Controls.FrozenStateLabel.updateText("Nie twoja tura")
+        player2Controls.playerGrid.freeze()
+        player2Controls.FrozenStateLabel.updateText("Nie twoja tura")
+
+  
 
 
 if __name__ == "__main__":
@@ -674,6 +760,7 @@ if __name__ == "__main__":
         # print(status[0])
         # print(status[1])
 
+    play()
     #wyswietlanie planszy, nie dziala bo nie ma petli gownej
     print('Plansza do gry:')
     for cell in gameBoard.cellList:
