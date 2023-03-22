@@ -19,7 +19,7 @@ Todo List.
 4. Plansza majaca mozliwosc sprawdzania czy plytki sa poprawnie ulozone jesli nie to podswietla te kombinacje
 5. Need to have a method of logging grid states so that moves can be undone back through the queue.
 6. Czy jokerki istnieja?
-7. zrobic osobne gridy itp. dla kazdego z graczy
+
 """
 
 
@@ -103,6 +103,7 @@ class MyLabel(QLabel):
     def updateText(self, newText):
         self.setText(newText)
 
+
 class RemainingTilesIndicator(QWidget):
     def __init__(self, legend):
         super(RemainingTilesIndicator, self).__init__()
@@ -127,6 +128,7 @@ class RemainingTilesIndicator(QWidget):
 
     def updateText(self, newText):
         self.myLegend.setText(newText)
+
 
 class RemainingTilesIndicator2(QLabel):
     def __init__(self, legend):
@@ -514,6 +516,7 @@ class TileBag():
         print("Shake the tile bag")
         random.shuffle(self.tileBag)
 
+
 class TileCollection():
     def __init__(self):
         self.tiles = []
@@ -556,9 +559,11 @@ class TileCollection():
         for tile in self.tiles:
             tile.owner = "none"
 
+
 class TileDestinations():
     def __init__(self):
         self.validDestinations = []
+
 
 class MainWin(QMainWindow):
     def __init__(self):
@@ -593,6 +598,7 @@ class MainWin(QMainWindow):
         self.setCentralWidget(self.mainWidget)
 
         # self.setGeometry(200, 200, 850, 500)
+
 
 class FontSelector(QWidget):
     def __init__(self):
