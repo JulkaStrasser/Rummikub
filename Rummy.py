@@ -1,4 +1,5 @@
 import sys, random
+print(sys.version)
 from PyQt5 import QtGui, QtCore
 
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QTreeView, QFileSystemModel, QLineEdit, \
@@ -40,16 +41,16 @@ def getCellCol(cell):
 
 def newGame():
     gameBoard.removeAllTiles()
-    player1Grid.removeAllTiles()
-    player2Grid.removeAllTiles()
-    player3Grid.removeAllTiles()
-    player4Grid.removeAllTiles()
+    player1.player_grid.removeAllTiles()
+    player2.player_grid.removeAllTiles()
+    player3.player_grid.removeAllTiles()
+    player4.player_grid.removeAllTiles()
     tileCollection.clearTiles()  # set the owner of each tile to "none"
     tileBag.newGame()
-    player1Grid.newDeal()
-    player2Grid.newDeal()
-    player3Grid.newDeal()
-    player4Grid.newDeal()
+    player1.player_grid.newDeal()
+    player2.player_grid.newDeal()
+    player3.player_grid.newDeal()
+    player4.player_grid.newDeal()
 
 
 class ImageLabel2(QLabel):
@@ -360,7 +361,7 @@ class PlayerControls(QFrame):
         self.TakeTileButton.clicked.connect(self.takeTile)
 
         self.FreezeButton = MyButton("Zakoncz ture")
-        self.FreezeButton.clicked.connect(self.freeze)
+        # self.FreezeButton.clicked.connect(self.freeze)
 
         self.FrozenStateLabel = MyLabel("Twoja tura")
 
@@ -396,6 +397,13 @@ class PlayerControls(QFrame):
                 player_turn = (player_turn+1) % 4
                 print(change)
 
+    def disableButtons(self):
+        self.FreezeButton.setDisabled = True
+        self.TakeTileButton.setDisabled = True
+    
+    def enableButtons(self):
+        self.FreezeButton.setDisabled = False
+        self.TakeTileButton.setDisabled = False
 
     def setBackgroundColor(self, color):
         self.pal.setColor(self.backgroundRole(), QColor(color))
@@ -464,11 +472,11 @@ class PlayerGrid(TileGridBaseClass):
         self.setAutoFillBackground(True)
 
     def newDeal(self):
-        global tileBag, player1Controls, numberOfTilesToDeal
+        global tileBag, numberOfTilesToDeal
         for n in range(numberOfTilesToDeal):
             if tileBag.getNoOfTilesInBag() > 0:
                 nextTile = tileBag.getTileFromBag()
-                print(player1Controls.getPlayerName(), " takes a tile. It's ", str(nextTile.getColor()), str(nextTile.getValue()))
+                print( " takes a tile. It's ", str(nextTile.getColor()), str(nextTile.getValue()))
                 for cell in self.cellList:
                     status = cell.getCellStatus()
                     if status == "Empty":
@@ -585,19 +593,19 @@ class MainWin(QMainWindow):
         # Add everything to the grid layout
         # ++++++++++++++++++++++++++++++++++++++++++++++++
         self.gameLayout = QGridLayout()
-        self.gameLayout.addWidget(player1Grid, 0, 0)
-        self.gameLayout.addWidget(player1Controls, 0, 1)
+        self.gameLayout.addWidget(player1.player_grid, 0, 0)
+        self.gameLayout.addWidget(player1.player_controls, 0, 1)
 
-        self.gameLayout.addWidget(player3Grid, 0, 2)
-        self.gameLayout.addWidget(player3Controls, 0, 3)
+        self.gameLayout.addWidget(player3.player_grid, 0, 2)
+        self.gameLayout.addWidget(player3.player_controls, 0, 3)
 
         self.gameLayout.addWidget(gameBoard, 1, 0, 3, 3)
 
-        self.gameLayout.addWidget(player2Grid, 4, 0)
-        self.gameLayout.addWidget(player2Controls, 4, 1)
+        self.gameLayout.addWidget(player2.player_grid, 4, 0)
+        self.gameLayout.addWidget(player2.player_controls, 4, 1)
 
-        self.gameLayout.addWidget(player4Grid, 4, 2)
-        self.gameLayout.addWidget(player4Controls, 4, 3)
+        self.gameLayout.addWidget(player4.player_grid, 4, 2)
+        self.gameLayout.addWidget(player4.player_controls, 4, 3)
         
         self.gameLayout.addWidget(self.controlPanel, 1, 3, 3 ,1)
 
@@ -655,19 +663,15 @@ def play():
     print(change)
     print(player_turn)
     freezePlayers(player_turn)
+    
     if change == True:
-        freezePlayers(player_turn)
-    # time.sleep(1)
-    # player_turn += 1
-    # freezePlayers(player_turn)
-    # player2Controls.freeze()
-    # player3Controls.freeze()
-    # player4Controls.freeze()
+            freezePlayers(player_turn)
+    
 
-def freezePlayers(player_turn):
-    global change
+def freezePlayers():
+    global change, player_turn
     change = False
-
+    
     # self.playerGrid.thaw()
     #     player_turn = (player_turn+1) % 4
     #         self.FrozenStateLabel.updateText("Twoja tura")
@@ -676,48 +680,79 @@ def freezePlayers(player_turn):
     #         self.FrozenStateLabel.updateText("Nie twoja tura")
     if player_turn == 0:
         #budzimy playera 1
-        player1Controls.playerGrid.thaw()
-        player1Controls.FrozenStateLabel.updateText("Twoja tura")
+        player1.player_controls.playerGrid.thaw()
+        player1.player_controls.FrozenStateLabel.updateText("Twoja tura")
+        player1.player_controls.setEnabled(True)
 
-        player2Controls.playerGrid.freeze()
-        player2Controls.FrozenStateLabel.updateText("Nie twoja tura")
-        player3Controls.playerGrid.freeze()
-        player3Controls.FrozenStateLabel.updateText("Nie twoja tura")
-        player4Controls.playerGrid.freeze()
-        player4Controls.FrozenStateLabel.updateText("Nie twoja tura")
+        player2.player_controls.playerGrid.freeze()
+        player2.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+        player2.player_controls.setEnabled(False)
+
+        player3.player_controls.playerGrid.freeze()
+        player3.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+        player3.player_controls.setEnabled(False)
+
+        player4.player_controls.playerGrid.freeze()
+        player4.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+        player4.player_controls.setEnabled(False)
+
     elif(player_turn == 1):
-        player2Controls.playerGrid.thaw()
-        player2Controls.FrozenStateLabel.updateText("Twoja tura")
-        
-        player1Controls.playerGrid.freeze()
-        player1Controls.FrozenStateLabel.updateText("Nie twoja tura")
-        player3Controls.playerGrid.freeze()
-        player3Controls.FrozenStateLabel.updateText("Nie twoja tura")
-        player4Controls.playerGrid.freeze()
-        player4Controls.FrozenStateLabel.updateText("Nie twoja tura")
+        player2.player_controls.playerGrid.thaw()
+        player2.player_controls.FrozenStateLabel.updateText("Twoja tura")
+        player2.player_controls.setEnabled(True)
+
+        player1.player_controls.playerGrid.freeze()
+        player1.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+        player1.player_controls.setEnabled(False)
+
+        player3.player_controls.playerGrid.freeze()
+        player3.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+        player3.player_controls.setEnabled(False)
+
+        player4.player_controls.playerGrid.freeze()
+        player4.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+        player4.player_controls.setEnabled(False)
     elif(player_turn == 2):
-        player3Controls.playerGrid.thaw()
-        player3Controls.FrozenStateLabel.updateText("Twoja tura")
+        player3.player_controls.playerGrid.thaw()
+        player3.player_controls.FrozenStateLabel.updateText("Twoja tura")
+        player3.player_controls.setEnabled(True)
         
-        player1Controls.playerGrid.freeze()
-        player1Controls.FrozenStateLabel.updateText("Nie twoja tura")
-        player2Controls.playerGrid.freeze()
-        player2Controls.FrozenStateLabel.updateText("Nie twoja tura")
-        player4Controls.playerGrid.freeze()
-        player4Controls.FrozenStateLabel.updateText("Nie twoja tura")
+        player1.player_controls.playerGrid.freeze()
+        player1.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+        player1.player_controls.setEnabled(False)
+
+        player2.player_controls.playerGrid.freeze()
+        player2.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+        player2.player_controls.setEnabled(False)
+
+        player4.player_controls.playerGrid.freeze()
+        player4.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+        player4.player_controls.setEnabled(False)
     elif(player_turn == 3):
-        player4Controls.playerGrid.thaw()
-        player4Controls.FrozenStateLabel.updateText("Twoja tura")
+        player4.player_controls.playerGrid.thaw()
+        player4.player_controls.FrozenStateLabel.updateText("Twoja tura")
+        player4.player_controls.setEnabled(True)
 
-        player1Controls.playerGrid.freeze()
-        player1Controls.FrozenStateLabel.updateText("Nie twoja tura")
-        player3Controls.playerGrid.freeze()
-        player3Controls.FrozenStateLabel.updateText("Nie twoja tura")
-        player2Controls.playerGrid.freeze()
-        player2Controls.FrozenStateLabel.updateText("Nie twoja tura")
+        player1.player_controls.playerGrid.freeze()
+        player1.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+        player1.player_controls.setEnabled(False)
 
+        player3.player_controls.playerGrid.freeze()
+        player3.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+        player3.player_controls.setEnabled(False)
+
+        player2.player_controls.playerGrid.freeze()
+        player2.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+        player2.player_controls.setEnabled(False)
+    player_turn = (player_turn+1)%4
   
-
+class Player():
+    def __init__(self, player_id, player_name):
+        self.player_id = player_id
+        self.player_name = player_name
+        self.player_grid = PlayerGrid(playerBgColor, playerFgColor, "PlayerGrid", 2, numberOfColumns)
+        self.player_controls = PlayerControls(playerBgColor, playerFgColor, self.player_grid, self.player_name)
+        
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
@@ -728,39 +763,51 @@ if __name__ == "__main__":
     boardBgColor = QColor('#F2F2F2')
     boardFgColor = QColor('#A5A5A5')
 
-    player1Grid = PlayerGrid(playerBgColor, playerFgColor, "Player1Grid", 2, numberOfColumns)
-    player1Controls = PlayerControls(playerBgColor, playerFgColor, player1Grid, "Gracz 1")
+    player1 = Player(0,'Gracz 1')
+    player1.player_controls.FreezeButton.clicked.connect(freezePlayers)
+    
+    player2 = Player(1,'Gracz 2')
+    player2.player_controls.FreezeButton.clicked.connect(freezePlayers)
 
-    player2Grid = PlayerGrid(playerBgColor, playerFgColor, "Player2Grid", 2, numberOfColumns)
-    player2Controls = PlayerControls(playerBgColor, playerFgColor, player2Grid, "Gracz 2")
+    player3 = Player(2,'Gracz 3')
+    player3.player_controls.FreezeButton.clicked.connect(freezePlayers)
 
-    player3Grid = PlayerGrid(playerBgColor, playerFgColor, "Player3Grid", 2, numberOfColumns)
-    player3Controls = PlayerControls(playerBgColor, playerFgColor, player3Grid, "Gracz 3")
+    player4 = Player(3,'Gracz 4')
+    player4.player_controls.FreezeButton.clicked.connect(freezePlayers)
 
-    player4Grid = PlayerGrid(playerBgColor, playerFgColor, "Player4Grid", 2, numberOfColumns)
-    player4Controls = PlayerControls(playerBgColor, playerFgColor, player4Grid, "Gracz 4")
+    # player1.player_grid = PlayerGrid(playerBgColor, playerFgColor, "Player1Grid", 2, numberOfColumns)
+    # player1.player_controls = PlayerControls(playerBgColor, playerFgColor, player1.player_grid, "Gracz 1")
+
+    # player2.player_grid = PlayerGrid(playerBgColor, playerFgColor, "Player2Grid", 2, numberOfColumns)
+    # player2.player_controls = PlayerControls(playerBgColor, playerFgColor, player2.player_grid, "Gracz 2")
+
+    # player3.player_grid = PlayerGrid(playerBgColor, playerFgColor, "Player3Grid", 2, numberOfColumns)
+    # player3.player_controls = PlayerControls(playerBgColor, playerFgColor, player3.player_grid, "Gracz 3")
+
+    # player4.player_grid = PlayerGrid(playerBgColor, playerFgColor, "Player4Grid", 2, numberOfColumns)
+    # player4.player_controls = PlayerControls(playerBgColor, playerFgColor, player4.player_grid, "Gracz 4")
 
 
     gameBoard = GameBoard(boardBgColor, boardFgColor, "GameBoard", 8, numberOfColumns*2)
     print("gameBoard is of type ", str(type(gameBoard)))
 
-    gridArchiveManager = GridArchiveManager(player1Grid, player2Grid, player3Grid, player4Grid, gameBoard)
+    gridArchiveManager = GridArchiveManager(player1.player_grid, player2.player_grid, player3.player_grid, player4.player_grid, gameBoard)
 
     tileCollection = TileCollection()
     tileBag = TileBag()
     RummyKub = MainWin()
     RummyKub.show()
     newGame()
-
+    freezePlayers()
     #wyswietlanie plytek gracza
     print("Gracz 3")
-    for cell in player3Grid.cellList:
+    for cell in player3.player_grid.cellList:
         status = cell.getCellStatus()
         print(status)
         # print(status[0])
         # print(status[1])
 
-    play()
+    # play()
     #wyswietlanie planszy, nie dziala bo nie ma petli gownej
     print('Plansza do gry:')
     for cell in gameBoard.cellList:

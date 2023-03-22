@@ -1,0 +1,24 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Rumikub",
+            "type": "python",
+            "request": "launch",
+            "program": "C:\\Users\\julka\\Studia\\ACiRsem6\\WNO_II\\Gra\\Rummikub\\Rummy.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Concole",
+            "type": "python",
+            "request": "launch",
+            "program": "C:/Users/julka/Studia/ACiRsem6/WNO_II/Gra/Rummikub/main.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        }
+    ]
+}
