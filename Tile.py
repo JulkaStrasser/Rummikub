@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QTreeView, QFile
 
 from PyQt5.QtGui import QFont, QColor
 from PyQt5.QtCore import QRect, QPoint
+
 class DragLabel(QLabel):
     def __init__(self, color, text, parent):
         super(DragLabel, self).__init__(parent)

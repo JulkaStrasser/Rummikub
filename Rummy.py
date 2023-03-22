@@ -13,19 +13,15 @@ from GridArchive import GridArchiveManager
 
 """
 Todo List.
-1. Need to have a concept of whose go it is. When it is player 1's go, player 2's grid should be locked. 
-And vice versa
-2. Need the board to be able to analyse itself to see if all tiles are in a valid group. It should highlight which tiles
-are not in a valid group.
-3. Need to have a method of logging grid states so that moves can be undone back through the queue.
-
-
-
-
-
+1. Tury jesli jest tura gracza 1, to gracz 2 musi byc 'zamrozony' - frozen i a potem odmrazanie go gdy bedzie jego tura
+2. Pousuwac przyciski do zmiany tla i inne zbedne rzeczy, dobieranie do planszy itp.
+3. Dodac jeszcze 2 graczy, poszerzyc plansze ?
+4. Plansza majaca mozliwosc sprawdzania czy plytki sa poprawnie ulozone jesli nie to podswietla te kombinacje
+5. Need to have a method of logging grid states so that moves can be undone back through the queue.
+6. Czy jokerki istnieja?
+7. zrobic osobne gridy itp. dla kazdego z graczy
 """
 
-# from Board import player1Grid, player2Grid, gameBoard, tileCollection, tileBag
 
 # ++++++++++++++++++++++++++++++++++++++++++++++
 #          GLOBALS
@@ -34,7 +30,7 @@ tileColors = ["red", "black", "blue", "yellow"]
 tileOwner = ["none", "player", "board", "bag"]
 tileValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
 numberOfColumns = 15
-numberOfTilesToDeal = 3
+numberOfTilesToDeal = 15
 
 def getCellCol(cell):
     print("getCellCol")
@@ -95,8 +91,8 @@ class MyLabel(QLabel):
 
         self.setFont(QFont('SansSerif', 12))
         self.pal = self.palette()
-        self.pal.setColor(self.backgroundRole(), QColor('#FFFF00'))
-        self.pal.setColor(self.foregroundRole(), QColor('#7030A0'))  # 6600cc
+        self.pal.setColor(self.backgroundRole(), QColor('#F2F2F2'))
+        self.pal.setColor(self.foregroundRole(), QColor('#B30000'))  # 6600cc
         self.setPalette(self.pal)
         self.setAutoFillBackground(True)
 
@@ -120,8 +116,8 @@ class RemainingTilesIndicator(QWidget):
         self.setLayout(self.myLayout)
         self.setFont(QFont('SansSerif', 18))
         self.pal = self.palette()
-        self.pal.setColor(self.backgroundRole(), QColor('#FFFF00'))
-        self.pal.setColor(self.foregroundRole(), QColor('#7030A0'))  # 6600cc
+        self.pal.setColor(self.backgroundRole(), QColor('#F2F2F2'))
+        self.pal.setColor(self.foregroundRole(), QColor('#000000'))  # 6600cc
         self.setPalette(self.pal)
         self.setAutoFillBackground(True)
 
@@ -141,8 +137,8 @@ class RemainingTilesIndicator2(QLabel):
 
         self.setFont(QFont('SansSerif', 18))
         self.pal = self.palette()
-        self.pal.setColor(self.backgroundRole(), QColor('#FFFF00'))
-        self.pal.setColor(self.foregroundRole(), QColor('#7030A0'))  # 6600cc
+        self.pal.setColor(self.backgroundRole(), QColor('#F2F2F2'))
+        self.pal.setColor(self.foregroundRole(), QColor('#000000'))  # 6600cc
         self.setPalette(self.pal)
         self.setAutoFillBackground(True)
 
@@ -167,47 +163,27 @@ class ControlPanel(QFrame):
         # ++++++++++++++++++++++++++++++++++++++++++++++++
         # Create buttons
         # ++++++++++++++++++++++++++++++++++++++++++++++++
-        self.addTileButton = MyButton("Take Tile")
-        self.addTileButton.clicked.connect(self.takeTile)
 
-        self.newGameButton = MyButton("New Game")
+        self.newGameButton = MyButton("Nowa gra")
         self.newGameButton.clicked.connect(newGame)
 
-        self.ExitButton = MyButton("Exit")
+        self.ExitButton = MyButton("Wyjscie")
         self.ExitButton.clicked.connect(self.Exit)
 
-        self.ChangeBackgroundColorButton = MyButton("Bg Color")
-        self.ChangeBackgroundColorButton.clicked.connect(self.ChangeBackgroundColor)
-
-        self.ChangeForegroundColorButton = MyButton("Fg Color")
-        self.ChangeForegroundColorButton.clicked.connect(self.ChangeForegroundColor)
-
-        self.ListBoardButton = MyButton("List Board")
-        self.ListBoardButton.clicked.connect(self.listBoard)
-
-        self.MasterListButton = MyButton("Master Tile List")
-        self.MasterListButton.clicked.connect(self.masterTileList)
-
-        self.SaveGameStateButton = MyButton("Save")
+        self.SaveGameStateButton = MyButton("Zapisz")
         self.SaveGameStateButton.clicked.connect(self.saveBoardState)
 
-        self.RestoreGameStateButton = MyButton("Restore")
+        self.RestoreGameStateButton = MyButton("Odswiez")
         self.RestoreGameStateButton.clicked.connect(self.restoreBoardState)
 
         self.logo = ImageLabel2()
         self.logo.showImageByPath("images/LOGO_200_width.jpg")
 
-        self.buttonBar.addWidget(self.addTileButton)
         self.buttonBar.addWidget(self.newGameButton)
         self.buttonBar.addWidget(self.ExitButton)
-        self.buttonBar.addWidget(self.ChangeBackgroundColorButton)
-        self.buttonBar.addWidget(self.ChangeForegroundColorButton)
         self.buttonBar.addWidget(self.SaveGameStateButton)
         self.buttonBar.addWidget(self.RestoreGameStateButton)
         self.buttonBar.addWidget(self.logo)
-        # self.buttonBar.addWidget(self.ListBoardButton)
-        # self.buttonBar.addWidget(self.MasterListButton)
-
 
         self.layout.addLayout(self.buttonBar)
         self.infoBar = QVBoxLayout()
@@ -251,14 +227,6 @@ class ControlPanel(QFrame):
     def setNumberOfTiles(self, NoOfTiles):
         tempStr = str(NoOfTiles) + " tiles left in bag"
         self.tilesLeftInfoBox.setPlainText(tempStr)
-
-    def ChangeBackgroundColor(self):
-        color = QColorDialog.getColor(QColor('#888844'))
-        gameBoard.setBackgroundColor(color)
-
-    def ChangeForegroundColor(self):
-        color = QColorDialog.getColor()
-        gameBoard.setForegroundColor(color)
 
     def clearInfoBox(self):
         self.tilesLeftInfoBox.clear()
@@ -384,18 +352,19 @@ class PlayerControls(QFrame):
         self.layout.setAlignment((QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop))
         self.setLayout(self.layout)
 
-        self.TakeTileButton = MyButton("Take Tile")
+        self.TakeTileButton = MyButton("Dobierz plytke")
         self.TakeTileButton.clicked.connect(self.takeTile)
 
-        self.FreezeButton = MyButton("Freeze/Thaw")
+        self.FreezeButton = MyButton("Zakoncz ture")
         self.FreezeButton.clicked.connect(self.freeze)
 
-        self.FrozenStateLabel = MyLabel("Not Frozen")
+        self.FrozenStateLabel = MyLabel("Twoja tura")
 
 
         # self.playerNameLabel = MyLabel(playerName)
-        self.playerNameLabel = ImageLabel2()
-        self.playerNameLabel.showImageByPath("images/player1.png")
+        # self.playerNameLabel = ImageLabel2()
+        # self.playerNameLabel.showImageByPath("images/player1.png")
+        self.playerNameLabel = MyLabel(playerName)
 
         self.layout.addWidget(self.playerNameLabel)
         self.layout.addWidget(self.TakeTileButton)
@@ -411,10 +380,10 @@ class PlayerControls(QFrame):
     def freeze(self):
         if self.playerGrid.isFrozen():
             self.playerGrid.thaw()
-            self.FrozenStateLabel.updateText("Thawed")
+            self.FrozenStateLabel.updateText("Twoja tura")
         else:
             self.playerGrid.freeze()
-            self.FrozenStateLabel.updateText("Frozen")
+            self.FrozenStateLabel.updateText("Nie twoja tura")
 
 
     def setBackgroundColor(self, color):
@@ -652,17 +621,17 @@ class FontSelector(QWidget):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
 
-    playerBgColor = QColor('#EBFFEB')
-    playerFgColor = QColor('#AAFF99')
+    playerBgColor = QColor('#A5A5A5')
+    playerFgColor = QColor('#000000')
 
     boardBgColor = QColor('#F2F2F2')
-    boardFgColor = QColor('#FFCC00')
+    boardFgColor = QColor('#A5A5A5')
 
     player1Grid = PlayerGrid(playerBgColor, playerFgColor, "Player1Grid", 2, numberOfColumns)
-    player1Controls = PlayerControls(playerBgColor, playerFgColor, player1Grid, "Player 1")
+    player1Controls = PlayerControls(playerBgColor, playerFgColor, player1Grid, "Gracz 1")
 
     player2Grid = PlayerGrid(playerBgColor, playerFgColor, "Player2Grid", 2, numberOfColumns)
-    player2Controls = PlayerControls(playerBgColor, playerFgColor, player1Grid, "Player 2")
+    player2Controls = PlayerControls(playerBgColor, playerFgColor, player2Grid, "Gracz 2")
 
     gameBoard = GameBoard(boardBgColor, boardFgColor, "GameBoard", 8, numberOfColumns)
     print("gameBoard is of type ", str(type(gameBoard)))

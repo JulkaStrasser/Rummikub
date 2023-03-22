@@ -1,5 +1,5 @@
-from PyQt5 import QtCore, QtGui, Qt
-from PyQt5.QtWidgets import QTableView, QAbstractItemView
+from PyQt5 import QtCore, QtGui, Qt, QLabel
+from PyQt5.QtWidgets import QTableView, QAbstractItemView, QLabel
 # import cPickle
 import pickle
 
@@ -58,11 +58,11 @@ class TagLabel(QtGui.QLabel):
 
     def dropEvent(self, event):
         self.set_bg(False)
-            data = event.mimeData()
-            bstream = data.retrieveData("application/pubmedrecord", QtCore.QVariant.ByteArray)
-            selected = pickle.loads(bstream.toByteArray())
-            event.accept()
-            self.emit(QtCore.SIGNAL("dropAccepted(PyQt_PyObject)"), (selected, str(self.text()), str(self.tagColor)))
+        data = event.mimeData()
+        bstream = data.retrieveData("application/pubmedrecord", QtCore.QVariant.ByteArray)
+        selected = pickle.loads(bstream.toByteArray())
+        event.accept()
+        self.emit(QtCore.SIGNAL("dropAccepted(PyQt_PyObject)"), (selected, str(self.text()), str(self.tagColor)))
 
         def set_bg(self, active=False):
             if active:
