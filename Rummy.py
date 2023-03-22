@@ -397,13 +397,6 @@ class PlayerControls(QFrame):
                 player_turn = (player_turn+1) % 4
                 print(change)
 
-    def disableButtons(self):
-        self.FreezeButton.setDisabled = True
-        self.TakeTileButton.setDisabled = True
-    
-    def enableButtons(self):
-        self.FreezeButton.setDisabled = False
-        self.TakeTileButton.setDisabled = False
 
     def setBackgroundColor(self, color):
         self.pal.setColor(self.backgroundRole(), QColor(color))
@@ -774,18 +767,6 @@ if __name__ == "__main__":
 
     player4 = Player(3,'Gracz 4')
     player4.player_controls.FreezeButton.clicked.connect(freezePlayers)
-
-    # player1.player_grid = PlayerGrid(playerBgColor, playerFgColor, "Player1Grid", 2, numberOfColumns)
-    # player1.player_controls = PlayerControls(playerBgColor, playerFgColor, player1.player_grid, "Gracz 1")
-
-    # player2.player_grid = PlayerGrid(playerBgColor, playerFgColor, "Player2Grid", 2, numberOfColumns)
-    # player2.player_controls = PlayerControls(playerBgColor, playerFgColor, player2.player_grid, "Gracz 2")
-
-    # player3.player_grid = PlayerGrid(playerBgColor, playerFgColor, "Player3Grid", 2, numberOfColumns)
-    # player3.player_controls = PlayerControls(playerBgColor, playerFgColor, player3.player_grid, "Gracz 3")
-
-    # player4.player_grid = PlayerGrid(playerBgColor, playerFgColor, "Player4Grid", 2, numberOfColumns)
-    # player4.player_controls = PlayerControls(playerBgColor, playerFgColor, player4.player_grid, "Gracz 4")
 
 
     gameBoard = GameBoard(boardBgColor, boardFgColor, "GameBoard", 8, numberOfColumns*2)
