@@ -659,4 +659,17 @@ if __name__ == "__main__":
     RummyKub = MainWin()
     RummyKub.show()
     newGame()
+
+    #wyswietlanie plytek gracza
+    print("Gracz 3")
+    for cell in player3Grid.cellList:
+        status = cell.getCellStatus()
+        print(status)
+        # print(status[0])
+        # print(status[1])
+
+    #wyswietlanie planszy, nie dziala bo nie ma petli gownej
+    print('Plansza do gry:')
+    for cell in gameBoard.cellList:
+        status = cell.getCellStatus()
 sys.exit(app.exec_())
