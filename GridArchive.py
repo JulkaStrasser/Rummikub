@@ -31,15 +31,21 @@ class GridArchive():
 class GridArchiveManager():
     player1Grid = None
     player2Grid = None
+    player3Grid = None
+    player4Grid = None
     gameBoard = None
 
-    def __init__(self, p1Grid, p2Grid, gbGrid):
+    def __init__(self, p1Grid, p2Grid,p3Grid, p4Grid, gbGrid):
         GridArchiveManager.player1Grid = p1Grid
         GridArchiveManager.player2Grid = p2Grid
+        GridArchiveManager.player3Grid = p3Grid
+        GridArchiveManager.player4Grid = p4Grid
         GridArchiveManager.gameBoard = gbGrid
 
         self.player1Log = GridArchive()
         self.player2Log = GridArchive()
+        self.player3Log = GridArchive()
+        self.player4Log = GridArchive()
         self.boardLog = GridArchive()
 
     def saveGameState(self):
@@ -48,6 +54,13 @@ class GridArchiveManager():
 
         p2 = GridArchiveManager.player2Grid.getGridState()
         self.player2Log.addGridToArchive(p2)
+
+        p3 = GridArchiveManager.player3Grid.getGridState()
+        self.player1Log.addGridToArchive(p3)
+
+        p4 = GridArchiveManager.player4Grid.getGridState()
+        self.player2Log.addGridToArchive(p4)
+
 
         gB = GridArchiveManager.gameBoard.getGridState()
         self.boardLog.addGridToArchive(gB)
@@ -62,6 +75,13 @@ class GridArchiveManager():
 
             p2Grid = self.player2Log.getGridFromArchive()
             GridArchiveManager.player2Grid.restoreGridState(p2Grid)
+
+            p3Grid = self.player1Log.getGridFromArchive()
+            GridArchiveManager.player1Grid.restoreGridState(p3Grid)
+
+            p4Grid = self.player2Log.getGridFromArchive()
+            GridArchiveManager.player2Grid.restoreGridState(p4Grid)
+
 
             gBGrid = self.boardLog.getGridFromArchive()
             GridArchiveManager.gameBoard.restoreGridState(gBGrid)

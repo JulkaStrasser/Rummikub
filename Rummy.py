@@ -40,10 +40,14 @@ def newGame():
     gameBoard.removeAllTiles()
     player1Grid.removeAllTiles()
     player2Grid.removeAllTiles()
+    player3Grid.removeAllTiles()
+    player4Grid.removeAllTiles()
     tileCollection.clearTiles()  # set the owner of each tile to "none"
     tileBag.newGame()
     player1Grid.newDeal()
     player2Grid.newDeal()
+    player3Grid.newDeal()
+    player4Grid.newDeal()
 
 
 class ImageLabel2(QLabel):
@@ -176,14 +180,10 @@ class ControlPanel(QFrame):
         self.RestoreGameStateButton = MyButton("Odswiez")
         self.RestoreGameStateButton.clicked.connect(self.restoreBoardState)
 
-        self.logo = ImageLabel2()
-        self.logo.showImageByPath("images/LOGO_200_width.jpg")
-
         self.buttonBar.addWidget(self.newGameButton)
         self.buttonBar.addWidget(self.ExitButton)
         self.buttonBar.addWidget(self.SaveGameStateButton)
         self.buttonBar.addWidget(self.RestoreGameStateButton)
-        self.buttonBar.addWidget(self.logo)
 
         self.layout.addLayout(self.buttonBar)
         self.infoBar = QVBoxLayout()
@@ -573,10 +573,19 @@ class MainWin(QMainWindow):
         self.gameLayout = QGridLayout()
         self.gameLayout.addWidget(player1Grid, 0, 0)
         self.gameLayout.addWidget(player1Controls, 0, 1)
-        self.gameLayout.addWidget(gameBoard, 1, 0, 3, 1)
+
+        self.gameLayout.addWidget(player3Grid, 0, 2)
+        self.gameLayout.addWidget(player3Controls, 0, 3)
+
+        self.gameLayout.addWidget(gameBoard, 1, 0, 3, 3)
+
         self.gameLayout.addWidget(player2Grid, 4, 0)
         self.gameLayout.addWidget(player2Controls, 4, 1)
-        self.gameLayout.addWidget(self.controlPanel, 1, 1, 3 ,1)
+
+        self.gameLayout.addWidget(player4Grid, 4, 2)
+        self.gameLayout.addWidget(player4Controls, 4, 3)
+        
+        self.gameLayout.addWidget(self.controlPanel, 1, 3, 3 ,1)
 
         self.mainWidget = QWidget()
         self.mainWidget.setLayout(self.gameLayout)
@@ -633,10 +642,17 @@ if __name__ == "__main__":
     player2Grid = PlayerGrid(playerBgColor, playerFgColor, "Player2Grid", 2, numberOfColumns)
     player2Controls = PlayerControls(playerBgColor, playerFgColor, player2Grid, "Gracz 2")
 
-    gameBoard = GameBoard(boardBgColor, boardFgColor, "GameBoard", 8, numberOfColumns)
+    player3Grid = PlayerGrid(playerBgColor, playerFgColor, "Player3Grid", 2, numberOfColumns)
+    player3Controls = PlayerControls(playerBgColor, playerFgColor, player1Grid, "Gracz 3")
+
+    player4Grid = PlayerGrid(playerBgColor, playerFgColor, "Player4Grid", 2, numberOfColumns)
+    player4Controls = PlayerControls(playerBgColor, playerFgColor, player2Grid, "Gracz 4")
+
+
+    gameBoard = GameBoard(boardBgColor, boardFgColor, "GameBoard", 8, numberOfColumns*2)
     print("gameBoard is of type ", str(type(gameBoard)))
 
-    gridArchiveManager = GridArchiveManager(player1Grid, player2Grid, gameBoard)
+    gridArchiveManager = GridArchiveManager(player1Grid, player2Grid, player3Grid, player4Grid, gameBoard)
 
     tileCollection = TileCollection()
     tileBag = TileBag()
