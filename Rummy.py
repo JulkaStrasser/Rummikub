@@ -643,10 +643,10 @@ if __name__ == "__main__":
     player2Controls = PlayerControls(playerBgColor, playerFgColor, player2Grid, "Gracz 2")
 
     player3Grid = PlayerGrid(playerBgColor, playerFgColor, "Player3Grid", 2, numberOfColumns)
-    player3Controls = PlayerControls(playerBgColor, playerFgColor, player1Grid, "Gracz 3")
+    player3Controls = PlayerControls(playerBgColor, playerFgColor, player3Grid, "Gracz 3")
 
     player4Grid = PlayerGrid(playerBgColor, playerFgColor, "Player4Grid", 2, numberOfColumns)
-    player4Controls = PlayerControls(playerBgColor, playerFgColor, player2Grid, "Gracz 4")
+    player4Controls = PlayerControls(playerBgColor, playerFgColor, player4Grid, "Gracz 4")
 
 
     gameBoard = GameBoard(boardBgColor, boardFgColor, "GameBoard", 8, numberOfColumns*2)
