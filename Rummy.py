@@ -419,6 +419,7 @@ class GameBoard(TileGridBaseClass):
     def __init__(self, bgColor, fgColor, gridName, rows, cols):
         super(GameBoard, self).__init__(rows, cols, bgColor, fgColor, gridName)
         self.listItems()
+        self.all_sequences = []
 
     def listItems(self):
         print("List grid contents")
@@ -433,20 +434,59 @@ class GameBoard(TileGridBaseClass):
     def checkSequences(self):
         print("Print neighbours")
         cellsList = self.findChildren(BoardCell)
+        # all_sequences = []
+        seq = []
+        detected_sequence = False
+        self.all_sequences = []
         for cell in cellsList:
             print()
             print(cell.row, cell.col)
             # status = cell.getCellStatus()
             if cell.left != None:
                 left_neighbour_status = cell.left.getCellStatus()
-                print('left neighbour is'+ left_neighbour_status[0])
-                print(left_neighbour_status[1])
+                # print('left neighbour is'+ left_neighbour_status[0])
+                # print(left_neighbour_status[1])
+            else:
+                left_neighbour_status ='Empty'
 
             if cell.right != None:
                 right_neighbour_status = cell.right.getCellStatus()
-                print('right neighbour is'+ right_neighbour_status[0])
-                print(right_neighbour_status[1])
+                # print('right neighbour is'+ right_neighbour_status[0])
+                # print(right_neighbour_status[1])
+            else:
+                right_neighbour_status = 'Empty'
             
+            # the first element of a squence
+            if left_neighbour_status == 'Empty' and right_neighbour_status != 'Empty' and cell.getCellStatus() !='Empty':
+                seq.append(cell)
+                detected_sequence = True
+            elif detected_sequence == True and left_neighbour_status != 'Empty' and right_neighbour_status != 'Empty':
+                seq.append(cell)
+            #the last element of a sequence
+            elif left_neighbour_status != 'Empty' and right_neighbour_status == 'Empty' and cell.getCellStatus() !='Empty' and detected_sequence == True:
+                seq.append(cell)
+                detected_sequence = False
+                if len(seq) > 2:
+                    self.all_sequences.append(seq)
+                else:
+                    print('Blad ciag musi miec co najmniej 3 elementy !')
+                print(seq)
+                seq = []
+                # seq.clear()
+        
+        self.printAllSequences()
+    
+    def printAllSequences(self):
+        for i,seq in enumerate(self.all_sequences):
+            print('Zbior ')
+            print(seq)
+            for cell in seq:
+                status = cell.getCellStatus()
+                print(status[0])
+                print(status[1])
+                print()
+            print('---------')
+                
 
     def AddTileFromBag(self, tile):
         print("AddTileFromBag")
