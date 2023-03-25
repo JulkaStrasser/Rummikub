@@ -14,13 +14,11 @@ from GridArchive import GridArchiveManager
 import time
 """
 Todo List.
-1. Tury jesli jest tura gracza 1, to gracz 2 musi byc 'zamrozony' - frozen i a potem odmrazanie go gdy bedzie jego tura
-2. Pousuwac przyciski do zmiany tla i inne zbedne rzeczy, dobieranie do planszy itp.
-3. Dodac jeszcze 2 graczy, poszerzyc plansze ?
-4. Plansza majaca mozliwosc sprawdzania czy plytki sa poprawnie ulozone jesli nie to podswietla te kombinacje
-5. Need to have a method of logging grid states so that moves can be undone back through the queue.
-6. Czy jokerki istnieja?
-
+- Plansza majaca mozliwosc sprawdzania czy plytki sa poprawnie ulozone jesli nie to podswietla te kombinacje
+- Sprawdzanie poprawnosci ruchow
+- podswietlanie niepoprawnych ruchow
+- czy jockery istnieja?
+- to autosortowanie ma sens tylko na planszy 
 """
 
 
@@ -365,10 +363,6 @@ class PlayerControls(QFrame):
 
         self.FrozenStateLabel = MyLabel("Twoja tura")
 
-
-        # self.playerNameLabel = MyLabel(playerName)
-        # self.playerNameLabel = ImageLabel2()
-        # self.playerNameLabel.showImageByPath("images/player1.png")
         self.playerNameLabel = MyLabel(playerName)
 
         self.layout.addWidget(self.playerNameLabel)
@@ -431,6 +425,28 @@ class GameBoard(TileGridBaseClass):
         cellsList = self.findChildren(BoardCell)
         for cell in cellsList:
             print(cell.row, cell.col)
+            status = cell.getCellStatus()
+            print(status[0])
+            print(status[1])
+            print()
+    
+    def checkSequences(self):
+        print("Print neighbours")
+        cellsList = self.findChildren(BoardCell)
+        for cell in cellsList:
+            print()
+            print(cell.row, cell.col)
+            # status = cell.getCellStatus()
+            if cell.left != None:
+                left_neighbour_status = cell.left.getCellStatus()
+                print('left neighbour is'+ left_neighbour_status[0])
+                print(left_neighbour_status[1])
+
+            if cell.right != None:
+                right_neighbour_status = cell.right.getCellStatus()
+                print('right neighbour is'+ right_neighbour_status[0])
+                print(right_neighbour_status[1])
+            
 
     def AddTileFromBag(self, tile):
         print("AddTileFromBag")
@@ -738,7 +754,8 @@ def freezePlayers():
         player2.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
         player2.player_controls.setEnabled(False)
     player_turn = (player_turn+1)%4
-  
+    # gameBoard.listItems()
+    gameBoard.checkSequences()
 class Player():
     def __init__(self, player_id, player_name):
         self.player_id = player_id
@@ -780,17 +797,18 @@ if __name__ == "__main__":
     RummyKub.show()
     newGame()
     freezePlayers()
-    #wyswietlanie plytek gracza
-    print("Gracz 3")
-    for cell in player3.player_grid.cellList:
-        status = cell.getCellStatus()
-        print(status)
-        # print(status[0])
-        # print(status[1])
+    # #wyswietlanie plytek gracza
+    # print("Gracz 3")
+    # for cell in player3.player_grid.cellList:
+    #     status = cell.getCellStatus()
+    #     print(status)
+    #     # print(status[0])
+    #     # print(status[1])
 
     # play()
     #wyswietlanie planszy, nie dziala bo nie ma petli gownej
     print('Plansza do gry:')
-    for cell in gameBoard.cellList:
-        status = cell.getCellStatus()
+    # gameBoard.listItems()
+    # for cell in gameBoard.cellList:
+    #     status = cell.getCellStatus()
 sys.exit(app.exec_())
