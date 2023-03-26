@@ -509,6 +509,10 @@ class GameBoard(TileGridBaseClass):
             check_plus_num = self.checkPlusNumber(token_color_list, token_number_list)
             print('Option 2'+ str(check_plus_num))
 
+            # IF BAD SEQ
+            if check_diff_colors == False and check_plus_num == False:
+                print('Nie mozna wykonac takiego ruchu !')
+
     def check3diffColor(self,token_color_list, token_number_list):
         #check if all numbers are the same
         numbers_equal = token_number_list.count(token_number_list[0]) == len(token_number_list)
@@ -857,7 +861,7 @@ def freezePlayers():
     # gameBoard.listItems()
 
     gameBoard.detectSequences()
-    
+
 class Player():
     def __init__(self, player_id, player_name):
         self.player_id = player_id
