@@ -18,7 +18,7 @@ Todo List.
 - Sprawdzanie poprawnosci ruchow
 - podswietlanie niepoprawnych ruchow
 - czy jockery istnieja?
-- to autosortowanie ma sens tylko na planszy 
+ 
 """
 
 

@@ -10,9 +10,11 @@ from PyQt5.QtCore import QRect, QPoint
 
 from Tile import RummyTile
 
-def getCellCol(cell):
-    print("getCellCol")
-    return cell.getCol()
+
+def getCellValue(cell):
+    print('Get cell value')
+    value = cell.getResidentTile().getValue()
+    return value
 
 class BoardCell(QFrame):
     dragStartCell = 0
@@ -81,7 +83,7 @@ class BoardCell(QFrame):
             return
 
         print("cell mouse release event")
-        global getCellCol
+        global getCellValue
         if self.getResidentTile():
             #This cell contains a tile so toggle the highlight
             print("cell Mouse press")
@@ -91,11 +93,9 @@ class BoardCell(QFrame):
                 self.highlightOn()
             return
         else:
-            #This cell does not contain a tile so we may want to move highlighted tiles here
-            #first sort the multi drop list by column
-            BoardCell.multiDragList.sort(key=getCellCol)
-            # BoardCell.multiDragList.reverse()
-            # getCellCol(self)
+            #sort by values
+            BoardCell.multiDragList.sort(key=getCellValue) 
+         
             BoardCell.NoOfVacantCellsAvailableForMultiMove = 0
             if len(BoardCell.multiDragList) > 0:
                 self.countEmptyCells()
