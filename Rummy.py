@@ -14,8 +14,8 @@ from GridArchive import GridArchiveManager
 import time
 """
 Todo List.
-- dodanie ze nie mozna wylozyc na poczatku gdy suma nie przekroczy ..
-- jak gracz popelni blad w swojej turze, to ma szanse na poprawe (znowu jego tura i aby ja zakonczyc musi kliknac przycisk)
+- dodanie ze nie mozna wylozyc na poczatku gdy suma nie przekroczy 30
+- dodanie messageboxa, gdy bedzie blad pierwszej tury
 - czy jockery istnieja?
 - usuniecie zmiennych globalnych 
  
@@ -468,12 +468,17 @@ class GameBoard(TileGridBaseClass):
                     self.all_sequences.append(seq)
                 else:
                     print('Blad ciag musi miec co najmniej 3 elementy !')
+                    QMessageBox.warning(self,'Niedozwolony ruch','Sekwencja musi miec co najmniej 3 plytki !')
+                    return False
                 print(seq)
                 seq = []
                 # seq.clear()
         
+        if len(self.all_sequences) == 0:
+            return True
+        else:
         #self.printAllSequences()
-        self.checkAllSequences()
+            return self.checkAllSequences()
     
     def printAllSequences(self):
         for i,seq in enumerate(self.all_sequences):
@@ -487,6 +492,7 @@ class GameBoard(TileGridBaseClass):
             print('---------')
 
     def checkAllSequences(self):
+        ok = True
         for i,seq in enumerate(self.all_sequences):
             print('Check sequence')
 
@@ -516,6 +522,10 @@ class GameBoard(TileGridBaseClass):
                 QMessageBox.warning(self,'Niedozwolony ruch','Nie mozesz wykonac takiego ruchu')
                 for cell in seq:
                     cell.errorHighLightOff()
+                ok = False
+                
+        return ok
+        
 
     def check3diffColor(self,token_color_list, token_number_list):
         #check if all numbers are the same
@@ -789,82 +799,88 @@ def freezePlayers():
     global change, player_turn
     change = False
     
+    if gameBoard.detectSequences() != True:
+        pass
     # self.playerGrid.thaw()
     #     player_turn = (player_turn+1) % 4
     #         self.FrozenStateLabel.updateText("Twoja tura")
     #     else:
     #         self.playerGrid.freeze()
     #         self.FrozenStateLabel.updateText("Nie twoja tura")
-    if player_turn == 0:
-        #budzimy playera 1
-        player1.player_controls.playerGrid.thaw()
-        player1.player_controls.FrozenStateLabel.updateText("Twoja tura")
-        player1.player_controls.setEnabled(True)
+    else:
+        if player_turn == 0:
+            #budzimy playera 1
+            player1.player_controls.playerGrid.thaw()
+            player1.player_controls.FrozenStateLabel.updateText("Twoja tura")
+            player1.player_controls.setEnabled(True)
 
-        player2.player_controls.playerGrid.freeze()
-        player2.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-        player2.player_controls.setEnabled(False)
+            player2.player_controls.playerGrid.freeze()
+            player2.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            player2.player_controls.setEnabled(False)
 
-        player3.player_controls.playerGrid.freeze()
-        player3.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-        player3.player_controls.setEnabled(False)
+            player3.player_controls.playerGrid.freeze()
+            player3.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            player3.player_controls.setEnabled(False)
 
-        player4.player_controls.playerGrid.freeze()
-        player4.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-        player4.player_controls.setEnabled(False)
+            player4.player_controls.playerGrid.freeze()
+            player4.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            player4.player_controls.setEnabled(False)
 
-    elif(player_turn == 1):
-        player2.player_controls.playerGrid.thaw()
-        player2.player_controls.FrozenStateLabel.updateText("Twoja tura")
-        player2.player_controls.setEnabled(True)
+        elif(player_turn == 1):
+            player2.player_controls.playerGrid.thaw()
+            player2.player_controls.FrozenStateLabel.updateText("Twoja tura")
+            player2.player_controls.setEnabled(True)
 
-        player1.player_controls.playerGrid.freeze()
-        player1.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-        player1.player_controls.setEnabled(False)
+            player1.player_controls.playerGrid.freeze()
+            player1.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            player1.player_controls.setEnabled(False)
 
-        player3.player_controls.playerGrid.freeze()
-        player3.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-        player3.player_controls.setEnabled(False)
+            player3.player_controls.playerGrid.freeze()
+            player3.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            player3.player_controls.setEnabled(False)
 
-        player4.player_controls.playerGrid.freeze()
-        player4.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-        player4.player_controls.setEnabled(False)
-    elif(player_turn == 2):
-        player3.player_controls.playerGrid.thaw()
-        player3.player_controls.FrozenStateLabel.updateText("Twoja tura")
-        player3.player_controls.setEnabled(True)
-        
-        player1.player_controls.playerGrid.freeze()
-        player1.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-        player1.player_controls.setEnabled(False)
+            player4.player_controls.playerGrid.freeze()
+            player4.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            player4.player_controls.setEnabled(False)
+        elif(player_turn == 2):
+            player3.player_controls.playerGrid.thaw()
+            player3.player_controls.FrozenStateLabel.updateText("Twoja tura")
+            player3.player_controls.setEnabled(True)
+            
+            player1.player_controls.playerGrid.freeze()
+            player1.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            player1.player_controls.setEnabled(False)
 
-        player2.player_controls.playerGrid.freeze()
-        player2.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-        player2.player_controls.setEnabled(False)
+            player2.player_controls.playerGrid.freeze()
+            player2.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            player2.player_controls.setEnabled(False)
 
-        player4.player_controls.playerGrid.freeze()
-        player4.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-        player4.player_controls.setEnabled(False)
-    elif(player_turn == 3):
-        player4.player_controls.playerGrid.thaw()
-        player4.player_controls.FrozenStateLabel.updateText("Twoja tura")
-        player4.player_controls.setEnabled(True)
+            player4.player_controls.playerGrid.freeze()
+            player4.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            player4.player_controls.setEnabled(False)
+        elif(player_turn == 3):
+            player4.player_controls.playerGrid.thaw()
+            player4.player_controls.FrozenStateLabel.updateText("Twoja tura")
+            player4.player_controls.setEnabled(True)
 
-        player1.player_controls.playerGrid.freeze()
-        player1.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-        player1.player_controls.setEnabled(False)
+            player1.player_controls.playerGrid.freeze()
+            player1.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            player1.player_controls.setEnabled(False)
 
-        player3.player_controls.playerGrid.freeze()
-        player3.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-        player3.player_controls.setEnabled(False)
+            player3.player_controls.playerGrid.freeze()
+            player3.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            player3.player_controls.setEnabled(False)
 
-        player2.player_controls.playerGrid.freeze()
-        player2.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-        player2.player_controls.setEnabled(False)
-    player_turn = (player_turn+1)%4
+            player2.player_controls.playerGrid.freeze()
+            player2.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            player2.player_controls.setEnabled(False)
+
+        player_turn = (player_turn+1)%4
+    
     # gameBoard.listItems()
 
-    gameBoard.detectSequences()
+    
+        
 
 class Player():
     def __init__(self, player_id, player_name):
