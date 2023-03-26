@@ -14,9 +14,9 @@ from GridArchive import GridArchiveManager
 import time
 """
 Todo List.
-- Plansza majaca mozliwosc sprawdzania czy plytki sa poprawnie ulozone jesli nie to podswietla te kombinacje
-- Sprawdzanie poprawnosci ruchow
 - podswietlanie niepoprawnych ruchow
+- dodanie dodatkowego labelu, wyswietlajacego informacje, gdy ktos wykona niepoprawny ruch
+- dodanie ze nie mozna wylozyc na poczatku gdy suma nie przekroczy ..
 - czy jockery istnieja?
 - usuniecie zmiennych globalnych 
  
@@ -184,10 +184,13 @@ class ControlPanel(QFrame):
         self.RestoreGameStateButton = MyButton("Odswiez")
         self.RestoreGameStateButton.clicked.connect(self.restoreBoardState)
 
+        self.ErrorLabel = MyLabel("Bledziki")
+
         self.buttonBar.addWidget(self.newGameButton)
         self.buttonBar.addWidget(self.ExitButton)
         self.buttonBar.addWidget(self.SaveGameStateButton)
         self.buttonBar.addWidget(self.RestoreGameStateButton)
+        self.buttonBar.addWidget(self.ErrorLabel)
 
         self.layout.addLayout(self.buttonBar)
         self.infoBar = QVBoxLayout()
@@ -503,8 +506,8 @@ class GameBoard(TileGridBaseClass):
             print('Option 1'+ str(check_diff_colors))
 
             # Option2: 1 color number, each one +1
-
-    
+            check_plus_num = self.checkPlusNumber(token_color_list, token_number_list)
+            print('Option 2'+ str(check_plus_num))
 
     def check3diffColor(self,token_color_list, token_number_list):
         #check if all numbers are the same
@@ -522,7 +525,29 @@ class GameBoard(TileGridBaseClass):
         else:
             return False
             
+    def checkPlusNumber(self,token_color_list,token_number_list):
+        #Check if colors are the same
+        colors_equal = token_color_list.count(token_color_list[0]) == len(token_color_list)
+        print('Colors are equal'+ str(colors_equal))
 
+        #check +1 sequence
+        numPlus = True
+        last_item = token_number_list[0]
+        num_len = len(token_number_list)
+        for i in range(1,num_len):
+            item = token_number_list[i]
+            if(item - last_item) == 1:
+                last_item = item
+            else:
+                numPlus = False
+        print('Each number is +1 number before'+str(numPlus))
+        
+        if colors_equal == True and numPlus == True:
+            return True
+        else:
+            return False
+                
+    
     def AddTileFromBag(self, tile):
         print("AddTileFromBag")
         # take a tile from the bag and put it in the
@@ -830,7 +855,9 @@ def freezePlayers():
         player2.player_controls.setEnabled(False)
     player_turn = (player_turn+1)%4
     # gameBoard.listItems()
+
     gameBoard.detectSequences()
+    
 class Player():
     def __init__(self, player_id, player_name):
         self.player_id = player_id
