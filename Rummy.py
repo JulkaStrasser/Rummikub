@@ -18,6 +18,7 @@ Todo List.
 - Sprawdzanie poprawnosci ruchow
 - podswietlanie niepoprawnych ruchow
 - czy jockery istnieja?
+- usuniecie zmiennych globalnych 
  
 """
 
@@ -431,28 +432,23 @@ class GameBoard(TileGridBaseClass):
             print(status[1])
             print()
     
-    def checkSequences(self):
+    def detectSequences(self):
         print("Print neighbours")
         cellsList = self.findChildren(BoardCell)
-        # all_sequences = []
         seq = []
         detected_sequence = False
         self.all_sequences = []
         for cell in cellsList:
-            print()
-            print(cell.row, cell.col)
-            # status = cell.getCellStatus()
+            
             if cell.left != None:
                 left_neighbour_status = cell.left.getCellStatus()
-                # print('left neighbour is'+ left_neighbour_status[0])
-                # print(left_neighbour_status[1])
+               
             else:
                 left_neighbour_status ='Empty'
 
             if cell.right != None:
                 right_neighbour_status = cell.right.getCellStatus()
-                # print('right neighbour is'+ right_neighbour_status[0])
-                # print(right_neighbour_status[1])
+               
             else:
                 right_neighbour_status = 'Empty'
             
@@ -474,7 +470,8 @@ class GameBoard(TileGridBaseClass):
                 seq = []
                 # seq.clear()
         
-        self.printAllSequences()
+        #self.printAllSequences()
+        self.checkAllSequences()
     
     def printAllSequences(self):
         for i,seq in enumerate(self.all_sequences):
@@ -486,7 +483,45 @@ class GameBoard(TileGridBaseClass):
                 print(status[1])
                 print()
             print('---------')
-                
+
+    def checkAllSequences(self):
+        for i,seq in enumerate(self.all_sequences):
+            print('Check sequence')
+
+            # 1. Create tokens color and number lists
+            token_color_list = []
+            token_number_list = []
+
+            for cell in seq:
+                status = cell.getCellStatus()
+                token_color_list.append(status[0])
+                token_number_list.append(int(status[1]))
+
+            # 2. CHECK IF CORRECT SEQUENCE
+            # Option1 : more than 3 in different colors
+            check_diff_colors = self.check3diffColor(token_color_list, token_number_list)
+            print('Option 1'+ str(check_diff_colors))
+
+            # Option2: 1 color number, each one +1
+
+    
+
+    def check3diffColor(self,token_color_list, token_number_list):
+        #check if all numbers are the same
+        numbers_equal = token_number_list.count(token_number_list[0]) == len(token_number_list)
+        print('Numbers are equal'+ str(numbers_equal))
+
+        #check if all colors are unique
+        colors_unique = False
+        if(len(set(token_color_list)) == len(token_color_list)):
+            colors_unique = True
+        print('Colors are unique' + str(colors_unique))
+
+        if numbers_equal == True and colors_unique == True:
+            return True
+        else:
+            return False
+            
 
     def AddTileFromBag(self, tile):
         print("AddTileFromBag")
@@ -795,7 +830,7 @@ def freezePlayers():
         player2.player_controls.setEnabled(False)
     player_turn = (player_turn+1)%4
     # gameBoard.listItems()
-    gameBoard.checkSequences()
+    gameBoard.detectSequences()
 class Player():
     def __init__(self, player_id, player_name):
         self.player_id = player_id
