@@ -4,7 +4,7 @@ from PyQt5 import QtGui, QtCore
 
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QTreeView, QFileSystemModel, QLineEdit, \
     QLabel, QFrame, QTextEdit, QHBoxLayout, QGridLayout, QVBoxLayout, QMainWindow, QFontComboBox, QPlainTextEdit, QColorDialog, QSizePolicy
-
+from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtGui import QFont, QColor, QImage, QPixmap
 from PyQt5.QtCore import Qt, QRectF, pyqtSignal, QT_VERSION_STR, QPoint, QDir, QEvent
 
@@ -14,9 +14,8 @@ from GridArchive import GridArchiveManager
 import time
 """
 Todo List.
-- podswietlanie niepoprawnych ruchow
-- dodanie dodatkowego labelu, wyswietlajacego informacje, gdy ktos wykona niepoprawny ruch
 - dodanie ze nie mozna wylozyc na poczatku gdy suma nie przekroczy ..
+- jak gracz popelni blad w swojej turze, to ma szanse na poprawe (znowu jego tura i aby ja zakonczyc musi kliknac przycisk)
 - czy jockery istnieja?
 - usuniecie zmiennych globalnych 
  
@@ -184,13 +183,13 @@ class ControlPanel(QFrame):
         self.RestoreGameStateButton = MyButton("Odswiez")
         self.RestoreGameStateButton.clicked.connect(self.restoreBoardState)
 
-        self.ErrorLabel = MyLabel("Bledziki")
+       
 
         self.buttonBar.addWidget(self.newGameButton)
         self.buttonBar.addWidget(self.ExitButton)
         self.buttonBar.addWidget(self.SaveGameStateButton)
         self.buttonBar.addWidget(self.RestoreGameStateButton)
-        self.buttonBar.addWidget(self.ErrorLabel)
+        
 
         self.layout.addLayout(self.buttonBar)
         self.infoBar = QVBoxLayout()
@@ -512,6 +511,11 @@ class GameBoard(TileGridBaseClass):
             # IF BAD SEQ
             if check_diff_colors == False and check_plus_num == False:
                 print('Nie mozna wykonac takiego ruchu !')
+                for cell in seq:
+                    cell.errorHighLightOn()
+                QMessageBox.warning(self,'Niedozwolony ruch','Nie mozesz wykonac takiego ruchu')
+                for cell in seq:
+                    cell.errorHighLightOff()
 
     def check3diffColor(self,token_color_list, token_number_list):
         #check if all numbers are the same

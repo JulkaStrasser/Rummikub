@@ -172,7 +172,7 @@ class BoardCell(QFrame):
         self.setPalette(self.pal)
 
     def highlightOn(self):
-        self.setBackgroundColor(QColor('#FF9999'))
+        self.setBackgroundColor(QColor('#FFA64D'))
         self.highlightIsOn = True
         BoardCell.multiDragList.append(self)
         self.printMultiDragList()
@@ -184,6 +184,12 @@ class BoardCell(QFrame):
             BoardCell.multiDragList.remove(self)
         self.printMultiDragList()
 
+    def errorHighLightOn(self):
+        self.setBackgroundColor(QColor('#FF1A1A'))
+
+    def errorHighLightOff(self):
+        self.setBackgroundColor(self.bgColor)
+        
     def setForegroundColor(self, color):
         self.pal.setColor(self.foregroundRole(), QColor(color))
         self.setPalette(self.pal)
