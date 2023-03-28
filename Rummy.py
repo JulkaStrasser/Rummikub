@@ -16,11 +16,10 @@ import time
 Todo List.
 - dodanie ze nie mozna wylozyc na poczatku gdy suma nie przekroczy 30 (to nie dziala do konaca bo nie zapisuje co dodal gracz i jak sie pojawi na planszy cos o, to wszyscy gracze sie ciesza xD)
 - dodanie blokady dobierania, gdy dobierze sie raz ?
-- dodanie messageboxa ze ktos wygral gdy jakis gracz zostanie bez plytek
+- kontynuacja gry az do ostatniego gracza ?
 - dodanie zegara analogowego
 - odmierzanie czasu tym zegarem
 - koniec tury gracza, gdy nie zmiesci sie w czasie
-- dodanie messageboxa, gdy bedzie blad pierwszej tury
 - zeby nie dalo sie polozyc 1 plytki na planszy xD (blokada dziala tylko dla 2)
 - czy jockery istnieja?
 - usuniecie zmiennych globalnych 
@@ -654,7 +653,18 @@ class PlayerGrid(TileGridBaseClass):
                 print("Whoops - tile bag is empty")
                 break
 
-
+    def checkWinner(self):
+        isWinner = True
+        for cell in self.cellList:
+                status = cell.getCellStatus()
+                if status != "Empty":
+                    isWinner = False
+                    break
+        if isWinner == True:
+            QMessageBox.information(self,'Koniec gry','Zwyciezyl gracz '+ str(player_turn-1))
+        return isWinner
+    
+    
 # ++++++++++++++++++++++++++++++++++++++++++++++
 #          TILE BAG
 # ++++++++++++++++++++++++++++++++++++++++++++++
@@ -840,14 +850,13 @@ def freezePlayers():
     global change, player_turn
     change = False
     
+    if players[player_turn-1].player_grid.checkWinner() == True:
+        print('Gracz'+str(player_turn)+' jest zwyciezca')
+        pass
+
     if gameBoard.detectSequences() != True:
         pass
-    # self.playerGrid.thaw()
-    #     player_turn = (player_turn+1) % 4
-    #         self.FrozenStateLabel.updateText("Twoja tura")
-    #     else:
-    #         self.playerGrid.freeze()
-    #         self.FrozenStateLabel.updateText("Nie twoja tura")
+    
     else:
         if player_turn == 0:
             #budzimy playera 1
@@ -968,19 +977,8 @@ if __name__ == "__main__":
     RummyKub = MainWin()
     RummyKub.show()
     newGame()
+    
     freezePlayers()
-    # #wyswietlanie plytek gracza
-    # print("Gracz 3")
-    # for cell in players[2].player_grid.cellList:
-    #     status = cell.getCellStatus()
-    #     print(status)
-    #     # print(status[0])
-    #     # print(status[1])
-
-    # play()
-    #wyswietlanie planszy, nie dziala bo nie ma petli gownej
-    print('Plansza do gry:')
-    # gameBoard.listItems()
-    # for cell in gameBoard.cellList:
-    #     status = cell.getCellStatus()
+    
+  
 sys.exit(app.exec_())
