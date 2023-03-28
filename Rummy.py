@@ -14,8 +14,14 @@ from GridArchive import GridArchiveManager
 import time
 """
 Todo List.
-- dodanie ze nie mozna wylozyc na poczatku gdy suma nie przekroczy 30
+- dodanie ze nie mozna wylozyc na poczatku gdy suma nie przekroczy 30 (to nie dziala do konaca bo nie zapisuje co dodal gracz i jak sie pojawi na planszy cos o, to wszyscy gracze sie ciesza xD)
+- dodanie blokady dobierania, gdy dobierze sie raz ?
+- dodanie messageboxa ze ktos wygral gdy jakis gracz zostanie bez plytek
+- dodanie zegara analogowego
+- odmierzanie czasu tym zegarem
+- koniec tury gracza, gdy nie zmiesci sie w czasie
 - dodanie messageboxa, gdy bedzie blad pierwszej tury
+- zeby nie dalo sie polozyc 1 plytki na planszy xD (blokada dziala tylko dla 2)
 - czy jockery istnieja?
 - usuniecie zmiennych globalnych 
  
@@ -32,6 +38,7 @@ numberOfColumns = 15
 numberOfTilesToDeal = 15
 player_turn = 0
 change = False
+players_first_turn = [True,True,True,True]
 
 def getCellCol(cell):
     print("getCellCol")
@@ -39,16 +46,16 @@ def getCellCol(cell):
 
 def newGame():
     gameBoard.removeAllTiles()
-    player1.player_grid.removeAllTiles()
-    player2.player_grid.removeAllTiles()
-    player3.player_grid.removeAllTiles()
-    player4.player_grid.removeAllTiles()
+    players[0].player_grid.removeAllTiles()
+    players[1].player_grid.removeAllTiles()
+    players[2].player_grid.removeAllTiles()
+    players[3].player_grid.removeAllTiles()
     tileCollection.clearTiles()  # set the owner of each tile to "none"
     tileBag.newGame()
-    player1.player_grid.newDeal()
-    player2.player_grid.newDeal()
-    player3.player_grid.newDeal()
-    player4.player_grid.newDeal()
+    players[0].player_grid.newDeal()
+    players[1].player_grid.newDeal()
+    players[2].player_grid.newDeal()
+    players[3].player_grid.newDeal()
 
 
 class ImageLabel2(QLabel):
@@ -506,23 +513,27 @@ class GameBoard(TileGridBaseClass):
                 token_number_list.append(int(status[1]))
 
             # 2. CHECK IF CORRECT SEQUENCE
-            # Option1 : more than 3 in different colors
-            check_diff_colors = self.check3diffColor(token_color_list, token_number_list)
-            print('Option 1'+ str(check_diff_colors))
-
-            # Option2: 1 color number, each one +1
-            check_plus_num = self.checkPlusNumber(token_color_list, token_number_list)
-            print('Option 2'+ str(check_plus_num))
-
-            # IF BAD SEQ
-            if check_diff_colors == False and check_plus_num == False:
-                print('Nie mozna wykonac takiego ruchu !')
-                for cell in seq:
-                    cell.errorHighLightOn()
-                QMessageBox.warning(self,'Niedozwolony ruch','Nie mozesz wykonac takiego ruchu')
-                for cell in seq:
-                    cell.errorHighLightOff()
+            #check if player first turn
+            if (self.checkSum(token_number_list) == False):
                 ok = False
+            # Option1 : more than 3 in different colors
+            else:
+                check_diff_colors = self.check3diffColor(token_color_list, token_number_list)
+                print('Option 1'+ str(check_diff_colors))
+
+                # Option2: 1 color number, each one +1
+                check_plus_num = self.checkPlusNumber(token_color_list, token_number_list)
+                print('Option 2'+ str(check_plus_num))
+
+                # IF BAD SEQ
+                if check_diff_colors == False and check_plus_num == False:
+                    print('Nie mozna wykonac takiego ruchu !')
+                    for cell in seq:
+                        cell.errorHighLightOn()
+                    QMessageBox.warning(self,'Niedozwolony ruch','Nie mozesz wykonac takiego ruchu')
+                    for cell in seq:
+                        cell.errorHighLightOff()
+                    ok = False
                 
         return ok
         
@@ -565,7 +576,37 @@ class GameBoard(TileGridBaseClass):
         else:
             return False
                 
-    
+    def checkSum(self, token_number_list):
+        sum = 0
+        global players_first_turn
+        
+
+        last_turn = player_turn-1
+        if last_turn == -1:
+            last_turn = 3
+        print('player turn:')
+        print(last_turn)
+        print("Czy pierwsza tura ?")
+        print(players_first_turn[last_turn])
+        if players_first_turn[last_turn] == True:
+            for item in token_number_list:
+                sum += item
+            print(sum)
+
+            if(sum<30):
+                QMessageBox.warning(self,'Niedozwolony ruch','W pierwszej turze suma plytek musi byc wieksza od 30 !')
+                print("Czy pierwsza tura2 ?")
+                print(players_first_turn[last_turn])
+                return False
+            else:
+                players_first_turn[last_turn] = False
+                print("Czy pierwsza tura2 ?")
+                print(players_first_turn[last_turn])
+                return True
+        else:
+            return True
+        
+
     def AddTileFromBag(self, tile):
         print("AddTileFromBag")
         # take a tile from the bag and put it in the
@@ -720,19 +761,19 @@ class MainWin(QMainWindow):
         # Add everything to the grid layout
         # ++++++++++++++++++++++++++++++++++++++++++++++++
         self.gameLayout = QGridLayout()
-        self.gameLayout.addWidget(player1.player_grid, 0, 0)
-        self.gameLayout.addWidget(player1.player_controls, 0, 1)
+        self.gameLayout.addWidget(players[0].player_grid, 0, 0)
+        self.gameLayout.addWidget(players[0].player_controls, 0, 1)
 
-        self.gameLayout.addWidget(player3.player_grid, 0, 2)
-        self.gameLayout.addWidget(player3.player_controls, 0, 3)
+        self.gameLayout.addWidget(players[2].player_grid, 0, 2)
+        self.gameLayout.addWidget(players[2].player_controls, 0, 3)
 
         self.gameLayout.addWidget(gameBoard, 1, 0, 3, 3)
 
-        self.gameLayout.addWidget(player2.player_grid, 4, 0)
-        self.gameLayout.addWidget(player2.player_controls, 4, 1)
+        self.gameLayout.addWidget(players[1].player_grid, 4, 0)
+        self.gameLayout.addWidget(players[1].player_controls, 4, 1)
 
-        self.gameLayout.addWidget(player4.player_grid, 4, 2)
-        self.gameLayout.addWidget(player4.player_controls, 4, 3)
+        self.gameLayout.addWidget(players[3].player_grid, 4, 2)
+        self.gameLayout.addWidget(players[3].player_controls, 4, 3)
         
         self.gameLayout.addWidget(self.controlPanel, 1, 3, 3 ,1)
 
@@ -810,70 +851,70 @@ def freezePlayers():
     else:
         if player_turn == 0:
             #budzimy playera 1
-            player1.player_controls.playerGrid.thaw()
-            player1.player_controls.FrozenStateLabel.updateText("Twoja tura")
-            player1.player_controls.setEnabled(True)
+            players[0].player_controls.playerGrid.thaw()
+            players[0].player_controls.FrozenStateLabel.updateText("Twoja tura")
+            players[0].player_controls.setEnabled(True)
 
-            player2.player_controls.playerGrid.freeze()
-            player2.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-            player2.player_controls.setEnabled(False)
+            players[1].player_controls.playerGrid.freeze()
+            players[1].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            players[1].player_controls.setEnabled(False)
 
-            player3.player_controls.playerGrid.freeze()
-            player3.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-            player3.player_controls.setEnabled(False)
+            players[2].player_controls.playerGrid.freeze()
+            players[2].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            players[2].player_controls.setEnabled(False)
 
-            player4.player_controls.playerGrid.freeze()
-            player4.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-            player4.player_controls.setEnabled(False)
+            players[3].player_controls.playerGrid.freeze()
+            players[3].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            players[3].player_controls.setEnabled(False)
 
         elif(player_turn == 1):
-            player2.player_controls.playerGrid.thaw()
-            player2.player_controls.FrozenStateLabel.updateText("Twoja tura")
-            player2.player_controls.setEnabled(True)
+            players[1].player_controls.playerGrid.thaw()
+            players[1].player_controls.FrozenStateLabel.updateText("Twoja tura")
+            players[1].player_controls.setEnabled(True)
 
-            player1.player_controls.playerGrid.freeze()
-            player1.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-            player1.player_controls.setEnabled(False)
+            players[0].player_controls.playerGrid.freeze()
+            players[0].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            players[0].player_controls.setEnabled(False)
 
-            player3.player_controls.playerGrid.freeze()
-            player3.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-            player3.player_controls.setEnabled(False)
+            players[2].player_controls.playerGrid.freeze()
+            players[2].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            players[2].player_controls.setEnabled(False)
 
-            player4.player_controls.playerGrid.freeze()
-            player4.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-            player4.player_controls.setEnabled(False)
+            players[3].player_controls.playerGrid.freeze()
+            players[3].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            players[3].player_controls.setEnabled(False)
         elif(player_turn == 2):
-            player3.player_controls.playerGrid.thaw()
-            player3.player_controls.FrozenStateLabel.updateText("Twoja tura")
-            player3.player_controls.setEnabled(True)
+            players[2].player_controls.playerGrid.thaw()
+            players[2].player_controls.FrozenStateLabel.updateText("Twoja tura")
+            players[2].player_controls.setEnabled(True)
             
-            player1.player_controls.playerGrid.freeze()
-            player1.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-            player1.player_controls.setEnabled(False)
+            players[0].player_controls.playerGrid.freeze()
+            players[0].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            players[0].player_controls.setEnabled(False)
 
-            player2.player_controls.playerGrid.freeze()
-            player2.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-            player2.player_controls.setEnabled(False)
+            players[1].player_controls.playerGrid.freeze()
+            players[1].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            players[1].player_controls.setEnabled(False)
 
-            player4.player_controls.playerGrid.freeze()
-            player4.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-            player4.player_controls.setEnabled(False)
+            players[3].player_controls.playerGrid.freeze()
+            players[3].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            players[3].player_controls.setEnabled(False)
         elif(player_turn == 3):
-            player4.player_controls.playerGrid.thaw()
-            player4.player_controls.FrozenStateLabel.updateText("Twoja tura")
-            player4.player_controls.setEnabled(True)
+            players[3].player_controls.playerGrid.thaw()
+            players[3].player_controls.FrozenStateLabel.updateText("Twoja tura")
+            players[3].player_controls.setEnabled(True)
 
-            player1.player_controls.playerGrid.freeze()
-            player1.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-            player1.player_controls.setEnabled(False)
+            players[0].player_controls.playerGrid.freeze()
+            players[0].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            players[0].player_controls.setEnabled(False)
 
-            player3.player_controls.playerGrid.freeze()
-            player3.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-            player3.player_controls.setEnabled(False)
+            players[2].player_controls.playerGrid.freeze()
+            players[2].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            players[2].player_controls.setEnabled(False)
 
-            player2.player_controls.playerGrid.freeze()
-            player2.player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-            player2.player_controls.setEnabled(False)
+            players[1].player_controls.playerGrid.freeze()
+            players[1].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            players[1].player_controls.setEnabled(False)
 
         player_turn = (player_turn+1)%4
     
@@ -883,11 +924,15 @@ def freezePlayers():
         
 
 class Player():
-    def __init__(self, player_id, player_name):
+    def __init__(self, player_id, player_name,player_first_turn):
         self.player_id = player_id
         self.player_name = player_name
         self.player_grid = PlayerGrid(playerBgColor, playerFgColor, "PlayerGrid", 2, numberOfColumns)
         self.player_controls = PlayerControls(playerBgColor, playerFgColor, self.player_grid, self.player_name)
+        self.player_first_turn = player_first_turn
+    
+    def change_first_turn(self,first_turn):
+        self.player_first_turn = first_turn
         
 
 if __name__ == "__main__":
@@ -899,23 +944,24 @@ if __name__ == "__main__":
     boardBgColor = QColor('#F2F2F2')
     boardFgColor = QColor('#A5A5A5')
 
-    player1 = Player(0,'Gracz 1')
-    player1.player_controls.FreezeButton.clicked.connect(freezePlayers)
+    players = []
+    players.append(Player(0,'Gracz 1',True))
+    players[0].player_controls.FreezeButton.clicked.connect(freezePlayers)
     
-    player2 = Player(1,'Gracz 2')
-    player2.player_controls.FreezeButton.clicked.connect(freezePlayers)
+    players.append(Player(1,'Gracz 2', True)) 
+    players[1].player_controls.FreezeButton.clicked.connect(freezePlayers)
 
-    player3 = Player(2,'Gracz 3')
-    player3.player_controls.FreezeButton.clicked.connect(freezePlayers)
+    players.append(Player(2,'Gracz 3', True))
+    players[2].player_controls.FreezeButton.clicked.connect(freezePlayers)
 
-    player4 = Player(3,'Gracz 4')
-    player4.player_controls.FreezeButton.clicked.connect(freezePlayers)
+    players.append(Player(3,'Gracz 4', True))
+    players[3].player_controls.FreezeButton.clicked.connect(freezePlayers)
 
 
     gameBoard = GameBoard(boardBgColor, boardFgColor, "GameBoard", 8, numberOfColumns*2)
     print("gameBoard is of type ", str(type(gameBoard)))
 
-    gridArchiveManager = GridArchiveManager(player1.player_grid, player2.player_grid, player3.player_grid, player4.player_grid, gameBoard)
+    gridArchiveManager = GridArchiveManager(players[0].player_grid, players[1].player_grid, players[2].player_grid, players[3].player_grid, gameBoard)
 
     tileCollection = TileCollection()
     tileBag = TileBag()
@@ -925,7 +971,7 @@ if __name__ == "__main__":
     freezePlayers()
     # #wyswietlanie plytek gracza
     # print("Gracz 3")
-    # for cell in player3.player_grid.cellList:
+    # for cell in players[2].player_grid.cellList:
     #     status = cell.getCellStatus()
     #     print(status)
     #     # print(status[0])
