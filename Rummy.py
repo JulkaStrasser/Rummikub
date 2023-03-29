@@ -17,10 +17,7 @@ from AnalogTimer import AnalogTimer
 """
 Todo List.
 - dodanie ze nie mozna wylozyc na poczatku gdy suma nie przekroczy 30 (to nie dziala do konaca bo nie zapisuje co dodal gracz i jak sie pojawi na planszy cos o, to wszyscy gracze sie ciesza xD)
-- dodanie blokady dobierania, gdy dobierze sie raz ?
 - kontynuacja gry az do ostatniego gracza ?
-- dodanie zegara analogowego
-- odmierzanie czasu tym zegarem
 - koniec tury gracza, gdy nie zmiesci sie w czasie
 - zeby nie dalo sie polozyc 1 plytki na planszy xD (blokada dziala tylko dla 2)
 - czy jockery istnieja?
@@ -409,14 +406,16 @@ class PlayerControls(QFrame):
 
     def takeTile(self, tile):
         global tileBag
-        if tileBag.getNoOfTilesInBag() > 0:
-            nextTile = tileBag.getTileFromBag()
-            print(self.playerName, " takes a tile. It's ", str(nextTile.getColor()), str(nextTile.getValue()))
-            for cell in self.playerGrid.cellList:
-                status = cell.getCellStatus()
-                if status == "Empty":
-                    cell.addTile(nextTile)
-                    break
+        if players[player_turn-1].drawedTile == False:
+            if tileBag.getNoOfTilesInBag() > 0:
+                nextTile = tileBag.getTileFromBag()
+                print(self.playerName, " takes a tile. It's ", str(nextTile.getColor()), str(nextTile.getValue()))
+                for cell in self.playerGrid.cellList:
+                    status = cell.getCellStatus()
+                    if status == "Empty":
+                        cell.addTile(nextTile)
+                        players[player_turn-1].drawedTile = True
+                        break
 
     def getPlayerName(self):
         return self.playerName
@@ -862,6 +861,7 @@ def freezePlayers():
         pass
     
     else:
+        players[player_turn-1].drawedTile = False
         if player_turn == 0:
             #budzimy playera 1
             players[0].player_controls.playerGrid.thaw()
@@ -943,6 +943,7 @@ class Player():
         self.player_grid = PlayerGrid(playerBgColor, playerFgColor, "PlayerGrid", 2, numberOfColumns)
         self.player_controls = PlayerControls(playerBgColor, playerFgColor, self.player_grid, self.player_name)
         self.player_first_turn = player_first_turn
+        self.drawedTile = False
     
     def change_first_turn(self,first_turn):
         self.player_first_turn = first_turn
