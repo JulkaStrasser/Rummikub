@@ -12,6 +12,8 @@ from Tile import RummyTile
 from Cell import BoardCell
 from GridArchive import GridArchiveManager
 import time
+from AnalogTimer import AnalogTimer
+
 """
 Todo List.
 - dodanie ze nie mozna wylozyc na poczatku gdy suma nie przekroczy 30 (to nie dziala do konaca bo nie zapisuje co dodal gracz i jak sie pojawi na planszy cos o, to wszyscy gracze sie ciesza xD)
@@ -189,14 +191,12 @@ class ControlPanel(QFrame):
         self.RestoreGameStateButton = MyButton("Odswiez")
         self.RestoreGameStateButton.clicked.connect(self.restoreBoardState)
 
-       
-
+        
         self.buttonBar.addWidget(self.newGameButton)
         self.buttonBar.addWidget(self.ExitButton)
         self.buttonBar.addWidget(self.SaveGameStateButton)
         self.buttonBar.addWidget(self.RestoreGameStateButton)
         
-
         self.layout.addLayout(self.buttonBar)
         self.infoBar = QVBoxLayout()
         self.layout.setAlignment((QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop))
@@ -785,14 +785,18 @@ class MainWin(QMainWindow):
         self.gameLayout.addWidget(players[3].player_grid, 4, 2)
         self.gameLayout.addWidget(players[3].player_controls, 4, 3)
         
-        self.gameLayout.addWidget(self.controlPanel, 1, 3, 3 ,1)
+        self.gameLayout.addWidget(self.controlPanel, 1, 3, 2 ,1)
+
+        self.AnalogTimer = AnalogTimer()
+        self.AnalogTimer.setGeometry(QtCore.QRect(110, 290, 200, 200))
+        self.gameLayout.addWidget(self.AnalogTimer, 3, 3, 1 ,1)
 
         self.mainWidget = QWidget()
         self.mainWidget.setLayout(self.gameLayout)
 
         self.setCentralWidget(self.mainWidget)
 
-        # self.setGeometry(200, 200, 850, 500)
+        
 
 
 class FontSelector(QWidget):
