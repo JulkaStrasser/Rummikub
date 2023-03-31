@@ -17,9 +17,7 @@ from AnalogTimer import AnalogTimer
 """
 Todo List.
 - dodanie ze nie mozna wylozyc na poczatku gdy suma nie przekroczy 30 (to nie dziala do konaca bo nie zapisuje co dodal gracz i jak sie pojawi na planszy cos o, to wszyscy gracze sie ciesza xD)
-- kontynuacja gry az do ostatniego gracza ?
 - koniec tury gracza, gdy nie zmiesci sie w czasie
-- zeby nie dalo sie polozyc 1 plytki na planszy xD (blokada dziala tylko dla 2)
 - czy jockery istnieja?
 - usuniecie zmiennych globalnych 
  
@@ -478,6 +476,9 @@ class GameBoard(TileGridBaseClass):
                 print(seq)
                 seq = []
                 # seq.clear()
+            elif left_neighbour_status == 'Empty' and right_neighbour_status == 'Empty' and cell.getCellStatus() != 'Empty':
+                QMessageBox.warning(self,'Niedozwolony ruch','Sekwencja musi miec co najmniej 3 plytki !')
+                return False
         
         if len(self.all_sequences) == 0:
             return True
@@ -660,7 +661,7 @@ class PlayerGrid(TileGridBaseClass):
                     isWinner = False
                     break
         if isWinner == True:
-            QMessageBox.information(self,'Koniec gry','Zwyciezyl gracz '+ str(player_turn-1))
+            QMessageBox.information(self,'Koniec gry','Zwyciezyl gracz '+ str(player_turn))
         return isWinner
     
     
@@ -855,7 +856,7 @@ def freezePlayers():
     
     if players[player_turn-1].player_grid.checkWinner() == True:
         print('Gracz'+str(player_turn)+' jest zwyciezca')
-        pass
+        sys.exit()
 
     if gameBoard.detectSequences() != True:
         pass
