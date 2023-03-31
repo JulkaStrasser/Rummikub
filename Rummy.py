@@ -196,16 +196,6 @@ class ControlPanel(QFrame):
         self.infoBar = QVBoxLayout()
         self.layout.setAlignment((QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop))
 
-        # ++++++++++++++++++++++++++++++++++++++++++++++++
-        # Create info box
-        # ++++++++++++++++++++++++++++++++++++++++++++++++
-        # self.tilesLeftInfoBox = QPlainTextEdit()
-        # tileLeftFont = QFont("Consolas", 10)
-        # self.tilesLeftInfoBox.setFont(tileLeftFont)
-        # self.tilesLeftInfoBox.setPlainText("All tiles in bag")
-        # self.infoBar.addWidget(self.tilesLeftInfoBox)
-        # self.layout.addLayout(self.infoBar)
-
         self.NoOfTilesInBagIndicator = RemainingTilesIndicator2("hjhh")
         self.layout.addWidget(self.NoOfTilesInBagIndicator)
         self.NoOfTilesInBagIndicator.updateText("0")

@@ -30,29 +30,24 @@ class DragLabel(QLabel):
         painter = QtGui.QPainter()
         painter.begin(image)
         if color == "red":
-            painter.setBrush(QColor('#FFA48F'))
+            painter.setBrush(QColor('#FFF7E6'))
             painter.setPen(QColor('#EA2D00'))
         elif color == "blue":
-            painter.setBrush(QColor('#BFD8EF'))
+            painter.setBrush(QColor('#FFF7E6'))
             painter.setPen(QColor('#2E75B6'))
         elif color == "yellow":
-            painter.setBrush(QColor('#FFEFAB'))
+            painter.setBrush(QColor('#FFF7E6'))
             painter.setPen(QColor('#FFCC00'))
         else:
-            painter.setBrush(QColor('#BFDDAB'))
-            painter.setPen(QColor('#548235'))
-            # painter.setBrush(QtCore.Qt.black)
-            # painter.setPen(QtCore.Qt.black)
+            painter.setBrush(QColor('#FFF7E6'))
+            painter.setPen(QColor('#262626'))
+            
 
         painter.setRenderHint(QtGui.QPainter.Antialiasing)
-        # painter.setBrush(QtCore.Qt.white)
-        # painter.setBrush(QColor('#FFFFCC'))
         painter.drawRoundedRect(QtCore.QRectF(0.5, 0.5, image.width() - 1,
                                               image.height() - 4), 30, 30, QtCore.Qt.RelativeSize)
 
         painter.setFont(tileFont)
-
-        # painter.setPen(QtCore.Qt.blue)
 
         painter.drawText(QRect(QPoint(4, 3), size), QtCore.Qt.AlignCenter, text)
         painter.end()
