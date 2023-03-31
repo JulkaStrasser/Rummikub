@@ -1,6 +1,6 @@
 import sys, random
-print(sys.version)
 from PyQt5 import QtGui, QtCore
+from PyQt5.QtWidgets import QApplication, QGraphicsView, QGraphicsScene, QGraphicsEllipseItem, QGraphicsRectItem
 
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QTreeView, QFileSystemModel, QLineEdit, \
     QLabel, QFrame, QTextEdit, QHBoxLayout, QGridLayout, QVBoxLayout, QMainWindow, QFontComboBox, QPlainTextEdit, QColorDialog, QSizePolicy
@@ -27,14 +27,15 @@ Todo List.
 # ++++++++++++++++++++++++++++++++++++++++++++++
 #          GLOBALS
 # ++++++++++++++++++++++++++++++++++++++++++++++
-tileColors = ["red", "black", "blue", "yellow"]
-tileOwner = ["none", "player", "board", "bag"]
-tileValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
-numberOfColumns = 15
-numberOfTilesToDeal = 15
-player_turn = 0
-change = False
-players_first_turn = [True,True,True,True]
+class Main():
+    tileColors = ["red", "black", "blue", "yellow"]
+    tileOwner = ["none", "player", "board", "bag"]
+    tileValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+    numberOfColumns = 15
+    numberOfTilesToDeal = 15
+    player_turn = 0
+    change = False
+    players_first_turn = [True,True,True,True]
 
 def getCellCol(cell):
     print("getCellCol")
@@ -118,7 +119,6 @@ class RemainingTilesIndicator(QWidget):
         self.myLegend.setFrameShape(QFrame.Panel)
         self.myLegend.setFrameShadow(QFrame.Sunken)
         self.myLegend.setLineWidth(3)
-        # self.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
 
         self.myLegend.setText(legend)
         self.myLayout.addWidget(self.myLegend)
@@ -371,19 +371,17 @@ class PlayerControls(QFrame):
         self.setAutoFillBackground(True)
 
     def freeze(self):
-        global change
-        global player_turn
         print(self.playerName[6])
-        if player_turn == int(self.playerName[6])-1:
+        if main.player_turn == int(self.playerName[6])-1:
             if self.playerGrid.isFrozen():
                 self.playerGrid.thaw()
                 self.FrozenStateLabel.updateText("Twoja tura")
             else:
                 self.playerGrid.freeze()
                 self.FrozenStateLabel.updateText("Nie twoja tura")
-                change = True
-                player_turn = (player_turn+1) % 4
-                print(change)
+                main.change = True
+                main.player_turn = (main.player_turn+1) % 4
+                print(main.change)
 
 
     def setBackgroundColor(self, color):
@@ -393,8 +391,7 @@ class PlayerControls(QFrame):
             cell.setBackgroundColor(color)
 
     def takeTile(self, tile):
-        global tileBag
-        if players[player_turn-1].drawedTile == False:
+        if players[main.player_turn-1].drawedTile == False:
             if tileBag.getNoOfTilesInBag() > 0:
                 nextTile = tileBag.getTileFromBag()
                 print(self.playerName, " takes a tile. It's ", str(nextTile.getColor()), str(nextTile.getValue()))
@@ -402,7 +399,7 @@ class PlayerControls(QFrame):
                     status = cell.getCellStatus()
                     if status == "Empty":
                         cell.addTile(nextTile)
-                        players[player_turn-1].drawedTile = True
+                        players[main.player_turn-1].drawedTile = True
                         break
 
     def getPlayerName(self):
@@ -567,17 +564,14 @@ class GameBoard(TileGridBaseClass):
                 
     def checkSum(self, token_number_list):
         sum = 0
-        global players_first_turn
-        
-
-        last_turn = player_turn-1
+        last_turn = main.player_turn-1
         if last_turn == -1:
             last_turn = 3
         print('player turn:')
         print(last_turn)
         print("Czy pierwsza tura ?")
-        print(players_first_turn[last_turn])
-        if players_first_turn[last_turn] == True:
+        print(main.players_first_turn[last_turn])
+        if main.players_first_turn[last_turn] == True:
             for item in token_number_list:
                 sum += item
             print(sum)
@@ -585,12 +579,12 @@ class GameBoard(TileGridBaseClass):
             if(sum<30):
                 QMessageBox.warning(self,'Niedozwolony ruch','W pierwszej turze suma plytek musi byc wieksza od 30 !')
                 print("Czy pierwsza tura2 ?")
-                print(players_first_turn[last_turn])
+                print(main.players_first_turn[last_turn])
                 return False
             else:
-                players_first_turn[last_turn] = False
+                main.players_first_turn[last_turn] = False
                 print("Czy pierwsza tura2 ?")
-                print(players_first_turn[last_turn])
+                print(main.players_first_turn[last_turn])
                 return True
         else:
             return True
@@ -598,15 +592,10 @@ class GameBoard(TileGridBaseClass):
 
     def AddTileFromBag(self, tile):
         print("AddTileFromBag")
-        # take a tile from the bag and put it in the
-        # next empty cell
-        # go through the cell list calling getStatus(). The first
-        # cell that returns empty is the one to add the tile to
+
         for cell in self.cellList:
             status = cell.getCellStatus()
             if status == "Empty":
-                # cellIndex = cell.getCellListIndex()
-                # tile.setCellListIndex(cellIndex)
                 cell.addTile(tile)
                 break
 
@@ -624,23 +613,23 @@ class PlayerGrid(TileGridBaseClass):
         super(PlayerGrid, self).__init__(rows, cols, bgColor, fgColor, gridName)
         self.pal = self.palette()
         self.pal.setColor(self.backgroundRole(), bgColor)
-        self.pal.setColor(self.foregroundRole(), fgColor)  # 6600cc
+        self.pal.setColor(self.foregroundRole(), fgColor)  
         self.setPalette(self.pal)
         self.setAutoFillBackground(True)
 
     def newDeal(self):
-        global tileBag, numberOfTilesToDeal
-        for n in range(numberOfTilesToDeal):
+        
+        for n in range(main.numberOfTilesToDeal):
             if tileBag.getNoOfTilesInBag() > 0:
                 nextTile = tileBag.getTileFromBag()
-                print( " takes a tile. It's ", str(nextTile.getColor()), str(nextTile.getValue()))
+                print( " dobieranie plytki. Jest to : ", str(nextTile.getColor()), str(nextTile.getValue()))
                 for cell in self.cellList:
                     status = cell.getCellStatus()
                     if status == "Empty":
                         cell.addTile(nextTile)
                         break
             else:
-                print("Whoops - tile bag is empty")
+                print("Worek z plytkami jest pusty!")
                 break
 
     def checkWinner(self):
@@ -651,7 +640,7 @@ class PlayerGrid(TileGridBaseClass):
                     isWinner = False
                     break
         if isWinner == True:
-            QMessageBox.information(self,'Koniec gry','Zwyciezyl gracz '+ str(player_turn))
+            QMessageBox.information(self,'Koniec gry','Zwyciezyl gracz '+ str(main.player_turn))
         return isWinner
     
     
@@ -707,8 +696,8 @@ class TileCollection():
         self.tiles = []
         index = 0
         for n in [1,2]:
-            for tileColor in tileColors:
-                for tileVal in tileValues:
+            for tileColor in main.tileColors:
+                for tileVal in main.tileValues:
                     self.tiles.append(RummyTile(tileColor, tileVal, index))
                     index += 1
 
@@ -749,11 +738,21 @@ class TileDestinations():
     def __init__(self):
         self.validDestinations = []
 
+class MyView(QGraphicsView):
+    def __init__(self, parent=None):
+        QGraphicsView.__init__(self, parent=parent)
+
+        self.scene = QGraphicsScene(self)
+        self.item = QGraphicsRectItem(200,300,1000,800)
+        self.scene.addItem(self.item)
+        self.setScene(self.scene)
 
 class MainWin(QMainWindow):
     def __init__(self):
         super(MainWin, self).__init__()
 
+        self.view=MyView()
+        self.setCentralWidget(self.view)
 
         self.controlPanel = ControlPanel()
 
@@ -821,7 +820,7 @@ class FontSelector(QWidget):
         self.setLayout(self.horizontalLayout)
 
 def play():
-    global player_turn
+    
     gameTurn = 1
     game = True
 
@@ -831,29 +830,29 @@ def play():
     #Sprawdzanie czy mozesz wziac zeton albo czy mozesz spasowac, na razie zawsze mozna zpasowac
     # pas_option = False 
     takeToken = True
-    global change
-    print(change)
-    print(player_turn)
-    freezePlayers(player_turn)
     
-    if change == True:
-            freezePlayers(player_turn)
+    print(main.change)
+    print(main.player_turn)
+    freezePlayers(main.player_turn)
+    
+    if main.change == True:
+            freezePlayers(main.player_turn)
     
 
 def freezePlayers():
-    global change, player_turn
-    change = False
     
-    if players[player_turn-1].player_grid.checkWinner() == True:
-        print('Gracz'+str(player_turn)+' jest zwyciezca')
+    main.change = False
+    
+    if players[main.player_turn-1].player_grid.checkWinner() == True:
+        print('Gracz'+str(main.player_turn)+' jest zwyciezca')
         sys.exit()
 
     if gameBoard.detectSequences() != True:
         pass
     
     else:
-        players[player_turn-1].drawedTile = False
-        if player_turn == 0:
+        players[main.player_turn-1].drawedTile = False
+        if main.player_turn == 0:
             #budzimy playera 1
             players[0].player_controls.playerGrid.thaw()
             players[0].player_controls.FrozenStateLabel.updateText("Twoja tura")
@@ -871,7 +870,7 @@ def freezePlayers():
             players[3].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
             players[3].player_controls.setEnabled(False)
 
-        elif(player_turn == 1):
+        elif(main.player_turn == 1):
             players[1].player_controls.playerGrid.thaw()
             players[1].player_controls.FrozenStateLabel.updateText("Twoja tura")
             players[1].player_controls.setEnabled(True)
@@ -887,7 +886,7 @@ def freezePlayers():
             players[3].player_controls.playerGrid.freeze()
             players[3].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
             players[3].player_controls.setEnabled(False)
-        elif(player_turn == 2):
+        elif(main.player_turn == 2):
             players[2].player_controls.playerGrid.thaw()
             players[2].player_controls.FrozenStateLabel.updateText("Twoja tura")
             players[2].player_controls.setEnabled(True)
@@ -903,7 +902,7 @@ def freezePlayers():
             players[3].player_controls.playerGrid.freeze()
             players[3].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
             players[3].player_controls.setEnabled(False)
-        elif(player_turn == 3):
+        elif(main.player_turn == 3):
             players[3].player_controls.playerGrid.thaw()
             players[3].player_controls.FrozenStateLabel.updateText("Twoja tura")
             players[3].player_controls.setEnabled(True)
@@ -920,7 +919,7 @@ def freezePlayers():
             players[1].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
             players[1].player_controls.setEnabled(False)
 
-        player_turn = (player_turn+1)%4
+        main.player_turn = (main.player_turn+1)%4
     
     # gameBoard.listItems()
 
@@ -931,7 +930,7 @@ class Player():
     def __init__(self, player_id, player_name,player_first_turn):
         self.player_id = player_id
         self.player_name = player_name
-        self.player_grid = PlayerGrid(playerBgColor, playerFgColor, "PlayerGrid", 2, numberOfColumns)
+        self.player_grid = PlayerGrid(playerBgColor, playerFgColor, "PlayerGrid", 2, main.numberOfColumns)
         self.player_controls = PlayerControls(playerBgColor, playerFgColor, self.player_grid, self.player_name)
         self.player_first_turn = player_first_turn
         self.drawedTile = False
@@ -941,6 +940,7 @@ class Player():
         
 
 if __name__ == "__main__":
+    main = Main()
     app = QApplication(sys.argv)
 
     playerBgColor = QColor('#A5A5A5')
@@ -963,7 +963,7 @@ if __name__ == "__main__":
     players[3].player_controls.FreezeButton.clicked.connect(freezePlayers)
 
 
-    gameBoard = GameBoard(boardBgColor, boardFgColor, "GameBoard", 8, numberOfColumns*2)
+    gameBoard = GameBoard(boardBgColor, boardFgColor, "GameBoard", 8, main.numberOfColumns*2)
     print("gameBoard is of type ", str(type(gameBoard)))
 
     gridArchiveManager = GridArchiveManager(players[0].player_grid, players[1].player_grid, players[2].player_grid, players[3].player_grid, gameBoard)
