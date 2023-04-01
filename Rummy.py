@@ -19,7 +19,8 @@ Todo List.
 - dodanie ze nie mozna wylozyc na poczatku gdy suma nie przekroczy 30 (to nie dziala do konaca bo nie zapisuje co dodal gracz i jak sie pojawi na planszy cos o, to wszyscy gracze sie ciesza xD)
 - koniec tury gracza, gdy nie zmiesci sie w czasie
 - czy jockery istnieja?
-- usuniecie zmiennych globalnych 
+- logger ?
+- .rc obrazki ?
  
 """
 
