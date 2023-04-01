@@ -23,7 +23,29 @@ from PyQt5 import QtGui, QtCore,QtWidgets
 # except ZeroDivisionError as e:
 #     logging.exception("ZeroDivisionError")
 
+import logging
 
+# Create a custom logger
+logger = logging.getLogger(__name__)
+
+# Create handlers
+c_handler = logging.StreamHandler()
+f_handler = logging.FileHandler('file.log')
+c_handler.setLevel(logging.INFO)
+f_handler.setLevel(logging.DEBUG)
+
+# Create formatters and add it to handlers
+c_format = logging.Formatter('%(name)s - %(levelname)s - %(message)s')
+f_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+c_handler.setFormatter(c_format)
+f_handler.setFormatter(f_format)
+
+# Add handlers to the logger
+logger.addHandler(c_handler)
+logger.addHandler(f_handler)
+
+# logger.warning('This is a warning')
+# logger.error('This is an error')
 
 
 
@@ -64,16 +86,24 @@ class MyDialog(QtWidgets.QDialog, QtWidgets.QPlainTextEdit):
 
     def test(self):
         logging.debug('damn, a bug')
+        logger.debug('damn, a bug')
         logging.info('something to remember')
+        logger.info('something to remember')
         logging.warning('that\'s not right')
+        logger.warning('that\'s not right')
         logging.error('foobar')
+        logger.error('foobar')
 
 
 def window_logger():
     app = QtWidgets.QApplication(sys.argv)
     dlg = MyDialog()
-    logging.warn('Uwazaj')
+    logging.warning('Uwazaj')
+    logger.warning('Uwazaj')
     logging.info('OKI')
+    logger.info('OKI')
+    logging.critical('Tragedia')
+    logger.critical('Tragedia')
     dlg.show()
     dlg.raise_()
     sys.exit(app.exec_())

@@ -1,0 +1,15 @@
+2023-04-01 21:31:00,935 - __main__ - ERROR - This is an error
+2023-04-01 21:32:50,871 - __main__ - ERROR - This is an error
+2023-04-01 21:33:19,352 - __main__ - ERROR - This is an error
+2023-04-01 21:35:43,030 - __main__ - ERROR - This is an error
+2023-04-01 21:36:49,623 - __main__ - ERROR - This is an error
+2023-04-01 21:37:28,728 - __main__ - WARNING - This is a warning
+2023-04-01 21:37:28,736 - __main__ - ERROR - This is an error
+2023-04-01 21:56:32,250 - __main__ - WARNING - Uwazaj
+2023-04-01 21:58:25,776 - __main__ - DEBUG - damn, a bug
+2023-04-01 21:58:25,776 - __main__ - INFO - something to remember
+2023-04-01 21:58:25,776 - __main__ - WARNING - that's not right
+2023-04-01 21:58:25,784 - __main__ - ERROR - foobar
+2023-04-01 21:58:25,792 - __main__ - WARNING - Uwazaj
+2023-04-01 21:58:25,792 - __main__ - INFO - OKI
+2023-04-01 21:58:25,792 - __main__ - CRITICAL - Tragedia
