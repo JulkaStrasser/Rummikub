@@ -17,20 +17,6 @@ import logging
 from PyQt5 import QtGui, QtCore,QtWidgets
 
 
-
-class Main():
-    tileColors = ["red", "black", "blue", "yellow"]
-    tileOwner = ["none", "player", "board", "bag"]
-    tileValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
-    numberOfColumns = 15
-    numberOfTilesToDeal = 15
-    player_turn = 0
-    change = False
-    players_first_turn = [True,True,True,True]
-
-def getCellCol(cell):
-    return cell.getCol()
-
 def newGame():
     gameBoard.removeAllTiles()
     players[0].player_grid.removeAllTiles()
@@ -43,36 +29,6 @@ def newGame():
     players[1].player_grid.newDeal()
     players[2].player_grid.newDeal()
     players[3].player_grid.newDeal()
-
-
-class ImageLabel2(QLabel):
-    def __init__(self):
-        super(ImageLabel2, self).__init__()
-        self.setAlignment(Qt.AlignLeft)
-        self.setAlignment(Qt.AlignTop)
-        self.setFrameStyle(QFrame.Panel)
-        self.setFixedWidth(120)
-        self.setFixedHeight(37)
-       
-
-    def showImageByPath(self, path):
-
-        if path:
-            image = QImage(path)
-            pp = QPixmap.fromImage(image)
-            pixmapHeight = pp.height()
-            labelHeight = self.height()
-            if pixmapHeight < labelHeight:
-                scalingFactor = float(pixmapHeight) / labelHeight
-            else:
-                scalingFactor = 1.0
-            
-            self.setPixmap(pp.scaled(
-                self.size()*scalingFactor,
-                Qt.KeepAspectRatio,
-                Qt.SmoothTransformation))
-
-            self.show()
 
 
 class MyButton(QPushButton):
@@ -101,34 +57,10 @@ class MyLabel(QLabel):
         self.setText(newText)
 
 
-class RemainingTilesIndicator(QWidget):
+
+class RemainTiles(QLabel):
     def __init__(self, legend):
-        super(RemainingTilesIndicator, self).__init__()
-
-        self.myLayout = QHBoxLayout()
-        self.myLayout.setAlignment(QtCore.Qt.AlignCenter)
-        self.myLegend = QLabel()
-        self.myLegend.setFrameShape(QFrame.Panel)
-        self.myLegend.setFrameShadow(QFrame.Sunken)
-        self.myLegend.setLineWidth(3)
-
-        self.myLegend.setText(legend)
-        self.myLayout.addWidget(self.myLegend)
-        self.setLayout(self.myLayout)
-        self.setFont(QFont('SansSerif', 18))
-        self.pal = self.palette()
-        self.pal.setColor(self.backgroundRole(), QColor('#F2F2F2'))
-        self.pal.setColor(self.foregroundRole(), QColor('#000000'))  # 6600cc
-        self.setPalette(self.pal)
-        self.setAutoFillBackground(True)
-
-    def updateText(self, newText):
-        self.myLegend.setText(newText)
-
-
-class RemainingTilesIndicator2(QLabel):
-    def __init__(self, legend):
-        super(RemainingTilesIndicator2, self).__init__()
+        super(RemainTiles, self).__init__()
 
         self.setFrameShape(QFrame.Panel)
         self.setFrameShadow(QFrame.Sunken)
@@ -140,7 +72,7 @@ class RemainingTilesIndicator2(QLabel):
         self.setFont(QFont('SansSerif', 18))
         self.pal = self.palette()
         self.pal.setColor(self.backgroundRole(), QColor('#F2F2F2'))
-        self.pal.setColor(self.foregroundRole(), QColor('#000000'))  # 6600cc
+        self.pal.setColor(self.foregroundRole(), QColor('#000000'))
         self.setPalette(self.pal)
         self.setAutoFillBackground(True)
 
@@ -175,7 +107,7 @@ class ControlPanel(QFrame):
         self.infoBar = QVBoxLayout()
         self.layout.setAlignment((QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop))
 
-        self.NoOfTilesInBagIndicator = RemainingTilesIndicator2("hjhh")
+        self.NoOfTilesInBagIndicator = RemainTiles("hjhh")
         self.layout.addWidget(self.NoOfTilesInBagIndicator)
         self.NoOfTilesInBagIndicator.updateText("0")
 
@@ -196,7 +128,7 @@ class ControlPanel(QFrame):
 
 
     def Exit(self):
-        logging.info('Exiting')
+        logging.info('Wyjscie z programu')
         sys.exit()
 
     def setNumberOfTiles(self, NoOfTiles):
@@ -285,7 +217,7 @@ class TileGridBaseClass(QFrame):
             cell.setForegroundColor(color)
 
     def removeAllTiles(self):
-        logging.debug("Remove all tiles from the board")
+        logging.debug("Usun wszystkie plytki z planszy")
         for cell in self.cellList:
             cell.removeTile()
 
@@ -299,7 +231,7 @@ class TileGridBaseClass(QFrame):
     def restoreGridState(self, grid):
         self.removeAllTiles()
         if len(self.cellList) != len(grid):
-            logging.error("Problem with restore grid ")
+            logging.error("Problem z zaladowaniem planszy ")
             return
         for n in range(len(grid)):
             index = grid[n]
@@ -361,7 +293,7 @@ class PlayerControls(QFrame):
         if players[main.player_turn-1].drawedTile == False:
             if tileBag.getNoOfTilesInBag() > 0:
                 nextTile = tileBag.getTileFromBag()
-                logging.info(self.playerName + " takes a tile. It's " + str(nextTile.getColor()) + str(nextTile.getValue()))
+                logging.info(self.playerName + " dobiera plytke. To:  " + str(nextTile.getColor()) + str(nextTile.getValue()))
                 for cell in self.playerGrid.cellList:
                     status = cell.getCellStatus()
                     if status == "Empty":
@@ -380,7 +312,7 @@ class GameBoard(TileGridBaseClass):
         self.all_sequences = []
 
     def listItems(self):
-        logging.debug("List grid contents")
+        logging.debug("Lista plytek na planszy:")
         cellsList = self.findChildren(BoardCell)
         for cell in cellsList:
             logging.debug(str(cell.row) + str(cell.col))
@@ -389,7 +321,7 @@ class GameBoard(TileGridBaseClass):
             logging.debug(status[1])
     
     def detectSequences(self):
-        logging.debug("Print neighbours")
+        logging.debug("Sasiedzi plytki")
         cellsList = self.findChildren(BoardCell)
         seq = []
         detected_sequence = False
@@ -439,7 +371,7 @@ class GameBoard(TileGridBaseClass):
     
     def printAllSequences(self):
         for i,seq in enumerate(self.all_sequences):
-            logging.debug('All sets ')
+            logging.debug('Wszystkie zestawy plytek ')
             logging.debug(seq)
             for cell in seq:
                 status = cell.getCellStatus()
@@ -451,7 +383,7 @@ class GameBoard(TileGridBaseClass):
     def checkAllSequences(self):
         ok = True
         for i,seq in enumerate(self.all_sequences):
-            logging.debug('Check sequence')
+            logging.debug('Sprawdzanie sekwencji plytek')
 
             # 1. Create tokens color and number lists
             token_color_list = []
@@ -469,11 +401,11 @@ class GameBoard(TileGridBaseClass):
             # Option1 : more than 3 in different colors
             else:
                 check_diff_colors = self.check3diffColor(token_color_list, token_number_list)
-                logging.info('Option 1'+ str(check_diff_colors))
+                logging.info('Opcja 1'+ str(check_diff_colors))
 
                 # Option2: 1 color number, each one +1
                 check_plus_num = self.checkPlusNumber(token_color_list, token_number_list)
-                logging.info('Option 2'+ str(check_plus_num))
+                logging.info('Opcja 2'+ str(check_plus_num))
 
                 # IF BAD SEQ
                 if check_diff_colors == False and check_plus_num == False:
@@ -491,13 +423,13 @@ class GameBoard(TileGridBaseClass):
     def check3diffColor(self,token_color_list, token_number_list):
         #check if all numbers are the same
         numbers_equal = token_number_list.count(token_number_list[0]) == len(token_number_list)
-        logging.debug('Numbers are equal'+ str(numbers_equal))
+        logging.debug('Numery na plytkach sa takie same'+ str(numbers_equal))
 
         #check if all colors are unique
         colors_unique = False
         if(len(set(token_color_list)) == len(token_color_list)):
             colors_unique = True
-        logging.debug('Colors are unique' + str(colors_unique))
+        logging.debug('Kolory sa rozne' + str(colors_unique))
 
         if numbers_equal == True and colors_unique == True:
             return True
@@ -507,7 +439,7 @@ class GameBoard(TileGridBaseClass):
     def checkPlusNumber(self,token_color_list,token_number_list):
         #Check if colors are the same
         colors_equal = token_color_list.count(token_color_list[0]) == len(token_color_list)
-        logging.debug('Colors are equal'+ str(colors_equal))
+        logging.debug('Kolory sa takie same'+ str(colors_equal))
 
         #check +1 sequence
         numPlus = True
@@ -519,7 +451,7 @@ class GameBoard(TileGridBaseClass):
                 last_item = item
             else:
                 numPlus = False
-        logging.debug('Each number is +1 number before'+str(numPlus))
+        logging.debug('Kazdy numer na plytce o 1 wiekszy od poprzedniego: '+str(numPlus))
         
         if colors_equal == True and numPlus == True:
             return True
@@ -531,32 +463,26 @@ class GameBoard(TileGridBaseClass):
         last_turn = main.player_turn-1
         if last_turn == -1:
             last_turn = 3
-        logging.debug('player turn:')
+        logging.debug('tura gracza:')
         logging.debug(last_turn)
-        logging.debug("Czy pierwsza tura ?")
-        logging.debug(main.players_first_turn[last_turn])
+        
         if main.players_first_turn[last_turn] == True:
             for item in token_number_list:
                 sum += item
-            logging.debug(sum)
 
             if(sum<30):
                 QMessageBox.warning(self,'Niedozwolony ruch','W pierwszej turze suma plytek musi byc wieksza od 30 !')
                 logging.info('Niedozwolony ruch. W pierwszej turze suma plytek musi byc wieksza od 30 !')
-                logging.debug("Czy pierwsza tura2 ?")
-                logging.debug(main.players_first_turn[last_turn])
                 return False
             else:
                 main.players_first_turn[last_turn] = False
-                logging.debug("Czy pierwsza tura2 ?")
-                logging.debug(main.players_first_turn[last_turn])
                 return True
         else:
             return True
         
 
     def AddTileFromBag(self, tile):
-        logging.debug("add tile from bag")
+        logging.debug("Dobieranie plytki")
 
         for cell in self.cellList:
             status = cell.getCellStatus()
@@ -565,7 +491,7 @@ class GameBoard(TileGridBaseClass):
                 break
 
     def GetNextEmptyCellPosition(self):
-        logging.debug("get next cell position")
+        logging.debug("Nowa pozycja plytki")
 
     def removeTile(self, index):
         self.cellList[index].removeTile()
@@ -623,7 +549,7 @@ class TileBag():
             tile = tileCollection.getTile()
 
         random.shuffle(self.tileBag)
-        logging.debug("finished filling tile bag")
+        logging.info("Plytki sa przygotowane, pomieszane w worku")
 
     def getTileFromBag(self):
 
@@ -649,8 +575,8 @@ class TileBag():
             tile = tileCollection.getTile()
 
         random.shuffle(self.tileBag)
-        logging.debug("finished filling tile bag")
-        logging.debug("Shake the tile bag")
+        logging.debug("Plytki sa w worku")
+        logging.debug("Plytki pomieszane")
         random.shuffle(self.tileBag)
 
 
@@ -677,7 +603,7 @@ class TileCollection():
 
     def getTileAtIndex(self, index):
         if index >= len(self.tiles):
-            logging.error("getTileAtIndex was asked for the tile at index ", str(index), " which is out of range")
+            logging.error("Nie ma plytki o indeksie "+ str(index))
             return
         else:
             return self.tiles[index]
@@ -777,23 +703,6 @@ class FontSelector(QWidget):
         self.horizontalLayout.addWidget(self.fontComboBox)
         self.setLayout(self.horizontalLayout)
 
-def play():
-    gameTurn = 1
-    game = True
-
-    # Czy pierwsza tura
-    first_turn = True
-
-    #Sprawdzanie czy mozesz wziac zeton albo czy mozesz spasowac, na razie zawsze mozna zpasowac
-    # pas_option = False 
-    takeToken = True
-    
-    # logging.debug(main.change)
-    # logging.debug(main.player_turn)
-    freezePlayers(main.player_turn)
-    
-    if main.change == True:
-            freezePlayers(main.player_turn)
     
 
 def freezePlayers():
@@ -903,46 +812,50 @@ class QTextEditLogger(logging.Handler):
         self.widget.appendPlainText(msg)
 
 
-class MyDialog(QtWidgets.QDialog, QtWidgets.QPlainTextEdit):
+class LoggingWindow(QtWidgets.QDialog, QtWidgets.QPlainTextEdit):
 
     def __init__(self, parent=None):
         super().__init__(parent)
 
         logTextBox = QTextEditLogger(self)
-        # You can format what is printed to text box
+        
         logTextBox.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
         c_handler = logging.StreamHandler()
         f_handler = logging.FileHandler('rumikub.log')
         logging.getLogger().addHandler(logTextBox)
         logging.getLogger().addHandler(c_handler)
         logging.getLogger().addHandler(f_handler)
-        # You can control the logging level
+
         logging.getLogger().setLevel(logging.INFO)
         layout = QtWidgets.QVBoxLayout()
-        # Add the new logging box widget to the layout
+        
+
         layout.addWidget(logTextBox.widget)
         self.setLayout(layout)
 
         self.show()
         self.raise_()
         self.app = QtWidgets.QApplication(sys.argv)
-        #sys.exit(self.app.exec_())
+       
+        LoggingWindow.instance = self
 
-        # Connect signal to slot
-        # MyDialog.test()
-        MyDialog.instance = self
+class Params():
+    tileColors = ["red", "black", "blue", "yellow"]
+    tileOwner = ["none", "player", "board", "bag"]
+    tileValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+    numberOfColumns = 15
+    numberOfTilesToDeal = 15
+    player_turn = 0
+    change = False
+    players_first_turn = [True,True,True,True]
 
-    # def test():
-    #     #logging.debug('damn, a bug')
-    #     logging.info('something to remember')
-    #     logging.warning('that\'s not right')
-    #     logging.error('foobar')
-
+def getCellCol(cell):
+    return cell.getCol()
 
 if __name__ == "__main__":
-    main = Main()
+    main = Params()
     app = QApplication(sys.argv)
-    dlg = MyDialog()
+    dlg = LoggingWindow()
 
     playerBgColor = QColor('#A5A5A5')
     playerFgColor = QColor('#000000')
@@ -965,7 +878,6 @@ if __name__ == "__main__":
 
 
     gameBoard = GameBoard(boardBgColor, boardFgColor, "GameBoard", 8, main.numberOfColumns*2)
-    logging.debug("gameBoard is of type " + str(type(gameBoard)))
 
     gridArchiveManager = GridArchiveManager(players[0].player_grid, players[1].player_grid, players[2].player_grid, players[3].player_grid, gameBoard)
 

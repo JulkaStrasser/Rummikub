@@ -12,7 +12,6 @@ from Tile import RummyTile
 
 
 def getCellValue(cell):
-    print('Get cell value')
     value = cell.getResidentTile().getValue()
     return value
 
@@ -24,20 +23,19 @@ class BoardCell(QFrame):
         super(BoardCell, self).__init__()
         self.setFrameStyle(QFrame.Box)
         self.layout = QVBoxLayout()
-        # self.layout.setContentsMargins(left, top, right, bottom)
         self.layout.setContentsMargins(4, 4, 4, 4)
         self.setLayout(self.layout)
         self.setFixedHeight(48)
         self.setFixedWidth(38)
         self.row = row
         self.col = col
-        self.left = None  # the cell to the left of this one
-        self.right = None  # the cell to the right of this one
+        self.left = None  #left neighbour
+        self.right = None #right neighbour
         self.bgColor = bgColor
         self.fgColor = fgColor
         self.pal = self.palette()
         self.pal.setColor(self.backgroundRole(), bgColor)
-        self.pal.setColor(self.foregroundRole(), fgColor)  # 6600cc
+        self.pal.setColor(self.foregroundRole(), fgColor)  
         self.setPalette(self.pal)
         self.setAutoFillBackground(True)
 

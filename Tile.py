@@ -16,16 +16,9 @@ class DragLabel(QLabel):
         metric = QtGui.QFontMetrics(self.font())
         size = metric.size(QtCore.Qt.TextSingleLine, widthText)
 
-        # image = QtGui.QImage(size.width() + 12, size.height() + 22,
-        #                      QtGui.QImage.Format_ARGB32_Premultiplied)
-
         image = QtGui.QImage(28, 39, QtGui.QImage.Format_ARGB32_Premultiplied)
 
-        # image = QtGui.QImage(self.width, self.height, QtGui.QImage.Format_ARGB32_Premultiplied)
         image.fill(QtGui.qRgba(0, 0, 0, 0))
-
-        # font = QtGui.QFont()
-        # font.setStyleStrategy(QtGui.QFont.ForceOutline)
 
         painter = QtGui.QPainter()
         painter.begin(image)
@@ -92,25 +85,20 @@ class RummyTile(QWidget):
         mimeData = QtCore.QMimeData()
         mimeData.setText("hello world")
         self.parent().setDragStartCell(self.parent())
-        # self.setParent(None)
         drag = QtGui.QDrag(self)
         drag.setMimeData(mimeData)
         drag.setHotSpot(event.pos() - self.rect().topLeft())
         drag.setPixmap(self.tileLabel.pixmap())
-        # print("hide tile")
-        # self.hide()
 
         if drag.exec_(QtCore.Qt.MoveAction | QtCore.Qt.CopyAction, QtCore.Qt.CopyAction) == QtCore.Qt.MoveAction:
             self.close()
         else:
             self.show()
-        # print("mouse press event: end")
     def getColor(self):
         return self.color
 
     def getValue(self):
         return self.value
-
 
     def setCellListIndex(self, listIndex):
         self.cellListIndex = listIndex
@@ -130,7 +118,4 @@ class RummyTile(QWidget):
             return "bag is empty"
         else:
             return "Here's the tile bag"
-            # for tile in self.tileBag:
-            #     myStr += tile.getColor() + "  " + str(tile.getValue()) + "\n"
-            #  # return '<%s => %s>' % (self.__class__.__name__, self.name)
-            # return myStr
+           

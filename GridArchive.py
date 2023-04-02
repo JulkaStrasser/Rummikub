@@ -1,7 +1,4 @@
-"""
-This class implements a saved queue of grid states. It allows queued grid states
-to be retrieved so that player moves can be "undone".
-"""
+#Class to save grids
 
 class GridArchive():
     def __init__(self):
