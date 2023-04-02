@@ -41,7 +41,7 @@ class Main():
     players_first_turn = [True,True,True,True]
 
 def getCellCol(cell):
-    print("getCellCol")
+    # logging.debug("getCellCol")
     return cell.getCol()
 
 def newGame():
@@ -79,7 +79,7 @@ class ImageLabel2(QLabel):
                 scalingFactor = float(pixmapHeight) / labelHeight
             else:
                 scalingFactor = 1.0
-            print(" Scaling factor = %f", scalingFactor)
+            
             self.setPixmap(pp.scaled(
                 self.size()*scalingFactor,
                 Qt.KeepAspectRatio,
@@ -214,14 +214,16 @@ class ControlPanel(QFrame):
             self.tilesLeftInfoBox.appendPlainText(cellStr)
 
     def takeTile(self):
-        print("Taking a tile")
+        # logging.debug("Taking a tile")
+        #logging.debug("Taking a tile")
         if tileBag.getNoOfTilesInBag() > 0:
             nextTile = tileBag.getTileFromBag()
             gameBoard.AddTileFromBag(nextTile)
 
 
     def Exit(self):
-        print("Exiting....")
+        # logging.debug("Exiting....")
+        logging.info('Exiting')
         sys.exit()
 
     def setNumberOfTiles(self, NoOfTiles):
@@ -276,16 +278,20 @@ class TileGridBaseClass(QFrame):
             if col == 0:
                 left = None
                 right = self.cellList[n+1]
-                print("Cell ", str(row), " ", str(col), " has neighbours ", "None", " and ", str(right.getPosition()))
+                #logging.debug("Cell ", str(row), " ", str(col), " has neighbours ", "None", " and ", str(right.getPosition()))
+                ##logging.debug("Cell ", str(row), " ", str(col), " has neighbours ", "None", " and ", str(right.getPosition()))
             elif col == self.cols - 1:
                 left = self.cellList[n - 1]
                 right = None
-                print("Cell ", str(row), " ", str(col), " has neighbours ", str(left.getPosition()), " and ", "None")
+                #logging.debug("Cell ", str(row), " ", str(col), " has neighbours ", str(left.getPosition()), " and ", "None")
+                ##logging.debug("Cell ", str(row), " ", str(col), " has neighbours ", str(left.getPosition()), " and ", "None")
             else:
                 left = self.cellList[n - 1]
                 right = self.cellList[n + 1]
-                print("Cell ", str(row), " ", str(col), " has neighbours ", str(left.getPosition()), " and ",
-                      str(right.getPosition()))
+                # logging.debug("Cell ", str(row), " ", str(col), " has neighbours ", str(left.getPosition()), " and ",
+                #       str(right.getPosition()))
+                ##logging.debug("Cell ", str(row), " ", str(col), " has neighbours ", str(left.getPosition()), " and ",
+                        #str(right.getPosition()))
             cell.setNeighbours(left, right)
 
     def isFrozen(self):
@@ -314,7 +320,7 @@ class TileGridBaseClass(QFrame):
             cell.setForegroundColor(color)
 
     def removeAllTiles(self):
-        print("Remove all tiles from the board")
+        logging.debug("Remove all tiles from the board")
         for cell in self.cellList:
             cell.removeTile()
 
@@ -328,7 +334,7 @@ class TileGridBaseClass(QFrame):
     def restoreGridState(self, grid):
         self.removeAllTiles()
         if len(self.cellList) != len(grid):
-            print("ERROR - trying to restore a grid of the wrong size !")
+            logging.debug("ERROR - trying to restore a grid of the wrong size !")
             return
         for n in range(len(grid)):
             index = grid[n]
@@ -374,7 +380,7 @@ class PlayerControls(QFrame):
         self.setAutoFillBackground(True)
 
     def freeze(self):
-        print(self.playerName[6])
+        logging.debug(self.playerName[6])
         if main.player_turn == int(self.playerName[6])-1:
             if self.playerGrid.isFrozen():
                 self.playerGrid.thaw()
@@ -384,7 +390,7 @@ class PlayerControls(QFrame):
                 self.FrozenStateLabel.updateText("Nie twoja tura")
                 main.change = True
                 main.player_turn = (main.player_turn+1) % 4
-                print(main.change)
+                logging.debug(main.change)
 
 
     def setBackgroundColor(self, color):
@@ -397,7 +403,7 @@ class PlayerControls(QFrame):
         if players[main.player_turn-1].drawedTile == False:
             if tileBag.getNoOfTilesInBag() > 0:
                 nextTile = tileBag.getTileFromBag()
-                print(self.playerName, " takes a tile. It's ", str(nextTile.getColor()), str(nextTile.getValue()))
+                logging.debug(self.playerName + " takes a tile. It's " + str(nextTile.getColor()) + str(nextTile.getValue()))
                 for cell in self.playerGrid.cellList:
                     status = cell.getCellStatus()
                     if status == "Empty":
@@ -418,17 +424,16 @@ class GameBoard(TileGridBaseClass):
         self.all_sequences = []
 
     def listItems(self):
-        print("List grid contents")
+        logging.debug("List grid contents")
         cellsList = self.findChildren(BoardCell)
         for cell in cellsList:
-            print(cell.row, cell.col)
+            logging.debug(str(cell.row) + str(cell.col))
             status = cell.getCellStatus()
-            print(status[0])
-            print(status[1])
-            print()
+            logging.debug(status[0])
+            logging.debug(status[1])
     
     def detectSequences(self):
-        print("Print neighbours")
+        logging.debug("Print neighbours")
         cellsList = self.findChildren(BoardCell)
         seq = []
         detected_sequence = False
@@ -460,10 +465,10 @@ class GameBoard(TileGridBaseClass):
                 if len(seq) > 2:
                     self.all_sequences.append(seq)
                 else:
-                    print('Blad ciag musi miec co najmniej 3 elementy !')
+                    logging.debug('Blad ciag musi miec co najmniej 3 elementy !')
                     QMessageBox.warning(self,'Niedozwolony ruch','Sekwencja musi miec co najmniej 3 plytki !')
                     return False
-                print(seq)
+                logging.debug(seq)
                 seq = []
                 # seq.clear()
             elif left_neighbour_status == 'Empty' and right_neighbour_status == 'Empty' and cell.getCellStatus() != 'Empty':
@@ -478,19 +483,19 @@ class GameBoard(TileGridBaseClass):
     
     def printAllSequences(self):
         for i,seq in enumerate(self.all_sequences):
-            print('Zbior ')
-            print(seq)
+            logging.debug('Zbior ')
+            logging.debug(seq)
             for cell in seq:
                 status = cell.getCellStatus()
-                print(status[0])
-                print(status[1])
-                print()
-            print('---------')
+                logging.debug(status[0])
+                logging.debug(status[1])
+                logging.debug()
+            logging.debug('---------')
 
     def checkAllSequences(self):
         ok = True
         for i,seq in enumerate(self.all_sequences):
-            print('Check sequence')
+            logging.debug('Check sequence')
 
             # 1. Create tokens color and number lists
             token_color_list = []
@@ -508,15 +513,15 @@ class GameBoard(TileGridBaseClass):
             # Option1 : more than 3 in different colors
             else:
                 check_diff_colors = self.check3diffColor(token_color_list, token_number_list)
-                print('Option 1'+ str(check_diff_colors))
+                logging.debug('Option 1'+ str(check_diff_colors))
 
                 # Option2: 1 color number, each one +1
                 check_plus_num = self.checkPlusNumber(token_color_list, token_number_list)
-                print('Option 2'+ str(check_plus_num))
+                logging.debug('Option 2'+ str(check_plus_num))
 
                 # IF BAD SEQ
                 if check_diff_colors == False and check_plus_num == False:
-                    print('Nie mozna wykonac takiego ruchu !')
+                    logging.debug('Nie mozna wykonac takiego ruchu !')
                     for cell in seq:
                         cell.errorHighLightOn()
                     QMessageBox.warning(self,'Niedozwolony ruch','Nie mozesz wykonac takiego ruchu')
@@ -530,13 +535,13 @@ class GameBoard(TileGridBaseClass):
     def check3diffColor(self,token_color_list, token_number_list):
         #check if all numbers are the same
         numbers_equal = token_number_list.count(token_number_list[0]) == len(token_number_list)
-        print('Numbers are equal'+ str(numbers_equal))
+        logging.debug('Numbers are equal'+ str(numbers_equal))
 
         #check if all colors are unique
         colors_unique = False
         if(len(set(token_color_list)) == len(token_color_list)):
             colors_unique = True
-        print('Colors are unique' + str(colors_unique))
+        logging.debug('Colors are unique' + str(colors_unique))
 
         if numbers_equal == True and colors_unique == True:
             return True
@@ -546,7 +551,7 @@ class GameBoard(TileGridBaseClass):
     def checkPlusNumber(self,token_color_list,token_number_list):
         #Check if colors are the same
         colors_equal = token_color_list.count(token_color_list[0]) == len(token_color_list)
-        print('Colors are equal'+ str(colors_equal))
+        logging.debug('Colors are equal'+ str(colors_equal))
 
         #check +1 sequence
         numPlus = True
@@ -558,7 +563,7 @@ class GameBoard(TileGridBaseClass):
                 last_item = item
             else:
                 numPlus = False
-        print('Each number is +1 number before'+str(numPlus))
+        logging.debug('Each number is +1 number before'+str(numPlus))
         
         if colors_equal == True and numPlus == True:
             return True
@@ -570,31 +575,31 @@ class GameBoard(TileGridBaseClass):
         last_turn = main.player_turn-1
         if last_turn == -1:
             last_turn = 3
-        print('player turn:')
-        print(last_turn)
-        print("Czy pierwsza tura ?")
-        print(main.players_first_turn[last_turn])
+        logging.debug('player turn:')
+        logging.debug(last_turn)
+        logging.debug("Czy pierwsza tura ?")
+        logging.debug(main.players_first_turn[last_turn])
         if main.players_first_turn[last_turn] == True:
             for item in token_number_list:
                 sum += item
-            print(sum)
+            logging.debug(sum)
 
             if(sum<30):
                 QMessageBox.warning(self,'Niedozwolony ruch','W pierwszej turze suma plytek musi byc wieksza od 30 !')
-                print("Czy pierwsza tura2 ?")
-                print(main.players_first_turn[last_turn])
+                logging.debug("Czy pierwsza tura2 ?")
+                logging.debug(main.players_first_turn[last_turn])
                 return False
             else:
                 main.players_first_turn[last_turn] = False
-                print("Czy pierwsza tura2 ?")
-                print(main.players_first_turn[last_turn])
+                logging.debug("Czy pierwsza tura2 ?")
+                logging.debug(main.players_first_turn[last_turn])
                 return True
         else:
             return True
         
 
     def AddTileFromBag(self, tile):
-        print("AddTileFromBag")
+        logging.debug("AddTileFromBag")
 
         for cell in self.cellList:
             status = cell.getCellStatus()
@@ -603,7 +608,7 @@ class GameBoard(TileGridBaseClass):
                 break
 
     def GetNextEmptyCellPosition(self):
-        print("GetNextEmptyCellPosition")
+        logging.debug("GetNextEmptyCellPosition")
 
     def removeTile(self, index):
         self.cellList[index].removeTile()
@@ -625,14 +630,14 @@ class PlayerGrid(TileGridBaseClass):
         for n in range(main.numberOfTilesToDeal):
             if tileBag.getNoOfTilesInBag() > 0:
                 nextTile = tileBag.getTileFromBag()
-                print( " dobieranie plytki. Jest to : ", str(nextTile.getColor()), str(nextTile.getValue()))
+                logging.debug( " dobieranie plytki. Jest to : " + str(nextTile.getColor()) + str(nextTile.getValue()))
                 for cell in self.cellList:
                     status = cell.getCellStatus()
                     if status == "Empty":
                         cell.addTile(nextTile)
                         break
             else:
-                print("Worek z plytkami jest pusty!")
+                logging.debug("Worek z plytkami jest pusty!")
                 break
 
     def checkWinner(self):
@@ -662,7 +667,7 @@ class TileBag():
             tile = tileCollection.getTile()
 
         random.shuffle(self.tileBag)
-        print("finished filling tile bag")
+        logging.debug("finished filling tile bag")
 
     def getTileFromBag(self):
 
@@ -689,8 +694,8 @@ class TileBag():
             tile = tileCollection.getTile()
 
         random.shuffle(self.tileBag)
-        print("finished filling tile bag")
-        print("Shake the tile bag")
+        logging.debug("finished filling tile bag")
+        logging.debug("Shake the tile bag")
         random.shuffle(self.tileBag)
 
 
@@ -717,7 +722,7 @@ class TileCollection():
 
     def getTileAtIndex(self, index):
         if index >= len(self.tiles):
-            print("ERROR: getTileAtIndex was asked for the tile at index ", str(index), " which is out of range")
+            logging.debug("ERROR: getTileAtIndex was asked for the tile at index ", str(index), " which is out of range")
             return
         else:
             return self.tiles[index]
@@ -834,8 +839,8 @@ def play():
     # pas_option = False 
     takeToken = True
     
-    print(main.change)
-    print(main.player_turn)
+    logging.debug(main.change)
+    logging.debug(main.player_turn)
     freezePlayers(main.player_turn)
     
     if main.change == True:
@@ -847,7 +852,7 @@ def freezePlayers():
     main.change = False
     
     if players[main.player_turn-1].player_grid.checkWinner() == True:
-        print('Gracz'+str(main.player_turn)+' jest zwyciezca')
+        logging.debug('Gracz'+str(main.player_turn)+' jest zwyciezca')
         sys.exit()
 
     if gameBoard.detectSequences() != True:
@@ -953,13 +958,18 @@ class QTextEditLogger(logging.Handler):
         self.widget.appendPlainText(msg)
 
 class MyDialog(QtWidgets.QDialog, QtWidgets.QPlainTextEdit):
+
     def __init__(self, parent=None):
         super().__init__(parent)
 
         logTextBox = QTextEditLogger(self)
         # You can format what is printed to text box
         logTextBox.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+        c_handler = logging.StreamHandler()
+        f_handler = logging.FileHandler('file.log')
         logging.getLogger().addHandler(logTextBox)
+        logging.getLogger().addHandler(c_handler)
+        logging.getLogger().addHandler(f_handler)
         # You can control the logging level
         logging.getLogger().setLevel(logging.DEBUG)
         layout = QtWidgets.QVBoxLayout()
@@ -967,29 +977,26 @@ class MyDialog(QtWidgets.QDialog, QtWidgets.QPlainTextEdit):
         layout.addWidget(logTextBox.widget)
         self.setLayout(layout)
 
-        # Connect signal to slot
-        self.test()
+        self.show()
+        self.raise_()
+        self.app = QtWidgets.QApplication(sys.argv)
+        #sys.exit(self.app.exec_())
 
-    def test(self):
-        logging.debug('damn, a bug')
+        # Connect signal to slot
+        MyDialog.test()
+        MyDialog.instance = self
+
+    def test():
+        #logging.debug('damn, a bug')
         logging.info('something to remember')
         logging.warning('that\'s not right')
         logging.error('foobar')
-
-
-def window_logger():
-    app = QtWidgets.QApplication(sys.argv)
-    dlg = MyDialog()
-    logging.warn('Uwazaj')
-    logging.info('OKI')
-    dlg.show()
-    dlg.raise_()
-    sys.exit(app.exec_())
-
+        
 if __name__ == "__main__":
     main = Main()
     app = QApplication(sys.argv)
-    
+    dlg = MyDialog()
+
     playerBgColor = QColor('#A5A5A5')
     playerFgColor = QColor('#000000')
 
@@ -1011,7 +1018,7 @@ if __name__ == "__main__":
 
 
     gameBoard = GameBoard(boardBgColor, boardFgColor, "GameBoard", 8, main.numberOfColumns*2)
-    print("gameBoard is of type ", str(type(gameBoard)))
+    logging.debug("gameBoard is of type " + str(type(gameBoard)))
 
     gridArchiveManager = GridArchiveManager(players[0].player_grid, players[1].player_grid, players[2].player_grid, players[3].player_grid, gameBoard)
 
@@ -1019,12 +1026,12 @@ if __name__ == "__main__":
     tileBag = TileBag()
     RummyKub = MainWin()
     RummyKub.show()
+    
     newGame()
     
     freezePlayers()
-
-    #logger w osobnym okienku
-    window_logger()
+   
+    
     
   
 sys.exit(app.exec_())

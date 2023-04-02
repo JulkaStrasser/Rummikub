@@ -94,6 +94,10 @@ class MyDialog(QtWidgets.QDialog, QtWidgets.QPlainTextEdit):
         logging.error('foobar')
         logger.error('foobar')
 
+    def log(self, text):
+        logging.debug(text)
+        logger.debug(text)
+
 
 def window_logger():
     app = QtWidgets.QApplication(sys.argv)
