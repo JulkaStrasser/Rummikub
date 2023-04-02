@@ -13,3 +13,15 @@
 2023-04-01 21:58:25,792 - __main__ - WARNING - Uwazaj
 2023-04-01 21:58:25,792 - __main__ - INFO - OKI
 2023-04-01 21:58:25,792 - __main__ - CRITICAL - Tragedia
+2023-04-01 22:01:40,992 - __main__ - INFO - something to remember
+2023-04-01 22:01:40,992 - __main__ - WARNING - that's not right
+2023-04-01 22:01:40,992 - __main__ - ERROR - foobar
+2023-04-01 22:01:41,000 - __main__ - WARNING - Uwazaj
+2023-04-01 22:01:41,000 - __main__ - INFO - OKI
+2023-04-01 22:01:41,000 - __main__ - CRITICAL - Tragedia
+2023-04-02 11:43:04,514 - __main__ - INFO - something to remember
+2023-04-02 11:43:04,516 - __main__ - WARNING - that's not right
+2023-04-02 11:43:04,516 - __main__ - ERROR - foobar
+2023-04-02 11:43:04,517 - __main__ - WARNING - Uwazaj
+2023-04-02 11:43:04,517 - __main__ - INFO - OKI
+2023-04-02 11:43:04,518 - __main__ - CRITICAL - Tragedia

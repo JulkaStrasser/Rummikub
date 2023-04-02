@@ -75,7 +75,7 @@ class MyDialog(QtWidgets.QDialog, QtWidgets.QPlainTextEdit):
         logTextBox.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
         logging.getLogger().addHandler(logTextBox)
         # You can control the logging level
-        logging.getLogger().setLevel(logging.DEBUG)
+        logging.getLogger().setLevel(logging.INFO)
         layout = QtWidgets.QVBoxLayout()
         # Add the new logging box widget to the layout
         layout.addWidget(logTextBox.widget)
