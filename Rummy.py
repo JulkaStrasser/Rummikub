@@ -16,20 +16,8 @@ from AnalogTimer import AnalogTimer
 import logging
 from PyQt5 import QtGui, QtCore,QtWidgets
 
-"""
-Todo List.
-- dodanie ze nie mozna wylozyc na poczatku gdy suma nie przekroczy 30 (to nie dziala do konaca bo nie zapisuje co dodal gracz i jak sie pojawi na planszy cos o, to wszyscy gracze sie ciesza xD)
-- koniec tury gracza, gdy nie zmiesci sie w czasie
-- czy jockery istnieja?
-- logger ?
-- .rc obrazki ?
- 
-"""
 
 
-# ++++++++++++++++++++++++++++++++++++++++++++++
-#          GLOBALS
-# ++++++++++++++++++++++++++++++++++++++++++++++
 class Main():
     tileColors = ["red", "black", "blue", "yellow"]
     tileOwner = ["none", "player", "board", "bag"]
@@ -41,7 +29,6 @@ class Main():
     players_first_turn = [True,True,True,True]
 
 def getCellCol(cell):
-    # logging.debug("getCellCol")
     return cell.getCol()
 
 def newGame():
@@ -50,7 +37,7 @@ def newGame():
     players[1].player_grid.removeAllTiles()
     players[2].player_grid.removeAllTiles()
     players[3].player_grid.removeAllTiles()
-    tileCollection.clearTiles()  # set the owner of each tile to "none"
+    tileCollection.clearTiles() 
     tileBag.newGame()
     players[0].player_grid.newDeal()
     players[1].player_grid.newDeal()
@@ -66,7 +53,7 @@ class ImageLabel2(QLabel):
         self.setFrameStyle(QFrame.Panel)
         self.setFixedWidth(120)
         self.setFixedHeight(37)
-        # self.setMinimumHeight(40)
+       
 
     def showImageByPath(self, path):
 
@@ -87,6 +74,7 @@ class ImageLabel2(QLabel):
 
             self.show()
 
+
 class MyButton(QPushButton):
     def __init__(self, text):
         super(MyButton, self).__init__()
@@ -94,6 +82,7 @@ class MyButton(QPushButton):
         self.setFixedHeight(25)
         self.setFont(QFont('SansSerif', 10))
         self.setText(text)
+
 
 class MyLabel(QLabel):
     def __init__(self, legend):
@@ -104,7 +93,7 @@ class MyLabel(QLabel):
         self.setFont(QFont('SansSerif', 12))
         self.pal = self.palette()
         self.pal.setColor(self.backgroundRole(), QColor('#F2F2F2'))
-        self.pal.setColor(self.foregroundRole(), QColor('#B30000'))  # 6600cc
+        self.pal.setColor(self.foregroundRole(), QColor('#B30000')) 
         self.setPalette(self.pal)
         self.setAutoFillBackground(True)
 
@@ -144,7 +133,7 @@ class RemainingTilesIndicator2(QLabel):
         self.setFrameShape(QFrame.Panel)
         self.setFrameShadow(QFrame.Sunken)
         self.setLineWidth(3)
-        # self.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
+       
 
         self.setText(legend)
 
@@ -158,9 +147,7 @@ class RemainingTilesIndicator2(QLabel):
     def updateText(self, newText):
         self.setText(newText)
 
-# ++++++++++++++++++++++++++++++++++++++++++++++
-#          CONTROL PANEL
-# ++++++++++++++++++++++++++++++++++++++++++++++
+
 class ControlPanel(QFrame):
     def __init__(self):
 
@@ -173,27 +160,16 @@ class ControlPanel(QFrame):
         self.setMinimumWidth(140)
         self.buttonBar = QVBoxLayout()
 
-        # ++++++++++++++++++++++++++++++++++++++++++++++++
-        # Create buttons
-        # ++++++++++++++++++++++++++++++++++++++++++++++++
-
+        #BUTTONS
         self.newGameButton = MyButton("Nowa gra")
         self.newGameButton.clicked.connect(newGame)
 
         self.ExitButton = MyButton("Wyjscie")
         self.ExitButton.clicked.connect(self.Exit)
-
-        self.SaveGameStateButton = MyButton("Zapisz")
-        self.SaveGameStateButton.clicked.connect(self.saveBoardState)
-
-        self.RestoreGameStateButton = MyButton("Odswiez")
-        self.RestoreGameStateButton.clicked.connect(self.restoreBoardState)
-
-        
+   
         self.buttonBar.addWidget(self.newGameButton)
         self.buttonBar.addWidget(self.ExitButton)
-        self.buttonBar.addWidget(self.SaveGameStateButton)
-        self.buttonBar.addWidget(self.RestoreGameStateButton)
+       
         
         self.layout.addLayout(self.buttonBar)
         self.infoBar = QVBoxLayout()
@@ -214,15 +190,12 @@ class ControlPanel(QFrame):
             self.tilesLeftInfoBox.appendPlainText(cellStr)
 
     def takeTile(self):
-        # logging.debug("Taking a tile")
-        #logging.debug("Taking a tile")
         if tileBag.getNoOfTilesInBag() > 0:
             nextTile = tileBag.getTileFromBag()
             gameBoard.AddTileFromBag(nextTile)
 
 
     def Exit(self):
-        # logging.debug("Exiting....")
         logging.info('Exiting')
         sys.exit()
 
@@ -245,9 +218,8 @@ class ControlPanel(QFrame):
     def restoreBoardState(self):
         gridArchiveManager.restoreGameState()
 
-# ++++++++++++++++++++++++++++++++++++++++++++++
-#          BOARD
-# ++++++++++++++++++++++++++++++++++++++++++++++
+
+# GAME BOARD
 class TileGridBaseClass(QFrame):
     def __init__(self, rows, cols, bgColor, fgColor, gridName):
         super(TileGridBaseClass, self).__init__()
@@ -267,10 +239,10 @@ class TileGridBaseClass(QFrame):
         for row in range(self.rows):
             for col in range(self.cols):
                 newCell = BoardCell(row, col, bgColor, fgColor, gridName)
-                # newCell.setCellListIndex(len(self.cellList))
-                self.tileGrid.addWidget(newCell, row, col)  # i=row j=col
+                self.tileGrid.addWidget(newCell, row, col)  
                 self.cellList.append(newCell)
         self.setLayout(self.tileGrid)
+
         # tell each cell who it's neighbours are
         for n in range(len(self.cellList)):
             cell = self.cellList[n]
@@ -278,20 +250,13 @@ class TileGridBaseClass(QFrame):
             if col == 0:
                 left = None
                 right = self.cellList[n+1]
-                #logging.debug("Cell ", str(row), " ", str(col), " has neighbours ", "None", " and ", str(right.getPosition()))
-                ##logging.debug("Cell ", str(row), " ", str(col), " has neighbours ", "None", " and ", str(right.getPosition()))
             elif col == self.cols - 1:
                 left = self.cellList[n - 1]
                 right = None
-                #logging.debug("Cell ", str(row), " ", str(col), " has neighbours ", str(left.getPosition()), " and ", "None")
-                ##logging.debug("Cell ", str(row), " ", str(col), " has neighbours ", str(left.getPosition()), " and ", "None")
+                
             else:
                 left = self.cellList[n - 1]
                 right = self.cellList[n + 1]
-                # logging.debug("Cell ", str(row), " ", str(col), " has neighbours ", str(left.getPosition()), " and ",
-                #       str(right.getPosition()))
-                ##logging.debug("Cell ", str(row), " ", str(col), " has neighbours ", str(left.getPosition()), " and ",
-                        #str(right.getPosition()))
             cell.setNeighbours(left, right)
 
     def isFrozen(self):
@@ -334,7 +299,7 @@ class TileGridBaseClass(QFrame):
     def restoreGridState(self, grid):
         self.removeAllTiles()
         if len(self.cellList) != len(grid):
-            logging.debug("ERROR - trying to restore a grid of the wrong size !")
+            logging.error("Problem with restore grid ")
             return
         for n in range(len(grid)):
             index = grid[n]
@@ -343,11 +308,6 @@ class TileGridBaseClass(QFrame):
                 self.cellList[n].addTile(tile)
 
 
-
-
-# ++++++++++++++++++++++++++++++++++++++++++++++
-#          PLAYER CONTROLS
-# ++++++++++++++++++++++++++++++++++++++++++++++
 class PlayerControls(QFrame):
     def __init__(self, bgColor, fgColor, playerGrid, playerName):
         super(PlayerControls, self).__init__()
@@ -362,7 +322,6 @@ class PlayerControls(QFrame):
         self.TakeTileButton.clicked.connect(self.takeTile)
 
         self.FreezeButton = MyButton("Zakoncz ture")
-        # self.FreezeButton.clicked.connect(self.freeze)
 
         self.FrozenStateLabel = MyLabel("Twoja tura")
 
@@ -375,7 +334,7 @@ class PlayerControls(QFrame):
 
         self.pal = self.palette()
         self.pal.setColor(self.backgroundRole(), bgColor)
-        self.pal.setColor(self.foregroundRole(), fgColor)  # 6600cc
+        self.pal.setColor(self.foregroundRole(), fgColor)
         self.setPalette(self.pal)
         self.setAutoFillBackground(True)
 
@@ -392,7 +351,6 @@ class PlayerControls(QFrame):
                 main.player_turn = (main.player_turn+1) % 4
                 logging.debug(main.change)
 
-
     def setBackgroundColor(self, color):
         self.pal.setColor(self.backgroundRole(), QColor(color))
         self.setPalette(self.pal)
@@ -403,7 +361,7 @@ class PlayerControls(QFrame):
         if players[main.player_turn-1].drawedTile == False:
             if tileBag.getNoOfTilesInBag() > 0:
                 nextTile = tileBag.getTileFromBag()
-                logging.debug(self.playerName + " takes a tile. It's " + str(nextTile.getColor()) + str(nextTile.getValue()))
+                logging.info(self.playerName + " takes a tile. It's " + str(nextTile.getColor()) + str(nextTile.getValue()))
                 for cell in self.playerGrid.cellList:
                     status = cell.getCellStatus()
                     if status == "Empty":
@@ -414,9 +372,7 @@ class PlayerControls(QFrame):
     def getPlayerName(self):
         return self.playerName
 
-# ++++++++++++++++++++++++++++++++++++++++++++++
-#          GAME BOARD
-# ++++++++++++++++++++++++++++++++++++++++++++++
+
 class GameBoard(TileGridBaseClass):
     def __init__(self, bgColor, fgColor, gridName, rows, cols):
         super(GameBoard, self).__init__(rows, cols, bgColor, fgColor, gridName)
@@ -465,25 +421,25 @@ class GameBoard(TileGridBaseClass):
                 if len(seq) > 2:
                     self.all_sequences.append(seq)
                 else:
-                    logging.debug('Blad ciag musi miec co najmniej 3 elementy !')
+                    logging.info('Blad ciag musi miec co najmniej 3 elementy !')
                     QMessageBox.warning(self,'Niedozwolony ruch','Sekwencja musi miec co najmniej 3 plytki !')
                     return False
                 logging.debug(seq)
                 seq = []
                 # seq.clear()
             elif left_neighbour_status == 'Empty' and right_neighbour_status == 'Empty' and cell.getCellStatus() != 'Empty':
+                logging.info('Blad ciag musi miec co najmniej 3 elementy !')
                 QMessageBox.warning(self,'Niedozwolony ruch','Sekwencja musi miec co najmniej 3 plytki !')
                 return False
         
         if len(self.all_sequences) == 0:
             return True
         else:
-        #self.printAllSequences()
             return self.checkAllSequences()
     
     def printAllSequences(self):
         for i,seq in enumerate(self.all_sequences):
-            logging.debug('Zbior ')
+            logging.debug('All sets ')
             logging.debug(seq)
             for cell in seq:
                 status = cell.getCellStatus()
@@ -513,15 +469,15 @@ class GameBoard(TileGridBaseClass):
             # Option1 : more than 3 in different colors
             else:
                 check_diff_colors = self.check3diffColor(token_color_list, token_number_list)
-                logging.debug('Option 1'+ str(check_diff_colors))
+                logging.info('Option 1'+ str(check_diff_colors))
 
                 # Option2: 1 color number, each one +1
                 check_plus_num = self.checkPlusNumber(token_color_list, token_number_list)
-                logging.debug('Option 2'+ str(check_plus_num))
+                logging.info('Option 2'+ str(check_plus_num))
 
                 # IF BAD SEQ
                 if check_diff_colors == False and check_plus_num == False:
-                    logging.debug('Nie mozna wykonac takiego ruchu !')
+                    logging.info('Nie mozna wykonac takiego ruchu !')
                     for cell in seq:
                         cell.errorHighLightOn()
                     QMessageBox.warning(self,'Niedozwolony ruch','Nie mozesz wykonac takiego ruchu')
@@ -586,6 +542,7 @@ class GameBoard(TileGridBaseClass):
 
             if(sum<30):
                 QMessageBox.warning(self,'Niedozwolony ruch','W pierwszej turze suma plytek musi byc wieksza od 30 !')
+                logging.info('Niedozwolony ruch. W pierwszej turze suma plytek musi byc wieksza od 30 !')
                 logging.debug("Czy pierwsza tura2 ?")
                 logging.debug(main.players_first_turn[last_turn])
                 return False
@@ -599,7 +556,7 @@ class GameBoard(TileGridBaseClass):
         
 
     def AddTileFromBag(self, tile):
-        logging.debug("AddTileFromBag")
+        logging.debug("add tile from bag")
 
         for cell in self.cellList:
             status = cell.getCellStatus()
@@ -608,14 +565,12 @@ class GameBoard(TileGridBaseClass):
                 break
 
     def GetNextEmptyCellPosition(self):
-        logging.debug("GetNextEmptyCellPosition")
+        logging.debug("get next cell position")
 
     def removeTile(self, index):
         self.cellList[index].removeTile()
 
-# ++++++++++++++++++++++++++++++++++++++++++++++
-#          PLAYER GRID
-# ++++++++++++++++++++++++++++++++++++++++++++++
+
 class PlayerGrid(TileGridBaseClass):
     def __init__(self, bgColor, fgColor, gridName, rows, cols):
         super(PlayerGrid, self).__init__(rows, cols, bgColor, fgColor, gridName)
@@ -630,14 +585,14 @@ class PlayerGrid(TileGridBaseClass):
         for n in range(main.numberOfTilesToDeal):
             if tileBag.getNoOfTilesInBag() > 0:
                 nextTile = tileBag.getTileFromBag()
-                logging.debug( " dobieranie plytki. Jest to : " + str(nextTile.getColor()) + str(nextTile.getValue()))
+                logging.info( " dobieranie plytki. Jest to : " + str(nextTile.getColor()) + str(nextTile.getValue()))
                 for cell in self.cellList:
                     status = cell.getCellStatus()
                     if status == "Empty":
                         cell.addTile(nextTile)
                         break
             else:
-                logging.debug("Worek z plytkami jest pusty!")
+                logging.info("Worek z plytkami jest pusty!")
                 break
 
     def checkWinner(self):
@@ -649,6 +604,7 @@ class PlayerGrid(TileGridBaseClass):
                     break
         if isWinner == True:
             QMessageBox.information(self,'Koniec gry','Zwyciezyl gracz '+ str(main.player_turn))
+            logging.info("Koniec gry. Zwyciezyl gracz "+ str(main.player_turn))
         return isWinner
     
     
@@ -676,7 +632,6 @@ class TileBag():
         else:
             tile = self.tileBag.pop()
             tile.owner = "board"
-            # controlPanel.setNumberOfTiles(len(self.tileBag) - 1)
             RummyKub.controlPanel.NoOfTilesInBagIndicator.setText(str(len(self.tileBag) - 1))
             return tile
 
@@ -722,21 +677,19 @@ class TileCollection():
 
     def getTileAtIndex(self, index):
         if index >= len(self.tiles):
-            logging.debug("ERROR: getTileAtIndex was asked for the tile at index ", str(index), " which is out of range")
+            logging.error("getTileAtIndex was asked for the tile at index ", str(index), " which is out of range")
             return
         else:
             return self.tiles[index]
 
     def printTileList(self):
-        # controlPanel.clearInfoBox()
         for tile in self.tiles:
             fred1 = str(tile.MasterIndex)
             fred2 = str(tile.color)
             fred3 = str(tile.value)
             fred4 = str(tile.owner)
             cellStr = fred1 + " - " + fred2 + " " + fred3 + " owner = " + fred4
-            # controlPanel.appendInfo(cellStr)
-
+            
     def clearTiles(self):
         for tile in self.tiles:
             tile.owner = "none"
@@ -745,6 +698,7 @@ class TileCollection():
 class TileDestinations():
     def __init__(self):
         self.validDestinations = []
+
 
 class MyView(QGraphicsView):
     def __init__(self, parent=None):
@@ -755,18 +709,16 @@ class MyView(QGraphicsView):
         self.scene.addItem(self.item)
         self.setScene(self.scene)
 
+
 class MainWin(QMainWindow):
     def __init__(self):
         super(MainWin, self).__init__()
 
         self.view=MyView()
         self.setCentralWidget(self.view)
-
         self.controlPanel = ControlPanel()
 
-        # ++++++++++++++++++++++++++++++++++++++++++++++++
-        # Add everything to the grid layout
-        # ++++++++++++++++++++++++++++++++++++++++++++++++
+        #Add to grid layout
         self.gameLayout = QGridLayout()
         self.gameLayout.addWidget(players[0].player_grid, 0, 0)
         self.gameLayout.addWidget(players[0].player_controls, 0, 1)
@@ -794,8 +746,6 @@ class MainWin(QMainWindow):
         self.setCentralWidget(self.mainWidget)
 
         
-
-
 class FontSelector(QWidget):
     def __init__(self):
         super(FontSelector, self).__init__()
@@ -828,7 +778,6 @@ class FontSelector(QWidget):
         self.setLayout(self.horizontalLayout)
 
 def play():
-    
     gameTurn = 1
     game = True
 
@@ -839,8 +788,8 @@ def play():
     # pas_option = False 
     takeToken = True
     
-    logging.debug(main.change)
-    logging.debug(main.player_turn)
+    # logging.debug(main.change)
+    # logging.debug(main.player_turn)
     freezePlayers(main.player_turn)
     
     if main.change == True:
@@ -852,7 +801,7 @@ def freezePlayers():
     main.change = False
     
     if players[main.player_turn-1].player_grid.checkWinner() == True:
-        logging.debug('Gracz'+str(main.player_turn)+' jest zwyciezca')
+        # logging.debug('Gracz'+str(main.player_turn)+' jest zwyciezca')
         sys.exit()
 
     if gameBoard.detectSequences() != True:
@@ -929,10 +878,6 @@ def freezePlayers():
 
         main.player_turn = (main.player_turn+1)%4
     
-    # gameBoard.listItems()
-
-    
-        
 
 class Player():
     def __init__(self, player_id, player_name,player_first_turn):
@@ -957,6 +902,7 @@ class QTextEditLogger(logging.Handler):
         msg = self.format(record)
         self.widget.appendPlainText(msg)
 
+
 class MyDialog(QtWidgets.QDialog, QtWidgets.QPlainTextEdit):
 
     def __init__(self, parent=None):
@@ -966,12 +912,12 @@ class MyDialog(QtWidgets.QDialog, QtWidgets.QPlainTextEdit):
         # You can format what is printed to text box
         logTextBox.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
         c_handler = logging.StreamHandler()
-        f_handler = logging.FileHandler('file.log')
+        f_handler = logging.FileHandler('rumikub.log')
         logging.getLogger().addHandler(logTextBox)
         logging.getLogger().addHandler(c_handler)
         logging.getLogger().addHandler(f_handler)
         # You can control the logging level
-        logging.getLogger().setLevel(logging.DEBUG)
+        logging.getLogger().setLevel(logging.INFO)
         layout = QtWidgets.QVBoxLayout()
         # Add the new logging box widget to the layout
         layout.addWidget(logTextBox.widget)
@@ -983,15 +929,16 @@ class MyDialog(QtWidgets.QDialog, QtWidgets.QPlainTextEdit):
         #sys.exit(self.app.exec_())
 
         # Connect signal to slot
-        MyDialog.test()
+        # MyDialog.test()
         MyDialog.instance = self
 
-    def test():
-        #logging.debug('damn, a bug')
-        logging.info('something to remember')
-        logging.warning('that\'s not right')
-        logging.error('foobar')
-        
+    # def test():
+    #     #logging.debug('damn, a bug')
+    #     logging.info('something to remember')
+    #     logging.warning('that\'s not right')
+    #     logging.error('foobar')
+
+
 if __name__ == "__main__":
     main = Main()
     app = QApplication(sys.argv)
@@ -1031,7 +978,5 @@ if __name__ == "__main__":
     
     freezePlayers()
    
-    
-    
-  
+
 sys.exit(app.exec_())
