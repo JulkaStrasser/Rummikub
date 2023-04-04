@@ -16,4 +16,5 @@ wykrywa zarówno sekwencje składające się z 1, 2 płytek jak i te niepoprawne
 - Licznik plytek, ktore zostaly w worku, gdy plytki te zostana rozdane nie bedzie mozliwosci dobierania kolejnych
 - Przycisk konca tury, umozliwia to graczowi spokojne zastanowienie sie nad wykonaniem ruchu, reszta graczy w tym czasie ma zablokowana mozliwosc gry
 - Komunikaty, gdy któryś z graczy wygra
+- plik test.log z zapisem przebiegu calej rozgrywki
 
