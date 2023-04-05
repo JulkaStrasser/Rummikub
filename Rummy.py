@@ -3,7 +3,7 @@ from PyQt5 import QtGui, QtCore
 from PyQt5.QtWidgets import QApplication, QGraphicsView, QGraphicsScene, QGraphicsEllipseItem, QGraphicsRectItem
 
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QTreeView, QFileSystemModel, QLineEdit, \
-    QLabel, QFrame, QTextEdit, QHBoxLayout, QGridLayout, QVBoxLayout, QMainWindow, QFontComboBox, QPlainTextEdit, QColorDialog, QSizePolicy
+    QLabel, QFrame, QTextEdit, QHBoxLayout, QGridLayout, QVBoxLayout, QMainWindow, QFontComboBox, QPlainTextEdit, QColorDialog, QSizePolicy, QRadioButton
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtGui import QFont, QColor, QImage, QPixmap
 from PyQt5.QtCore import Qt, QRectF, pyqtSignal, QT_VERSION_STR, QPoint, QDir, QEvent
@@ -99,6 +99,16 @@ class ControlPanel(QFrame):
         self.ExitButton = MyButton("Wyjscie")
         self.ExitButton.clicked.connect(self.Exit)
    
+        self.two_players = QRadioButton("2 graczy")
+        # radiobutton.toggled.connect(self.onClicked)
+
+        self.three_players = QRadioButton("3 graczy")
+        self.playerAI = QRadioButton("zagraj z AI")
+
+        self.buttonBar.addWidget(self.two_players)
+        self.buttonBar.addWidget(self.three_players)
+        self.buttonBar.addWidget(self.playerAI)
+        
         self.buttonBar.addWidget(self.newGameButton)
         self.buttonBar.addWidget(self.ExitButton)
        
