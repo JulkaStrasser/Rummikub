@@ -7,7 +7,8 @@ from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QTreeView, QFile
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtGui import QFont, QColor, QImage, QPixmap
 from PyQt5.QtCore import Qt, QRectF, pyqtSignal, QT_VERSION_STR, QPoint, QDir, QEvent
-
+from PyQt5.QtCore import QRegExp
+from PyQt5.QtGui import QRegExpValidator
 from Tile import RummyTile
 from Cell import BoardCell
 from GridArchive import GridArchiveManager
@@ -105,10 +106,29 @@ class ControlPanel(QFrame):
         self.three_players = QRadioButton("3 graczy")
         self.playerAI = QRadioButton("zagraj z AI")
 
+        ip_input = QLabel('Adres IP :', self)
+        self.ip_input = QLineEdit(self)
+        self.ip_input.returnPressed.connect(self.validate_input)
+
+        ip_regex = QRegExp("(?:[0-9]{1,3}\.){3}[0-9]{1,3}")
+        ip_validator = QRegExpValidator(ip_regex, self.ip_input)
+        self.ip_input.setValidator(ip_validator)
+
+        port_input = QLabel('Port Number:', self)
+        self.port_input = QLineEdit(self)
+        # Set the maximum length of the QLineEdit to 5 (the maximum length of a port number)
+        self.port_input.setMaxLength(5)
+
         self.buttonBar.addWidget(self.two_players)
         self.buttonBar.addWidget(self.three_players)
         self.buttonBar.addWidget(self.playerAI)
         
+        self.buttonBar.addWidget(ip_input)
+        self.buttonBar.addWidget(self.ip_input)
+
+        self.buttonBar.addWidget(port_input)
+        self.buttonBar.addWidget(self.port_input)
+
         self.buttonBar.addWidget(self.newGameButton)
         self.buttonBar.addWidget(self.ExitButton)
        
@@ -120,6 +140,22 @@ class ControlPanel(QFrame):
         self.NoOfTilesInBagIndicator = RemainTiles("hjhh")
         self.layout.addWidget(self.NoOfTilesInBagIndicator)
         self.NoOfTilesInBagIndicator.updateText("0")
+
+    def validate_input(self):
+        ip_address = self.ip_input.text()
+        if not ip_address:
+            QMessageBox.warning(self, "Invalid Input", "Please enter an IP address.")
+            return
+        else:
+            octets = ip_address.split('.')
+            if len(octets) != 4:
+                QMessageBox.warning(self, "Invalid Input", "The IP address must have four octets.")
+                return
+            for octet in octets:
+                if not octet.isdigit() or int(octet) < 0 or int(octet) > 255:
+                    QMessageBox.warning(self, "Invalid Input", "Each octet must be an integer between 0 and 255.")
+                    return
+        QMessageBox.information(self, "Valid Input", "The entered IP address is valid.")
 
     def masterTileList(self):
         tileCollection.printTileList()
