@@ -1,18 +1,22 @@
 import xml.etree.ElementTree as gfg
 import sqlite3
+import json
 
 class History():
     def __init__(self):
         self.xml = XMLhistory('history.xml')
         self.database = DataBase()
+        self.json = JsonOption('options.json')
 
     def write(self,player,action):
         self.xml.write(player,action)
         self.database.write(player,action)
+        self.json.write(player,action)
 
     def read_all_data(self):
         self.xml.file_write()
         self.database.read_all_data()
+        self.json.read()
 
     def close(self):
         self.database.close()
@@ -62,3 +66,62 @@ class DataBase():
 
     def close(self):
         self.connection.close()
+
+
+class JsonOption():
+    def __init__(self,filename):
+        self.filename = filename
+    
+    def read(self):
+        with open(self.filename, 'r') as openfile:
+            #Reading from json file
+            json_object = openfile
+        
+            print(json_object)
+            print(type(json_object))
+
+    def write(self,player,action):
+        movement = {
+            "player":player,
+            "action":action
+        }
+        self.json_object = json.dumps(movement, indent=2)
+        with open(self.filename, "a") as outfile:
+	        outfile.write(self.json_object)
+                
+   
+
+# # some JSON:
+# x =  '{ "name":"John", "age":30, "city":"New York"}'
+
+# # parse x:
+# y = json.loads(x)
+
+# # the result is a Python dictionary:
+# print(y["age"])
+
+# #ZAPIS DO PLIKU
+# # Data to be written
+# movement = {
+# 	"player": "Gracz 1",
+# 	"action": "Dobral plytke"
+# }
+
+# # Serializing json
+# json_object = json.dumps(movement, indent=2)
+
+# # Writing to sample.json
+# with open("sample.json", "w") as outfile:
+# 	outfile.write(json_object)
+
+
+
+
+#ODCZYT Z PLIKU
+# with open('sample.json', 'r') as openfile:
+ 
+#     # Reading from json file
+#     json_object = json.load(openfile)
+ 
+# print(json_object)
+# print(type(json_object))
