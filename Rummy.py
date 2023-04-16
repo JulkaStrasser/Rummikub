@@ -12,7 +12,7 @@ from PyQt5 import QtCore,QtWidgets
 from ControlPanel import ControlPanel
 from Player import Player
 from GameBoard import GameBoard
-from DataBase import DataBase
+from History import History
 
 
 class TileBag():
@@ -310,7 +310,7 @@ class LoggingWindow(QtWidgets.QDialog, QtWidgets.QPlainTextEdit):
 
 class Main():
     def __init__(self):
-        self.database = DataBase()
+        self.database = History()
         self.tileColors = ["red", "black", "blue", "yellow"]
         self.tileOwner = ["none", "player", "board", "bag"]
         self.tileValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
