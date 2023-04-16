@@ -24,9 +24,6 @@ from GameBoard import GameBoard
 
 
 
-# ++++++++++++++++++++++++++++++++++++++++++++++
-#          TILE BAG
-# ++++++++++++++++++++++++++++++++++++++++++++++
 class TileBag():
     def __init__(self,main):
         self.tileBag = []
