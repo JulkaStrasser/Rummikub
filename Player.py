@@ -1,10 +1,8 @@
-from PyQt5.QtWidgets import  QPushButton, QTreeView, QFileSystemModel, QLineEdit, \
-    QLabel, QFrame,QVBoxLayout, QRadioButton, QMessageBox,QApplication,QGridLayout
+from PyQt5.QtWidgets import QFrame,QVBoxLayout, QMessageBox
 from PyQt5 import QtCore
 from Graphics import MyButton,MyLabel
-from PyQt5.QtGui import QFont, QColor
+from PyQt5.QtGui import QColor
 import logging
-from Cell import BoardCell
 from TileGridBase import TileGridBaseClass
 
 class PlayerControls(QFrame):

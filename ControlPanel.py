@@ -1,5 +1,4 @@
-from PyQt5.QtWidgets import  QPushButton, QTreeView, QFileSystemModel, QLineEdit, \
-    QLabel, QFrame,QVBoxLayout, QRadioButton, QMessageBox,QApplication
+from PyQt5.QtWidgets import  QLineEdit, QLabel, QFrame,QVBoxLayout, QRadioButton, QMessageBox,QApplication
 import logging
 from PyQt5 import QtCore
 from Graphics import MyButton

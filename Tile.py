@@ -1,9 +1,5 @@
-import sys, random
 from PyQt5 import QtGui, QtCore
-
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QTreeView, QFileSystemModel, QLineEdit, \
-    QLabel, QFrame, QTextEdit, QHBoxLayout, QGridLayout, QVBoxLayout, QMainWindow, QFontComboBox, QPlainTextEdit, QColorDialog
-
+from PyQt5.QtWidgets import QWidget,QLabel
 from PyQt5.QtGui import QFont, QColor
 from PyQt5.QtCore import QRect, QPoint
 

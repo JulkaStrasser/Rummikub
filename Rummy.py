@@ -1,25 +1,16 @@
 import sys, random
-from PyQt5 import QtGui, QtCore
-from PyQt5.QtWidgets import QApplication, QGraphicsView, QGraphicsScene, QGraphicsEllipseItem, QGraphicsRectItem
+from PyQt5 import QtCore
+from PyQt5.QtWidgets import QApplication, QGraphicsView, QGraphicsScene, QGraphicsRectItem
 
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QTreeView, QFileSystemModel, QLineEdit, \
-    QLabel, QFrame, QTextEdit, QHBoxLayout, QGridLayout, QVBoxLayout, QMainWindow, QFontComboBox, QPlainTextEdit, QColorDialog, QSizePolicy, QRadioButton
-from PyQt5.QtWidgets import QMessageBox
-from PyQt5.QtGui import QFont, QColor, QImage, QPixmap
-from PyQt5.QtCore import Qt, QRectF, pyqtSignal, QT_VERSION_STR, QPoint, QDir, QEvent
-from PyQt5.QtCore import QRegExp
-from PyQt5.QtGui import QRegExpValidator
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QFrame, QHBoxLayout, QGridLayout, QMainWindow, QFontComboBox
+from PyQt5.QtGui import QColor
 from Tile import RummyTile
-from Cell import BoardCell
 from GridArchive import GridArchiveManager
-import time
 from AnalogTimer import AnalogTimer
 import logging
-from PyQt5 import QtGui, QtCore,QtWidgets
-from Graphics import MyLabel, MyButton
-from ControlPanel import ControlPanel,RemainTiles
-from Player import PlayerControls, PlayerGrid,Player
-from TileGridBase import TileGridBaseClass
+from PyQt5 import QtCore,QtWidgets
+from ControlPanel import ControlPanel
+from Player import Player
 from GameBoard import GameBoard
 from DataBase import DataBase
 

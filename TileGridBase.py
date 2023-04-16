@@ -1,8 +1,7 @@
 import logging
-from PyQt5.QtWidgets import  QPushButton, QTreeView, QFileSystemModel, QLineEdit, \
-    QLabel, QFrame,QVBoxLayout, QRadioButton, QMessageBox,QApplication,QGridLayout
+from PyQt5.QtWidgets import QFrame, QGridLayout
 from Cell import BoardCell
-from PyQt5.QtGui import QFont, QColor
+from PyQt5.QtGui import QColor
 
 class TileGridBaseClass(QFrame):
     def __init__(self, rows, cols, bgColor, fgColor, gridName):
