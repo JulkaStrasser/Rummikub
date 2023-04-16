@@ -18,161 +18,12 @@ import logging
 from PyQt5 import QtGui, QtCore,QtWidgets
 from Graphics import MyLabel, MyButton
 from ControlPanel import ControlPanel,RemainTiles
+from Player import PlayerControls, PlayerGrid
+from TileGridBase import TileGridBaseClass
 
 
 
-# GAME BOARD
-class TileGridBaseClass(QFrame):
-    def __init__(self, rows, cols, bgColor, fgColor, gridName):
-        super(TileGridBaseClass, self).__init__()
-        self.setFrameStyle(QFrame.Panel | QFrame.Sunken)
-        self.tileGrid = QGridLayout()
-        self.tileGrid.setHorizontalSpacing(0)
-        self.tileGrid.setVerticalSpacing(0)
-        self.rows = rows
-        self.cols = cols
-        self.cellList = []
-        self.pal = self.palette()
-        self.pal.setColor(self.backgroundRole(), bgColor)
-        self.pal.setColor(self.foregroundRole(), fgColor)
-        self.setPalette(self.pal)
-        self.setAutoFillBackground(True)
-        self.frozen = False
-        for row in range(self.rows):
-            for col in range(self.cols):
-                newCell = BoardCell(row, col, bgColor, fgColor, gridName)
-                self.tileGrid.addWidget(newCell, row, col)  
-                self.cellList.append(newCell)
-        self.setLayout(self.tileGrid)
 
-        # tell each cell who it's neighbours are
-        for n in range(len(self.cellList)):
-            cell = self.cellList[n]
-            (row, col) = cell.getPosition()
-            if col == 0:
-                left = None
-                right = self.cellList[n+1]
-            elif col == self.cols - 1:
-                left = self.cellList[n - 1]
-                right = None
-                
-            else:
-                left = self.cellList[n - 1]
-                right = self.cellList[n + 1]
-            cell.setNeighbours(left, right)
-
-    def isFrozen(self):
-        return self.frozen
-
-    def freeze(self):
-        self.frozen = True
-        for cell in self.cellList:
-            cell.freeze()
-
-    def thaw(self):
-        self.frozen = False
-        for cell in self.cellList:
-            cell.thaw()
-
-    def setBackgroundColor(self, color):
-        self.pal.setColor(self.backgroundRole(), QColor(color))
-        self.setPalette(self.pal)
-        for cell in self.cellList:
-            cell.setBackgroundColor(color)
-
-    def setForegroundColor(self, color):
-        self.pal.setColor(self.foregroundRole(), QColor(color))
-        self.setPalette(self.pal)
-        for cell in self.cellList:
-            cell.setForegroundColor(color)
-
-    def removeAllTiles(self):
-        logging.debug("Usun wszystkie plytki z planszy")
-        for cell in self.cellList:
-            cell.removeTile()
-
-    def getGridState(self):
-        gridState = []
-        for cell in self.cellList:
-            tileIndex = cell.getTileMasterIndex()
-            gridState.append(tileIndex)
-        return gridState
-
-    def restoreGridState(self, grid):
-        self.removeAllTiles()
-        if len(self.cellList) != len(grid):
-            logging.error("Problem z zaladowaniem planszy ")
-            return
-        for n in range(len(grid)):
-            index = grid[n]
-            if index is not None:
-                tile = main.tileCollection.getTileAtIndex(index)
-                self.cellList[n].addTile(tile)
-
-
-class PlayerControls(QFrame):
-    def __init__(self, bgColor, fgColor, playerGrid, playerName):
-        super(PlayerControls, self).__init__()
-        self.playerGrid = playerGrid
-        self.playerName = playerName
-        self.setFrameStyle(QFrame.Panel | QFrame.Sunken)
-        self.layout = QVBoxLayout()
-        self.layout.setAlignment((QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop))
-        self.setLayout(self.layout)
-
-        self.TakeTileButton = MyButton("Dobierz plytke")
-        self.TakeTileButton.clicked.connect(self.takeTile)
-
-        self.FreezeButton = MyButton("Zakoncz ture")
-
-        self.FrozenStateLabel = MyLabel("Twoja tura")
-
-        self.playerNameLabel = MyLabel(playerName)
-
-        self.layout.addWidget(self.playerNameLabel)
-        self.layout.addWidget(self.TakeTileButton)
-        self.layout.addWidget(self.FreezeButton)
-        self.layout.addWidget(self.FrozenStateLabel)
-
-        self.pal = self.palette()
-        self.pal.setColor(self.backgroundRole(), bgColor)
-        self.pal.setColor(self.foregroundRole(), fgColor)
-        self.setPalette(self.pal)
-        self.setAutoFillBackground(True)
-
-    def freeze(self):
-        logging.debug(self.playerName[6])
-        if main.player_turn == int(self.playerName[6])-1:
-            if self.playerGrid.isFrozen():
-                self.playerGrid.thaw()
-                self.FrozenStateLabel.updateText("Twoja tura")
-            else:
-                self.playerGrid.freeze()
-                self.FrozenStateLabel.updateText("Nie twoja tura")
-                main.change = True
-                main.player_turn = (main.player_turn+1) % 4
-                logging.debug(main.change)
-
-    def setBackgroundColor(self, color):
-        self.pal.setColor(self.backgroundRole(), QColor(color))
-        self.setPalette(self.pal)
-        for cell in self.cellList:
-            cell.setBackgroundColor(color)
-
-    def takeTile(self, tile):
-        if main.players[main.player_turn-1].drawedTile == False:
-            if main.tileBag.getNoOfTilesInBag() > 0:
-                nextTile = main.tileBag.getTileFromBag()
-                logging.info(self.playerName + " dobiera plytke. To:  " + str(nextTile.getColor()) + str(nextTile.getValue()))
-                for cell in self.playerGrid.cellList:
-                    status = cell.getCellStatus()
-                    if status == "Empty":
-                        cell.addTile(nextTile)
-                        main.players[main.player_turn-1].drawedTile = True
-                        break
-
-    def getPlayerName(self):
-        return self.playerName
 
 
 class GameBoard(TileGridBaseClass):
@@ -367,43 +218,6 @@ class GameBoard(TileGridBaseClass):
         self.cellList[index].removeTile()
 
 
-class PlayerGrid(TileGridBaseClass):
-    def __init__(self, bgColor, fgColor, gridName, rows, cols):
-        super(PlayerGrid, self).__init__(rows, cols, bgColor, fgColor, gridName)
-        self.pal = self.palette()
-        self.pal.setColor(self.backgroundRole(), bgColor)
-        self.pal.setColor(self.foregroundRole(), fgColor)  
-        self.setPalette(self.pal)
-        self.setAutoFillBackground(True)
-
-    def newDeal(self):
-        
-        for n in range(main.numberOfTilesToDeal):
-            if main.tileBag.getNoOfTilesInBag() > 0:
-                nextTile = main.tileBag.getTileFromBag()
-                logging.info( " dobieranie plytki. Jest to : " + str(nextTile.getColor()) + str(nextTile.getValue()))
-                for cell in self.cellList:
-                    status = cell.getCellStatus()
-                    if status == "Empty":
-                        cell.addTile(nextTile)
-                        break
-            else:
-                logging.info("Worek z plytkami jest pusty!")
-                break
-
-    def checkWinner(self):
-        isWinner = True
-        for cell in self.cellList:
-                status = cell.getCellStatus()
-                if status != "Empty":
-                    isWinner = False
-                    break
-        if isWinner == True:
-            QMessageBox.information(self,'Koniec gry','Zwyciezyl gracz '+ str(main.player_turn))
-            logging.info("Koniec gry. Zwyciezyl gracz "+ str(main.player_turn))
-        return isWinner
-    
-    
 # ++++++++++++++++++++++++++++++++++++++++++++++
 #          TILE BAG
 # ++++++++++++++++++++++++++++++++++++++++++++++
@@ -662,8 +476,8 @@ class Player():
         self.player_name = player_name
         playerBgColor = QColor('#A5A5A5')
         playerFgColor = QColor('#000000')
-        self.player_grid = PlayerGrid(playerBgColor, playerFgColor, "PlayerGrid", 2, main.numberOfColumns)
-        self.player_controls = PlayerControls(playerBgColor, main.playerFgColor, self.player_grid, self.player_name)
+        self.player_grid = PlayerGrid(playerBgColor, playerFgColor, "PlayerGrid", 2, main.numberOfColumns,main)
+        self.player_controls = PlayerControls(playerBgColor, main.playerFgColor, self.player_grid, self.player_name,main)
         self.player_first_turn = player_first_turn
         self.drawedTile = False
     
@@ -768,7 +582,6 @@ def getCellCol(cell):
     return cell.getCol()
 
 if __name__ == "__main__":
-    print("HIIIIIIIII")
     app = QApplication(sys.argv)
     main = Params()
     
