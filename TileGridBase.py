@@ -4,7 +4,7 @@ from Cell import BoardCell
 from PyQt5.QtGui import QColor
 
 class TileGridBaseClass(QFrame):
-    def __init__(self, rows, cols, bgColor, fgColor, gridName):
+    def __init__(self, rows, cols, bgColor, fgColor, gridName,main):
         super(TileGridBaseClass, self).__init__()
         self.setFrameStyle(QFrame.Panel | QFrame.Sunken)
         self.tileGrid = QGridLayout()
@@ -21,7 +21,7 @@ class TileGridBaseClass(QFrame):
         self.frozen = False
         for row in range(self.rows):
             for col in range(self.cols):
-                newCell = BoardCell(row, col, bgColor, fgColor, gridName)
+                newCell = BoardCell(row, col, bgColor, fgColor, gridName,main)
                 self.tileGrid.addWidget(newCell, row, col)  
                 self.cellList.append(newCell)
         self.setLayout(self.tileGrid)

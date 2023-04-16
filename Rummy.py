@@ -375,6 +375,7 @@ if __name__ == "__main__":
     RummyKub.show()
     main.newGame()
     freezePlayers()
+    
    
-
+# main.database.close()
 sys.exit(app.exec_())

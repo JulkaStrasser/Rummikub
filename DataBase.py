@@ -15,8 +15,10 @@ class DataBase():
         self.cursor.execute("insert into history values (?,?)",(player,action))
         
     def read_all_data(self):
-        for row in self.cursor.execute("select * from history"):
-            print(row)
+        with open('database.txt', 'w') as f:
+            for row in self.cursor.execute("select * from history"):
+                print(row)
+                f.write(str(row)+"\n")
 
     def close(self):
         self.connection.close()

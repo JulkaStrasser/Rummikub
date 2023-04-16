@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QMessageBox
 
 class GameBoard(TileGridBaseClass):
     def __init__(self, bgColor, fgColor, gridName, rows, cols,main):
-        super(GameBoard, self).__init__(rows, cols, bgColor, fgColor, gridName)
+        super(GameBoard, self).__init__(rows, cols, bgColor, fgColor, gridName,main)
         self.main = main
         self.listItems()
         self.all_sequences = []
@@ -52,6 +52,7 @@ class GameBoard(TileGridBaseClass):
                 if len(seq) > 2:
                     self.all_sequences.append(seq)
                 else:
+                    self.main.database.write("Gracz "+ str(self.main.player_turn),"Blad ciag musi miec co najmniej 3 elementy")
                     logging.info('Blad ciag musi miec co najmniej 3 elementy !')
                     QMessageBox.warning(self,'Niedozwolony ruch','Sekwencja musi miec co najmniej 3 plytki !')
                     return False
@@ -59,6 +60,7 @@ class GameBoard(TileGridBaseClass):
                 seq = []
                 # seq.clear()
             elif left_neighbour_status == 'Empty' and right_neighbour_status == 'Empty' and cell.getCellStatus() != 'Empty':
+                self.main.database.write("Gracz "+ str(self.main.player_turn),"Blad ciag musi miec co najmniej 3 elementy")
                 logging.info('Blad ciag musi miec co najmniej 3 elementy !')
                 QMessageBox.warning(self,'Niedozwolony ruch','Sekwencja musi miec co najmniej 3 plytki !')
                 return False
@@ -109,6 +111,7 @@ class GameBoard(TileGridBaseClass):
                 # IF BAD SEQ
                 if check_diff_colors == False and check_plus_num == False:
                     logging.info('Nie mozna wykonac takiego ruchu !')
+                    self.main.database.write("Gracz "+ str(self.main.player_turn),"Nie mozna wykonac takiego ruchu !")
                     for cell in seq:
                         cell.errorHighLightOn()
                     QMessageBox.warning(self,'Niedozwolony ruch','Nie mozesz wykonac takiego ruchu')

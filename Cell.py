@@ -19,8 +19,9 @@ class BoardCell(QFrame):
     dragStartCell = 0
     multiDragList = []
     NoOfVacantCellsAvailableForMultiMove = 0
-    def __init__(self, row, col, bgColor, fgColor, parent):
+    def __init__(self, row, col, bgColor, fgColor, parent,main):
         super(BoardCell, self).__init__()
+        self.main = main
         self.setFrameStyle(QFrame.Box)
         self.layout = QVBoxLayout()
         self.layout.setContentsMargins(4, 4, 4, 4)
@@ -66,11 +67,13 @@ class BoardCell(QFrame):
 
     def printMultiDragList(self):
         print("The multi drag list contains the following tiles")
+        self.main.database.write('Gracz'+str(self.main.player_turn+1),"The multi drag list contains the following tiles")
         if len(BoardCell.multiDragList) > 0:
             for cell in BoardCell.multiDragList:
                 color = cell.getResidentTile().getColor()
                 value = cell.getResidentTile().getValue()
                 print(cell.getParentGridName(), " - ", str(color), " ", str(value))
+                self.main.database.write('Gracz'+str(self.main.player_turn+1),"The multi drag list contains the following tiles"+ cell.getParentGridName()+ " - "+str(color)+" "+ str(value))
         else:
             print("Empty")
 
@@ -140,6 +143,9 @@ class BoardCell(QFrame):
     def addTile(self, newTile):
         print("Cell ", str(self.row), str(self.col), " add tile ", str(newTile.getColor()), " ",
               str(newTile.getValue()))
+        self.main.database.write('Gracz'+str(self.main.player_turn+1),"Cell "+str(self.row)+str(self.col)+" add tile "+str(newTile.getColor())+ " "+
+              str(newTile.getValue()))
+        
         # newTile.show()
         self.layout.addWidget(newTile)
 
@@ -148,6 +154,8 @@ class BoardCell(QFrame):
 
     def addTileWithPreShow(self, newTile):
         print("Cell ", str(self.row), str(self.col), " add tile ", str(newTile.getColor()), " ",
+              str(newTile.getValue()))
+        self.main.database.write('Gracz'+str(self.main.player_turn+1),"Cell "+str(self.row)+str(self.col)+" add tile "+str(newTile.getColor())+ " "+
               str(newTile.getValue()))
         newTile.show()
         self.layout.addWidget(newTile)
@@ -161,6 +169,7 @@ class BoardCell(QFrame):
 
     def removeTile(self):
         print("Remove tile in cell ", str(self.row), str(self.col))
+        self.main.database.write('Gracz'+str(self.main.player_turn+1),"Remove tile in cell "+str(self.row)+str(self.col))
         cellContents = self.findChild(RummyTile)
         if cellContents != None:
             cellContents.setParent(None)

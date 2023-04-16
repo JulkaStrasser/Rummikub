@@ -146,6 +146,4 @@ class ControlPanel(QFrame):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    # win = ControlPanel()
-    # win.show()
     exit(app.exec_())
