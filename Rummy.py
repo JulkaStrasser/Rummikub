@@ -21,7 +21,7 @@ from ControlPanel import ControlPanel,RemainTiles
 from Player import PlayerControls, PlayerGrid,Player
 from TileGridBase import TileGridBaseClass
 from GameBoard import GameBoard
-
+from DataBase import DataBase
 
 
 class TileBag():
@@ -37,6 +37,8 @@ class TileBag():
 
         random.shuffle(self.tileBag)
         logging.info("Plytki sa przygotowane, pomieszane w worku")
+        main.database.write("Wszyscy","Plytki przygotowane do gry")
+        main.database.read_all_data()
 
     def getTileFromBag(self):
 
@@ -196,6 +198,7 @@ def freezePlayers():
     
     if main.players[main.player_turn-1].player_grid.checkWinner() == True:
         # logging.debug('Gracz'+str(main.player_turn)+' jest zwyciezca')
+        main.database.write("Gracz "+str(main.player_turn), "jest zwyciezca")
         sys.exit()
 
     if main.gameBoard.detectSequences() != True:
@@ -203,6 +206,8 @@ def freezePlayers():
     
     else:
         main.players[main.player_turn-1].drawedTile = False
+        main.database.write('Gracz'+str(main.player_turn+1),'Twoja tura')
+        main.database.read_all_data()
         if main.player_turn == 0:
             #budzimy playera 1
             main.players[0].player_controls.playerGrid.thaw()
@@ -314,6 +319,7 @@ class LoggingWindow(QtWidgets.QDialog, QtWidgets.QPlainTextEdit):
 
 class Main():
     def __init__(self):
+        self.database = DataBase()
         self.tileColors = ["red", "black", "blue", "yellow"]
         self.tileOwner = ["none", "player", "board", "bag"]
         self.tileValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
@@ -352,6 +358,7 @@ class Main():
 
         self.tileCollection = TileCollection(self)
         self.tileBag = TileBag(self)
+        
 
     def newGame(self):
         self.gameBoard.removeAllTiles()

@@ -22,11 +22,11 @@ class DataBase():
         self.connection.close()
 
 
-if __name__ == '__main__':
-    database = DataBase()
-    database.write_test_data()
-    database.write("Gracz 10","Suma musi byc wieksza niz 30 !")
-    database.read_all_data()
-    database.close()
+# if __name__ == '__main__':
+#     database = DataBase()
+#     database.write_test_data()
+#     database.write("Gracz 10","Suma musi byc wieksza niz 30 !")
+#     database.read_all_data()
+#     database.close()
 
 
