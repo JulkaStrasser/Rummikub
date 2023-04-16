@@ -16,185 +16,9 @@ import time
 from AnalogTimer import AnalogTimer
 import logging
 from PyQt5 import QtGui, QtCore,QtWidgets
+from Graphics import MyLabel, MyButton
+from ControlPanel import ControlPanel,RemainTiles
 
-
-def newGame():
-    gameBoard.removeAllTiles()
-    players[0].player_grid.removeAllTiles()
-    players[1].player_grid.removeAllTiles()
-    players[2].player_grid.removeAllTiles()
-    players[3].player_grid.removeAllTiles()
-    tileCollection.clearTiles() 
-    tileBag.newGame()
-    players[0].player_grid.newDeal()
-    players[1].player_grid.newDeal()
-    players[2].player_grid.newDeal()
-    players[3].player_grid.newDeal()
-
-
-class MyButton(QPushButton):
-    def __init__(self, text):
-        super(MyButton, self).__init__()
-        self.setFixedWidth(120)
-        self.setFixedHeight(25)
-        self.setFont(QFont('SansSerif', 10))
-        self.setText(text)
-
-
-class MyLabel(QLabel):
-    def __init__(self, legend):
-        super(MyLabel, self).__init__()
-
-        self.setText(legend)
-
-        self.setFont(QFont('SansSerif', 12))
-        self.pal = self.palette()
-        self.pal.setColor(self.backgroundRole(), QColor('#F2F2F2'))
-        self.pal.setColor(self.foregroundRole(), QColor('#B30000')) 
-        self.setPalette(self.pal)
-        self.setAutoFillBackground(True)
-
-    def updateText(self, newText):
-        self.setText(newText)
-
-
-
-class RemainTiles(QLabel):
-    def __init__(self, legend):
-        super(RemainTiles, self).__init__()
-
-        self.setFrameShape(QFrame.Panel)
-        self.setFrameShadow(QFrame.Sunken)
-        self.setLineWidth(3)
-       
-
-        self.setText(legend)
-
-        self.setFont(QFont('SansSerif', 18))
-        self.pal = self.palette()
-        self.pal.setColor(self.backgroundRole(), QColor('#F2F2F2'))
-        self.pal.setColor(self.foregroundRole(), QColor('#000000'))
-        self.setPalette(self.pal)
-        self.setAutoFillBackground(True)
-
-    def updateText(self, newText):
-        self.setText(newText)
-
-
-class ControlPanel(QFrame):
-    def __init__(self):
-
-        super(ControlPanel, self).__init__()
-        self.setFrameStyle(QFrame.Panel | QFrame.Sunken)
-        self.layout = QVBoxLayout()
-        self.layout.setAlignment((QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop))
-        self.setLayout(self.layout)
-        self.setMinimumHeight(300)
-        self.setMinimumWidth(140)
-        self.buttonBar = QVBoxLayout()
-
-        #BUTTONS
-        self.newGameButton = MyButton("Nowa gra")
-        self.newGameButton.clicked.connect(newGame)
-
-        self.ExitButton = MyButton("Wyjscie")
-        self.ExitButton.clicked.connect(self.Exit)
-   
-        self.two_players = QRadioButton("2 graczy")
-        # radiobutton.toggled.connect(self.onClicked)
-
-        self.three_players = QRadioButton("3 graczy")
-        self.playerAI = QRadioButton("zagraj z AI")
-
-        ip_input = QLabel('Adres IP :', self)
-        self.ip_input = QLineEdit(self)
-        self.ip_input.returnPressed.connect(self.validate_input)
-
-        ip_regex = QRegExp("(?:[0-9]{1,3}\.){3}[0-9]{1,3}")
-        ip_validator = QRegExpValidator(ip_regex, self.ip_input)
-        self.ip_input.setValidator(ip_validator)
-
-        port_input = QLabel('Port Number:', self)
-        self.port_input = QLineEdit(self)
-        # Set the maximum length of the QLineEdit to 5 (the maximum length of a port number)
-        self.port_input.setMaxLength(5)
-
-        self.buttonBar.addWidget(self.two_players)
-        self.buttonBar.addWidget(self.three_players)
-        self.buttonBar.addWidget(self.playerAI)
-        
-        self.buttonBar.addWidget(ip_input)
-        self.buttonBar.addWidget(self.ip_input)
-
-        self.buttonBar.addWidget(port_input)
-        self.buttonBar.addWidget(self.port_input)
-
-        self.buttonBar.addWidget(self.newGameButton)
-        self.buttonBar.addWidget(self.ExitButton)
-       
-        
-        self.layout.addLayout(self.buttonBar)
-        self.infoBar = QVBoxLayout()
-        self.layout.setAlignment((QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop))
-
-        self.NoOfTilesInBagIndicator = RemainTiles("hjhh")
-        self.layout.addWidget(self.NoOfTilesInBagIndicator)
-        self.NoOfTilesInBagIndicator.updateText("0")
-
-    def validate_input(self):
-        ip_address = self.ip_input.text()
-        if not ip_address:
-            QMessageBox.warning(self, "Invalid Input", "Please enter an IP address.")
-            return
-        else:
-            octets = ip_address.split('.')
-            if len(octets) != 4:
-                QMessageBox.warning(self, "Invalid Input", "The IP address must have four octets.")
-                return
-            for octet in octets:
-                if not octet.isdigit() or int(octet) < 0 or int(octet) > 255:
-                    QMessageBox.warning(self, "Invalid Input", "Each octet must be an integer between 0 and 255.")
-                    return
-        QMessageBox.information(self, "Valid Input", "The entered IP address is valid.")
-
-    def masterTileList(self):
-        tileCollection.printTileList()
-
-    def listBoard(self):
-        self.tilesLeftInfoBox.clear()
-        for cell in gameBoard.cellList:
-            index = cell.getCellListIndex()
-            cellStr = str(index) + " - " + str(cell.getCellStatus())
-            self.tilesLeftInfoBox.appendPlainText(cellStr)
-
-    def takeTile(self):
-        if tileBag.getNoOfTilesInBag() > 0:
-            nextTile = tileBag.getTileFromBag()
-            gameBoard.AddTileFromBag(nextTile)
-
-
-    def Exit(self):
-        logging.info('Wyjscie z programu')
-        sys.exit()
-
-    def setNumberOfTiles(self, NoOfTiles):
-        tempStr = str(NoOfTiles) + " tiles left in bag"
-        self.tilesLeftInfoBox.setPlainText(tempStr)
-
-    def clearInfoBox(self):
-        self.tilesLeftInfoBox.clear()
-
-    def appendInfo(self, tempStr):
-        self.tilesLeftInfoBox.appendPlainText(tempStr)
-
-    def saveBoardState(self):
-        gridArchiveManager.saveGameState()
-
-    def saveBoardState(self):
-        gridArchiveManager.saveGameState()
-
-    def restoreBoardState(self):
-        gridArchiveManager.restoreGameState()
 
 
 # GAME BOARD
@@ -282,7 +106,7 @@ class TileGridBaseClass(QFrame):
         for n in range(len(grid)):
             index = grid[n]
             if index is not None:
-                tile = tileCollection.getTileAtIndex(index)
+                tile = main.tileCollection.getTileAtIndex(index)
                 self.cellList[n].addTile(tile)
 
 
@@ -336,15 +160,15 @@ class PlayerControls(QFrame):
             cell.setBackgroundColor(color)
 
     def takeTile(self, tile):
-        if players[main.player_turn-1].drawedTile == False:
-            if tileBag.getNoOfTilesInBag() > 0:
-                nextTile = tileBag.getTileFromBag()
+        if main.players[main.player_turn-1].drawedTile == False:
+            if main.tileBag.getNoOfTilesInBag() > 0:
+                nextTile = main.tileBag.getTileFromBag()
                 logging.info(self.playerName + " dobiera plytke. To:  " + str(nextTile.getColor()) + str(nextTile.getValue()))
                 for cell in self.playerGrid.cellList:
                     status = cell.getCellStatus()
                     if status == "Empty":
                         cell.addTile(nextTile)
-                        players[main.player_turn-1].drawedTile = True
+                        main.players[main.player_turn-1].drawedTile = True
                         break
 
     def getPlayerName(self):
@@ -555,8 +379,8 @@ class PlayerGrid(TileGridBaseClass):
     def newDeal(self):
         
         for n in range(main.numberOfTilesToDeal):
-            if tileBag.getNoOfTilesInBag() > 0:
-                nextTile = tileBag.getTileFromBag()
+            if main.tileBag.getNoOfTilesInBag() > 0:
+                nextTile = main.tileBag.getTileFromBag()
                 logging.info( " dobieranie plytki. Jest to : " + str(nextTile.getColor()) + str(nextTile.getValue()))
                 for cell in self.cellList:
                     status = cell.getCellStatus()
@@ -584,15 +408,15 @@ class PlayerGrid(TileGridBaseClass):
 #          TILE BAG
 # ++++++++++++++++++++++++++++++++++++++++++++++
 class TileBag():
-    def __init__(self):
+    def __init__(self,main):
         self.tileBag = []
         self.nextTileToDeal = 0
-        tile = tileCollection.getTile()
+        tile = main.tileCollection.getTile()
 
         while tile != []:
             tile.owner = "bag"
             self.tileBag.append(tile)
-            tile = tileCollection.getTile()
+            tile = main.tileCollection.getTile()
 
         random.shuffle(self.tileBag)
         logging.info("Plytki sa przygotowane, pomieszane w worku")
@@ -613,12 +437,12 @@ class TileBag():
     def newGame(self):
         self.tileBag = []
         self.nextTileToDeal = 0
-        tile = tileCollection.getTile()
+        tile = main.tileCollection.getTile()
 
         while tile != []:
             tile.owner = "bag"
             self.tileBag.append(tile)
-            tile = tileCollection.getTile()
+            tile = main.tileCollection.getTile()
 
         random.shuffle(self.tileBag)
         logging.debug("Plytki sa w worku")
@@ -627,7 +451,7 @@ class TileBag():
 
 
 class TileCollection():
-    def __init__(self):
+    def __init__(self,main):
         self.tiles = []
         index = 0
         for n in [1,2]:
@@ -685,33 +509,31 @@ class MyView(QGraphicsView):
 class MainWin(QMainWindow):
     def __init__(self):
         super(MainWin, self).__init__()
-
         self.view=MyView()
         self.setCentralWidget(self.view)
-        self.controlPanel = ControlPanel()
+        self.controlPanel = ControlPanel(main)
 
         #Add to grid layout
         self.gameLayout = QGridLayout()
-        self.gameLayout.addWidget(players[0].player_grid, 0, 0)
-        self.gameLayout.addWidget(players[0].player_controls, 0, 1)
+        self.gameLayout.addWidget(main.players[0].player_grid, 0, 0)
+        self.gameLayout.addWidget(main.players[0].player_controls, 0, 1)
 
-        self.gameLayout.addWidget(players[2].player_grid, 0, 2)
-        self.gameLayout.addWidget(players[2].player_controls, 0, 3)
+        self.gameLayout.addWidget(main.players[2].player_grid, 0, 2)
+        self.gameLayout.addWidget(main.players[2].player_controls, 0, 3)
 
-        self.gameLayout.addWidget(gameBoard, 1, 0, 3, 3)
+        self.gameLayout.addWidget(main.gameBoard, 1, 0, 3, 3)
 
-        self.gameLayout.addWidget(players[1].player_grid, 4, 0)
-        self.gameLayout.addWidget(players[1].player_controls, 4, 1)
+        self.gameLayout.addWidget(main.players[1].player_grid, 4, 0)
+        self.gameLayout.addWidget(main.players[1].player_controls, 4, 1)
 
-        self.gameLayout.addWidget(players[3].player_grid, 4, 2)
-        self.gameLayout.addWidget(players[3].player_controls, 4, 3)
+        self.gameLayout.addWidget(main.players[3].player_grid, 4, 2)
+        self.gameLayout.addWidget(main.players[3].player_controls, 4, 3)
         
         self.gameLayout.addWidget(self.controlPanel, 1, 3, 2 ,1)
 
         self.AnalogTimer = AnalogTimer()
         self.AnalogTimer.setGeometry(QtCore.QRect(110, 290, 200, 200))
         self.gameLayout.addWidget(self.AnalogTimer, 3, 3, 1 ,1)
-
         self.mainWidget = QWidget()
         self.mainWidget.setLayout(self.gameLayout)
 
@@ -755,91 +577,93 @@ def freezePlayers():
     
     main.change = False
     
-    if players[main.player_turn-1].player_grid.checkWinner() == True:
+    if main.players[main.player_turn-1].player_grid.checkWinner() == True:
         # logging.debug('Gracz'+str(main.player_turn)+' jest zwyciezca')
         sys.exit()
 
-    if gameBoard.detectSequences() != True:
+    if main.gameBoard.detectSequences() != True:
         pass
     
     else:
-        players[main.player_turn-1].drawedTile = False
+        main.players[main.player_turn-1].drawedTile = False
         if main.player_turn == 0:
             #budzimy playera 1
-            players[0].player_controls.playerGrid.thaw()
-            players[0].player_controls.FrozenStateLabel.updateText("Twoja tura")
-            players[0].player_controls.setEnabled(True)
+            main.players[0].player_controls.playerGrid.thaw()
+            main.players[0].player_controls.FrozenStateLabel.updateText("Twoja tura")
+            main.players[0].player_controls.setEnabled(True)
 
-            players[1].player_controls.playerGrid.freeze()
-            players[1].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-            players[1].player_controls.setEnabled(False)
+            main.players[1].player_controls.playerGrid.freeze()
+            main.players[1].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            main.players[1].player_controls.setEnabled(False)
 
-            players[2].player_controls.playerGrid.freeze()
-            players[2].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-            players[2].player_controls.setEnabled(False)
+            main.players[2].player_controls.playerGrid.freeze()
+            main.players[2].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            main.players[2].player_controls.setEnabled(False)
 
-            players[3].player_controls.playerGrid.freeze()
-            players[3].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-            players[3].player_controls.setEnabled(False)
+            main.players[3].player_controls.playerGrid.freeze()
+            main.players[3].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            main.players[3].player_controls.setEnabled(False)
 
         elif(main.player_turn == 1):
-            players[1].player_controls.playerGrid.thaw()
-            players[1].player_controls.FrozenStateLabel.updateText("Twoja tura")
-            players[1].player_controls.setEnabled(True)
+            main.players[1].player_controls.playerGrid.thaw()
+            main.players[1].player_controls.FrozenStateLabel.updateText("Twoja tura")
+            main.players[1].player_controls.setEnabled(True)
 
-            players[0].player_controls.playerGrid.freeze()
-            players[0].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-            players[0].player_controls.setEnabled(False)
+            main.players[0].player_controls.playerGrid.freeze()
+            main.players[0].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            main.players[0].player_controls.setEnabled(False)
 
-            players[2].player_controls.playerGrid.freeze()
-            players[2].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-            players[2].player_controls.setEnabled(False)
+            main.players[2].player_controls.playerGrid.freeze()
+            main.players[2].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            main.players[2].player_controls.setEnabled(False)
 
-            players[3].player_controls.playerGrid.freeze()
-            players[3].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-            players[3].player_controls.setEnabled(False)
+            main.players[3].player_controls.playerGrid.freeze()
+            main.players[3].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            main.players[3].player_controls.setEnabled(False)
         elif(main.player_turn == 2):
-            players[2].player_controls.playerGrid.thaw()
-            players[2].player_controls.FrozenStateLabel.updateText("Twoja tura")
-            players[2].player_controls.setEnabled(True)
+            main.players[2].player_controls.playerGrid.thaw()
+            main.players[2].player_controls.FrozenStateLabel.updateText("Twoja tura")
+            main.players[2].player_controls.setEnabled(True)
             
-            players[0].player_controls.playerGrid.freeze()
-            players[0].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-            players[0].player_controls.setEnabled(False)
+            main.players[0].player_controls.playerGrid.freeze()
+            main.players[0].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            main.players[0].player_controls.setEnabled(False)
 
-            players[1].player_controls.playerGrid.freeze()
-            players[1].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-            players[1].player_controls.setEnabled(False)
+            main.players[1].player_controls.playerGrid.freeze()
+            main.players[1].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            main.players[1].player_controls.setEnabled(False)
 
-            players[3].player_controls.playerGrid.freeze()
-            players[3].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-            players[3].player_controls.setEnabled(False)
+            main.players[3].player_controls.playerGrid.freeze()
+            main.players[3].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            main.players[3].player_controls.setEnabled(False)
         elif(main.player_turn == 3):
-            players[3].player_controls.playerGrid.thaw()
-            players[3].player_controls.FrozenStateLabel.updateText("Twoja tura")
-            players[3].player_controls.setEnabled(True)
+            main.players[3].player_controls.playerGrid.thaw()
+            main.players[3].player_controls.FrozenStateLabel.updateText("Twoja tura")
+            main.players[3].player_controls.setEnabled(True)
 
-            players[0].player_controls.playerGrid.freeze()
-            players[0].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-            players[0].player_controls.setEnabled(False)
+            main.players[0].player_controls.playerGrid.freeze()
+            main.players[0].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            main.players[0].player_controls.setEnabled(False)
 
-            players[2].player_controls.playerGrid.freeze()
-            players[2].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-            players[2].player_controls.setEnabled(False)
+            main.players[2].player_controls.playerGrid.freeze()
+            main.players[2].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            main.players[2].player_controls.setEnabled(False)
 
-            players[1].player_controls.playerGrid.freeze()
-            players[1].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
-            players[1].player_controls.setEnabled(False)
+            main.players[1].player_controls.playerGrid.freeze()
+            main.players[1].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
+            main.players[1].player_controls.setEnabled(False)
 
         main.player_turn = (main.player_turn+1)%4
     
 
 class Player():
-    def __init__(self, player_id, player_name,player_first_turn):
+    def __init__(self, player_id, player_name,player_first_turn,main):
         self.player_id = player_id
         self.player_name = player_name
+        playerBgColor = QColor('#A5A5A5')
+        playerFgColor = QColor('#000000')
         self.player_grid = PlayerGrid(playerBgColor, playerFgColor, "PlayerGrid", 2, main.numberOfColumns)
-        self.player_controls = PlayerControls(playerBgColor, playerFgColor, self.player_grid, self.player_name)
+        self.player_controls = PlayerControls(playerBgColor, main.playerFgColor, self.player_grid, self.player_name)
         self.player_first_turn = player_first_turn
         self.drawedTile = False
     
@@ -886,53 +710,73 @@ class LoggingWindow(QtWidgets.QDialog, QtWidgets.QPlainTextEdit):
         LoggingWindow.instance = self
 
 class Params():
-    tileColors = ["red", "black", "blue", "yellow"]
-    tileOwner = ["none", "player", "board", "bag"]
-    tileValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
-    numberOfColumns = 15
-    numberOfTilesToDeal = 15
-    player_turn = 0
-    change = False
-    players_first_turn = [True,True,True,True]
+    def __init__(self):
+        self.tileColors = ["red", "black", "blue", "yellow"]
+        self.tileOwner = ["none", "player", "board", "bag"]
+        self.tileValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+        self.numberOfColumns = 15
+        self.numberOfTilesToDeal = 15
+        self.player_turn = 0
+        self.change = False
+
+        self.players_first_turn = [True,True,True,True]
+        # app = QApplication(sys.argv)
+        self.dlg = LoggingWindow()
+
+        self.playerBgColor = QColor('#A5A5A5')
+        self.playerFgColor = QColor('#000000')
+
+        self.boardBgColor = QColor('#F2F2F2')
+        self.boardFgColor = QColor('#A5A5A5')
+
+        self.players = []
+        self.players.append(Player(0,'Gracz 1',True,self))
+        self.players[0].player_controls.FreezeButton.clicked.connect(freezePlayers)
+        
+        self.players.append(Player(1,'Gracz 2', True,self)) 
+        self.players[1].player_controls.FreezeButton.clicked.connect(freezePlayers)
+
+        self.players.append(Player(2,'Gracz 3', True,self))
+        self.players[2].player_controls.FreezeButton.clicked.connect(freezePlayers)
+
+        self.players.append(Player(3,'Gracz 4', True,self))
+        self.players[3].player_controls.FreezeButton.clicked.connect(freezePlayers)
+
+
+        self.gameBoard = GameBoard(self.boardBgColor, self.boardFgColor, "GameBoard", 8, self.numberOfColumns*2)
+
+        self.gridArchiveManager = GridArchiveManager(self.players[0].player_grid, self.players[1].player_grid, self.players[2].player_grid, self.players[3].player_grid, self.gameBoard)
+
+        self.tileCollection = TileCollection(self)
+        self.tileBag = TileBag(self)
+
+    def newGame(self):
+        self.gameBoard.removeAllTiles()
+        self.players[0].player_grid.removeAllTiles()
+        self.players[1].player_grid.removeAllTiles()
+        self.players[2].player_grid.removeAllTiles()
+        self.players[3].player_grid.removeAllTiles()
+        self.tileCollection.clearTiles() 
+        self.tileBag.newGame()
+        self.players[0].player_grid.newDeal()
+        self.players[1].player_grid.newDeal()
+        self.players[2].player_grid.newDeal()
+        self.players[3].player_grid.newDeal()
+    # RummyKub = MainWin()
 
 def getCellCol(cell):
     return cell.getCol()
 
 if __name__ == "__main__":
-    main = Params()
+    print("HIIIIIIIII")
     app = QApplication(sys.argv)
-    dlg = LoggingWindow()
-
-    playerBgColor = QColor('#A5A5A5')
-    playerFgColor = QColor('#000000')
-
-    boardBgColor = QColor('#F2F2F2')
-    boardFgColor = QColor('#A5A5A5')
-
-    players = []
-    players.append(Player(0,'Gracz 1',True))
-    players[0].player_controls.FreezeButton.clicked.connect(freezePlayers)
+    main = Params()
     
-    players.append(Player(1,'Gracz 2', True)) 
-    players[1].player_controls.FreezeButton.clicked.connect(freezePlayers)
-
-    players.append(Player(2,'Gracz 3', True))
-    players[2].player_controls.FreezeButton.clicked.connect(freezePlayers)
-
-    players.append(Player(3,'Gracz 4', True))
-    players[3].player_controls.FreezeButton.clicked.connect(freezePlayers)
-
-
-    gameBoard = GameBoard(boardBgColor, boardFgColor, "GameBoard", 8, main.numberOfColumns*2)
-
-    gridArchiveManager = GridArchiveManager(players[0].player_grid, players[1].player_grid, players[2].player_grid, players[3].player_grid, gameBoard)
-
-    tileCollection = TileCollection()
-    tileBag = TileBag()
     RummyKub = MainWin()
+    
     RummyKub.show()
     
-    newGame()
+    main.newGame()
     
     freezePlayers()
    
