@@ -110,4 +110,19 @@ class PlayerGrid(TileGridBaseClass):
             logging.info("Koniec gry. Zwyciezyl gracz "+ str(self.main.player_turn))
         return isWinner
     
+
+class Player():
+    def __init__(self, player_id, player_name,player_first_turn,main):
+        self.player_id = player_id
+        self.player_name = player_name
+        playerBgColor = QColor('#A5A5A5')
+        playerFgColor = QColor('#000000')
+        self.player_grid = PlayerGrid(playerBgColor, playerFgColor, "PlayerGrid", 2, main.numberOfColumns,main)
+        self.player_controls = PlayerControls(playerBgColor, main.playerFgColor, self.player_grid, self.player_name,main)
+        self.player_first_turn = player_first_turn
+        self.drawedTile = False
+    
+    def change_first_turn(self,first_turn):
+        self.player_first_turn = first_turn
+    
     
