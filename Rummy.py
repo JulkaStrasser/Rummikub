@@ -2,7 +2,7 @@ import sys, random
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QApplication, QGraphicsView, QGraphicsScene, QGraphicsRectItem
 
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QFrame, QHBoxLayout, QGridLayout, QMainWindow, QFontComboBox
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QFrame, QHBoxLayout, QGridLayout, QMainWindow, QFontComboBox, QLabel, QRadioButton, QCheckBox, QVBoxLayout
 from PyQt5.QtGui import QColor
 from Tile import RummyTile
 from GridArchive import GridArchiveManager
@@ -38,7 +38,8 @@ class TileBag():
         else:
             tile = self.tileBag.pop()
             tile.owner = "board"
-            RummyKub.controlPanel.NoOfTilesInBagIndicator.setText(str(len(self.tileBag) - 1))
+            if window.RummyKub != None:
+                window.RummyKub.controlPanel.NoOfTilesInBagIndicator.setText(str(len(self.tileBag) - 1))
             return tile
 
     def getNoOfTilesInBag(self):
@@ -115,6 +116,74 @@ class MyView(QGraphicsView):
         self.scene.addItem(self.item)
         self.setScene(self.scene)
 
+
+class ConfigWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.RummyKub = None  # No external window yet.
+        self.noPlayersLabel = QLabel("Wybierz ilosc graczy")
+        self.two_players = QRadioButton("2 graczy")
+        # self.two_players.toggled.connect(self.change_2players)
+        self.three_players = QRadioButton("3 graczy")
+        #self.three_players.toggled.connect(self.change_3players)
+
+        self.playerAI = QRadioButton("zagraj z AI")
+
+        self.saveHistLabel = QLabel("Wybierz format zapisu historii gry")
+
+        self.histsql = QCheckBox('sqlite3')
+        self.histsql.setChecked(True)
+        self.histjson = QCheckBox('json')
+        self.histjson.setChecked(True)
+        self.histxml = QCheckBox('xml')
+        self.histxml.setChecked(True)
+
+        # Create buttons
+        self.playButton = QPushButton('Zacznij gre')
+        self.playButton.clicked.connect(self.show_new_window)
+
+        # Create layout
+        vbox = QVBoxLayout()
+        hbox0 = QHBoxLayout()
+        hbox1 = QHBoxLayout()
+        hbox2 = QHBoxLayout()
+        hbox3 = QHBoxLayout()
+        hbox4 = QHBoxLayout()
+
+        hbox0.addWidget(self.noPlayersLabel)
+        hbox1.addWidget(self.two_players)
+        hbox1.addWidget(self.three_players)
+        hbox1.addWidget(self.playerAI)
+        hbox2.addWidget(self.saveHistLabel)
+        
+        hbox3.addWidget(self.histsql)
+        hbox3.addWidget(self.histjson)
+        hbox3.addWidget(self.histxml)
+
+        hbox4.addWidget(self.playButton)
+        
+
+        vbox.addLayout(hbox0)
+        vbox.addLayout(hbox1)
+        vbox.addLayout(hbox2)
+        vbox.addLayout(hbox3)
+        vbox.addLayout(hbox4)
+
+        self.setLayout(vbox)
+
+        # Set window properties
+        self.setGeometry(100, 100, 400, 200)
+        self.setWindowTitle('My Window')
+
+    def show_new_window(self, checked):
+        if self.RummyKub is None:
+            self.RummyKub = MainWin()
+            self.RummyKub.show()
+            self.hide()
+
+        else:
+            self.RummyKub.close()  # Close window.
+            self.RummyKub = None  # Discard reference.
 
 class MainWin(QMainWindow):
     def __init__(self):
@@ -373,8 +442,10 @@ def getCellCol(cell):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     main = Main()
-    RummyKub = MainWin()
-    RummyKub.show()
+    # RummyKub = MainWin()
+    # RummyKub.show()
+    window = ConfigWindow()
+    window.show()
     main.newGame()
     freezePlayers()
     

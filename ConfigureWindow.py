@@ -1,10 +1,23 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QCheckBox, QRadioButton
-
-class MyWindow(QWidget):
+from random import randint
+class AnotherWindow(QWidget):
+    """
+    This "window" is a QWidget. If it has no parent, it
+    will appear as a free-floating window as we want.
+    """
     def __init__(self):
         super().__init__()
+        layout = QVBoxLayout()
+        self.label = QLabel("Another Window % d" % randint(0,100))
+        layout.addWidget(self.label)
+        self.setLayout(layout)
 
+
+class ConfigWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.w = None  # No external window yet.
         self.noPlayersLabel = QLabel("Wybierz ilosc graczy")
         self.two_players = QRadioButton("2 graczy")
         # self.two_players.toggled.connect(self.change_2players)
@@ -24,7 +37,7 @@ class MyWindow(QWidget):
 
         # Create buttons
         self.playButton = QPushButton('Zacznij gre')
-        
+        self.playButton.clicked.connect(self.show_new_window)
 
         # Create layout
         vbox = QVBoxLayout()
@@ -59,9 +72,18 @@ class MyWindow(QWidget):
         self.setGeometry(100, 100, 400, 200)
         self.setWindowTitle('My Window')
 
+    def show_new_window(self, checked):
+        if self.w is None:
+            self.w = AnotherWindow()
+            self.w.show()
+
+        else:
+            self.w.close()  # Close window.
+            self.w = None  # Discard reference.
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    window = MyWindow()
+    window = ConfigWindow()
     window.show()
     sys.exit(app.exec_())
 
