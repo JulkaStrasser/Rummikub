@@ -89,39 +89,3 @@ class JsonOption():
         with open(self.filename, "a") as outfile:
 	        outfile.write(self.json_object)
                 
-   
-
-# # some JSON:
-# x =  '{ "name":"John", "age":30, "city":"New York"}'
-
-# # parse x:
-# y = json.loads(x)
-
-# # the result is a Python dictionary:
-# print(y["age"])
-
-# #ZAPIS DO PLIKU
-# # Data to be written
-# movement = {
-# 	"player": "Gracz 1",
-# 	"action": "Dobral plytke"
-# }
-
-# # Serializing json
-# json_object = json.dumps(movement, indent=2)
-
-# # Writing to sample.json
-# with open("sample.json", "w") as outfile:
-# 	outfile.write(json_object)
-
-
-
-
-#ODCZYT Z PLIKU
-# with open('sample.json', 'r') as openfile:
- 
-#     # Reading from json file
-#     json_object = json.load(openfile)
- 
-# print(json_object)
-# print(type(json_object))

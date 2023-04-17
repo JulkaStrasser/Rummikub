@@ -6,6 +6,7 @@ from PyQt5.QtCore import QRegExp
 from PyQt5.QtGui import QRegExpValidator
 import sys
 from PyQt5.QtGui import QFont, QColor
+from GamePlayback import PlayBack
 
 class RemainTiles(QLabel):
     def __init__(self, legend):
@@ -40,12 +41,20 @@ class ControlPanel(QFrame):
         self.setMinimumWidth(140)
         self.buttonBar = QVBoxLayout()
 
+        self.playback = PlayBack()
+        self.is_disp_playback = False
         #BUTTONS
         self.newGameButton = MyButton("Nowa gra")
         self.newGameButton.clicked.connect(params.newGame)
 
         self.ExitButton = MyButton("Wyjscie")
         self.ExitButton.clicked.connect(self.Exit)
+
+        self.SaveHistoryButton = MyButton("Zapisz historie gry")
+        self.SaveHistoryButton.clicked.connect(self.playback.save_game)
+
+        self.PlaybackButton = MyButton("Playback historii")
+        self.PlaybackButton.clicked.connect(self.playback_options)
    
         self.two_players = QRadioButton("2 graczy")
         # radiobutton.toggled.connect(self.onClicked)
@@ -78,6 +87,8 @@ class ControlPanel(QFrame):
 
         self.buttonBar.addWidget(self.newGameButton)
         self.buttonBar.addWidget(self.ExitButton)
+        self.buttonBar.addWidget(self.SaveHistoryButton)
+        self.buttonBar.addWidget(self.PlaybackButton)
        
         
         self.layout.addLayout(self.buttonBar)
@@ -142,6 +153,15 @@ class ControlPanel(QFrame):
 
     def restoreBoardState(self):
         self.params.gridArchiveManager.restoreGameState()
+
+    def playback_options(self):
+        # if self.is_disp_playback == False:
+        #     self.playback.save_game()
+        #     self.playback.stop()
+        #     self.is_disp_playback = True
+        # else:
+        self.playback.display_history()
+            # self.is_disp_playback = False
 
 
 if __name__ == '__main__':
