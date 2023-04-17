@@ -2,9 +2,6 @@ import xml.etree.ElementTree as gfg
 import sqlite3
 import json
 
-# self.isSQL = True
-#         self.isXML = True
-#         self.isJson = True
 
 class History():
     def __init__(self,main):

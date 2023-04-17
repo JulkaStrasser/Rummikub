@@ -57,27 +57,6 @@ class ControlPanel(QFrame):
         self.PlaybackButton.clicked.connect(self.playback_options)
    
 
-        # ip_input = QLabel('Adres IP :', self)
-        # self.ip_input = QLineEdit(self)
-        # self.ip_input.returnPressed.connect(self.validate_input)
-
-        # ip_regex = QRegExp("(?:[0-9]{1,3}\.){3}[0-9]{1,3}")
-        # ip_validator = QRegExpValidator(ip_regex, self.ip_input)
-        # self.ip_input.setValidator(ip_validator)
-
-        # port_input = QLabel('Port Number:', self)
-        # self.port_input = QLineEdit(self)
-        # # Set the maximum length of the QLineEdit to 5 (the maximum length of a port number)
-        # self.port_input.setMaxLength(5)
-
-    
-        
-        # self.buttonBar.addWidget(ip_input)
-        # self.buttonBar.addWidget(self.ip_input)
-
-        # self.buttonBar.addWidget(port_input)
-        # self.buttonBar.addWidget(self.port_input)
-
         self.buttonBar.addWidget(self.newGameButton)
         self.buttonBar.addWidget(self.ExitButton)
         self.buttonBar.addWidget(self.SaveHistoryButton)
@@ -148,13 +127,8 @@ class ControlPanel(QFrame):
         self.params.gridArchiveManager.restoreGameState()
 
     def playback_options(self):
-        # if self.is_disp_playback == False:
-        #     self.playback.save_game()
-        #     self.playback.stop()
-        #     self.is_disp_playback = True
-        # else:
         self.playback.display_history()
-            # self.is_disp_playback = False
+          
 
 
 
