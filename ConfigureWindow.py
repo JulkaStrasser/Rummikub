@@ -30,6 +30,8 @@ class ConfigWindow(QWidget):
 
         self.histsql = QCheckBox('sqlite3')
         self.histsql.setChecked(True)
+        self.histsql.stateChanged.connect()
+        
         self.histjson = QCheckBox('json')
         self.histjson.setChecked(True)
         self.histxml = QCheckBox('xml')

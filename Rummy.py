@@ -136,10 +136,15 @@ class ConfigWindow(QWidget):
 
         self.histsql = QCheckBox('sqlite3')
         self.histsql.setChecked(True)
+        self.histsql.stateChanged.connect(self.sqlOption)
+
         self.histjson = QCheckBox('json')
         self.histjson.setChecked(True)
+        self.histjson.stateChanged.connect(self.jsonOption)
+
         self.histxml = QCheckBox('xml')
         self.histxml.setChecked(True)
+        self.histjson.stateChanged.connect(self.xmlOption)
 
         # Network config
         self.networkLabel = QLabel("Laczenie z siecia")
@@ -234,6 +239,15 @@ class ConfigWindow(QWidget):
                     QMessageBox.warning(self, "Invalid Input", "Each octet must be an integer between 0 and 255.")
                     return
         QMessageBox.information(self, "Valid Input", "The entered IP address is valid.")
+
+    def sqlOption(self):
+        self.main.isSQL = not(self.main.isSQL)
+    
+    def xmlOption(self):
+        self.main.isXML = not(self.main.isXML)
+    
+    def jsonOption(self):
+        self.main.isJson = not(self.main.isJson)
 
 class MainWin(QMainWindow):
     def __init__(self):
@@ -430,8 +444,13 @@ class LoggingWindow(QtWidgets.QDialog, QtWidgets.QPlainTextEdit):
 
 class Main():
     def __init__(self):
+         #history
+        self.isSQL = True
+        self.isXML = True
+        self.isJson = True
+        
         self.noPlayers = 4 #default number of players
-        self.database = History()
+        self.database = History(self)
         self.tileColors = ["red", "black", "blue", "yellow"]
         self.tileOwner = ["none", "player", "board", "bag"]
         self.tileValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
@@ -439,6 +458,8 @@ class Main():
         self.numberOfTilesToDeal = 15
         self.player_turn = 0
         self.change = False
+
+       
 
         self.players_first_turn = [True,True,True,True]
         # app = QApplication(sys.argv)

@@ -2,24 +2,39 @@ import xml.etree.ElementTree as gfg
 import sqlite3
 import json
 
+# self.isSQL = True
+#         self.isXML = True
+#         self.isJson = True
+
 class History():
-    def __init__(self):
-        self.xml = XMLhistory('history.xml')
-        self.database = DataBase()
-        self.json = JsonOption('options.json')
+    def __init__(self,main):
+        self.main = main
+        if self.main.isXML:
+            self.xml = XMLhistory('history.xml')
+        if self.main.isSQL:
+            self.database = DataBase()
+        if self.main.isJson:
+            self.json = JsonOption('options.json')
 
     def write(self,player,action):
-        self.xml.write(player,action)
-        self.database.write(player,action)
-        self.json.write(player,action)
+        if self.main.isXML:
+            self.xml.write(player,action)
+        if self.main.isSQL:
+            self.database.write(player,action)
+        if self.main.isJson:
+            self.json.write(player,action)
 
     def read_all_data(self):
-        self.xml.file_write()
-        self.database.read_all_data()
-        self.json.read()
+        if self.main.isXML:
+            self.xml.file_write()
+        if self.main.isSQL:
+            self.database.read_all_data()
+        if self.main.isJson:
+            self.json.read()
 
     def close(self):
-        self.database.close()
+        if self.main.isSQL:
+            self.database.close()
 
 
 class XMLhistory():
