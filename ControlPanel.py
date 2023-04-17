@@ -56,13 +56,6 @@ class ControlPanel(QFrame):
         self.PlaybackButton = MyButton("Playback historii")
         self.PlaybackButton.clicked.connect(self.playback_options)
    
-        self.two_players = QRadioButton("2 graczy")
-        self.two_players.toggled.connect(self.change_2players)
-
-        self.three_players = QRadioButton("3 graczy")
-        self.three_players.toggled.connect(self.change_3players)
-
-        self.playerAI = QRadioButton("zagraj z AI")
 
         ip_input = QLabel('Adres IP :', self)
         self.ip_input = QLineEdit(self)
@@ -77,9 +70,7 @@ class ControlPanel(QFrame):
         # Set the maximum length of the QLineEdit to 5 (the maximum length of a port number)
         self.port_input.setMaxLength(5)
 
-        self.buttonBar.addWidget(self.two_players)
-        self.buttonBar.addWidget(self.three_players)
-        self.buttonBar.addWidget(self.playerAI)
+    
         
         self.buttonBar.addWidget(ip_input)
         self.buttonBar.addWidget(self.ip_input)
@@ -164,11 +155,7 @@ class ControlPanel(QFrame):
         # else:
         self.playback.display_history()
             # self.is_disp_playback = False
-    def change_2players(self):
-        self.params.noPlayers = 2
-    
-    def change_3players(self):
-        self.params.noPlayers = 3
+
 
 
 

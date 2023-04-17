@@ -118,14 +118,15 @@ class MyView(QGraphicsView):
 
 
 class ConfigWindow(QWidget):
-    def __init__(self):
+    def __init__(self,main):
         super().__init__()
+        self.main = main
         self.RummyKub = None  # No external window yet.
         self.noPlayersLabel = QLabel("Wybierz ilosc graczy")
         self.two_players = QRadioButton("2 graczy")
-        # self.two_players.toggled.connect(self.change_2players)
+        self.two_players.toggled.connect(self.change_2players)
         self.three_players = QRadioButton("3 graczy")
-        #self.three_players.toggled.connect(self.change_3players)
+        self.three_players.toggled.connect(self.change_3players)
 
         self.playerAI = QRadioButton("zagraj z AI")
 
@@ -149,6 +150,8 @@ class ConfigWindow(QWidget):
         hbox2 = QHBoxLayout()
         hbox3 = QHBoxLayout()
         hbox4 = QHBoxLayout()
+        hbox5 = QHBoxLayout()
+        hbox6 = QHBoxLayout()
 
         hbox0.addWidget(self.noPlayersLabel)
         hbox1.addWidget(self.two_players)
@@ -160,7 +163,7 @@ class ConfigWindow(QWidget):
         hbox3.addWidget(self.histjson)
         hbox3.addWidget(self.histxml)
 
-        hbox4.addWidget(self.playButton)
+        hbox6.addWidget(self.playButton)
         
 
         vbox.addLayout(hbox0)
@@ -168,12 +171,14 @@ class ConfigWindow(QWidget):
         vbox.addLayout(hbox2)
         vbox.addLayout(hbox3)
         vbox.addLayout(hbox4)
+        vbox.addLayout(hbox5)
+        vbox.addLayout(hbox6)
 
         self.setLayout(vbox)
 
         # Set window properties
         self.setGeometry(100, 100, 400, 200)
-        self.setWindowTitle('My Window')
+        self.setWindowTitle('Okno Konfiguracyjne')
 
     def show_new_window(self, checked):
         if self.RummyKub is None:
@@ -184,6 +189,12 @@ class ConfigWindow(QWidget):
         else:
             self.RummyKub.close()  # Close window.
             self.RummyKub = None  # Discard reference.
+
+    def change_2players(self):
+        self.main.noPlayers = 2
+
+    def change_3players(self):
+        self.main.noPlayers = 3
 
 class MainWin(QMainWindow):
     def __init__(self):
@@ -444,7 +455,7 @@ if __name__ == "__main__":
     main = Main()
     # RummyKub = MainWin()
     # RummyKub.show()
-    window = ConfigWindow()
+    window = ConfigWindow(main)
     window.show()
     main.newGame()
     freezePlayers()
