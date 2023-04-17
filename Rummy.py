@@ -186,6 +186,7 @@ class FontSelector(QWidget):
 def freezePlayers():
     
     main.change = False
+    noPlayers = main.noPlayers 
     
     if main.players[main.player_turn-1].player_grid.checkWinner() == True:
         # logging.debug('Gracz'+str(main.player_turn)+' jest zwyciezca')
@@ -266,7 +267,7 @@ def freezePlayers():
             main.players[1].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
             main.players[1].player_controls.setEnabled(False)
 
-        main.player_turn = (main.player_turn+1)%4
+        main.player_turn = (main.player_turn+1)%noPlayers
     
 
         
@@ -310,6 +311,7 @@ class LoggingWindow(QtWidgets.QDialog, QtWidgets.QPlainTextEdit):
 
 class Main():
     def __init__(self):
+        self.noPlayers = 4 #default number of players
         self.database = History()
         self.tileColors = ["red", "black", "blue", "yellow"]
         self.tileOwner = ["none", "player", "board", "bag"]

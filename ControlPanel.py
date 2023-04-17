@@ -57,9 +57,11 @@ class ControlPanel(QFrame):
         self.PlaybackButton.clicked.connect(self.playback_options)
    
         self.two_players = QRadioButton("2 graczy")
-        # radiobutton.toggled.connect(self.onClicked)
+        self.two_players.toggled.connect(self.change_2players)
 
         self.three_players = QRadioButton("3 graczy")
+        self.three_players.toggled.connect(self.change_3players)
+
         self.playerAI = QRadioButton("zagraj z AI")
 
         ip_input = QLabel('Adres IP :', self)
@@ -162,6 +164,12 @@ class ControlPanel(QFrame):
         # else:
         self.playback.display_history()
             # self.is_disp_playback = False
+    def change_2players(self):
+        self.params.noPlayers = 2
+    
+    def change_3players(self):
+        self.params.noPlayers = 3
+
 
 
 if __name__ == '__main__':
