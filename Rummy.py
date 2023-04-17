@@ -2,7 +2,7 @@ import sys, random
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QApplication, QGraphicsView, QGraphicsScene, QGraphicsRectItem
 
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QFrame, QHBoxLayout, QGridLayout, QMainWindow, QFontComboBox, QLabel, QRadioButton, QCheckBox, QVBoxLayout
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QFrame, QHBoxLayout, QGridLayout, QMainWindow, QFontComboBox, QLabel, QRadioButton, QCheckBox, QVBoxLayout, QLineEdit, QMessageBox
 from PyQt5.QtGui import QColor
 from Tile import RummyTile
 from GridArchive import GridArchiveManager
@@ -13,6 +13,8 @@ from ControlPanel import ControlPanel
 from Player import Player
 from GameBoard import GameBoard
 from History import History
+from PyQt5.QtCore import QRegExp
+from PyQt5.QtGui import QRegExpValidator
 
 
 class TileBag():
@@ -139,6 +141,21 @@ class ConfigWindow(QWidget):
         self.histxml = QCheckBox('xml')
         self.histxml.setChecked(True)
 
+        # Network config
+        self.networkLabel = QLabel("Laczenie z siecia")
+        ip_input = QLabel('Adres IP :', self)
+        self.ip_input = QLineEdit(self)
+        self.ip_input.returnPressed.connect(self.validate_input)
+
+        ip_regex = QRegExp("(?:[0-9]{1,3}\.){3}[0-9]{1,3}")
+        ip_validator = QRegExpValidator(ip_regex, self.ip_input)
+        self.ip_input.setValidator(ip_validator)
+
+        port_input = QLabel('Port Number:', self)
+        self.port_input = QLineEdit(self)
+        # Set the maximum length of the QLineEdit to 5 (the maximum length of a port number)
+        self.port_input.setMaxLength(5)
+
         # Create buttons
         self.playButton = QPushButton('Zacznij gre')
         self.playButton.clicked.connect(self.show_new_window)
@@ -163,6 +180,12 @@ class ConfigWindow(QWidget):
         hbox3.addWidget(self.histjson)
         hbox3.addWidget(self.histxml)
 
+        hbox4.addWidget(self.networkLabel)
+        hbox5.addWidget(ip_input)
+        hbox5.addWidget(self.ip_input)
+        hbox5.addWidget(port_input)
+        hbox5.addWidget(self.port_input)
+
         hbox6.addWidget(self.playButton)
         
 
@@ -177,7 +200,7 @@ class ConfigWindow(QWidget):
         self.setLayout(vbox)
 
         # Set window properties
-        self.setGeometry(100, 100, 400, 200)
+        self.setGeometry(100, 100, 400, 300)
         self.setWindowTitle('Okno Konfiguracyjne')
 
     def show_new_window(self, checked):
@@ -195,6 +218,22 @@ class ConfigWindow(QWidget):
 
     def change_3players(self):
         self.main.noPlayers = 3
+
+    def validate_input(self):
+        ip_address = self.ip_input.text()
+        if not ip_address:
+            QMessageBox.warning(self, "Invalid Input", "Please enter an IP address.")
+            return
+        else:
+            octets = ip_address.split('.')
+            if len(octets) != 4:
+                QMessageBox.warning(self, "Invalid Input", "The IP address must have four octets.")
+                return
+            for octet in octets:
+                if not octet.isdigit() or int(octet) < 0 or int(octet) > 255:
+                    QMessageBox.warning(self, "Invalid Input", "Each octet must be an integer between 0 and 255.")
+                    return
+        QMessageBox.information(self, "Valid Input", "The entered IP address is valid.")
 
 class MainWin(QMainWindow):
     def __init__(self):
