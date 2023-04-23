@@ -253,6 +253,7 @@ class ConfigWindow(QWidget):
 class MainWin(QMainWindow):
     def __init__(self):
         super(MainWin, self).__init__()
+        self.setWindowTitle("Rummy Client")
         self.view=MyView()
         self.setCentralWidget(self.view)
         self.controlPanel = ControlPanel(main)
@@ -333,14 +334,17 @@ def freezePlayers():
     
     else:
         # zapisywanie i wysylanie planszy do serwera
-        main.gameBoard.listItems()
-        data = main.client.read_json_file('GameBoard.json')
-        main.client.Tcp_Write(data)
+        
 
         main.players[main.player_turn-1].drawedTile = False
         main.database.write('Gracz'+str(main.player_turn+1),'Twoja tura')
         main.database.read_all_data()
+
+       
         if main.player_turn == 0:
+            #poczatek tury gracza 1 - czytamy dane od servera
+            received_mes = main.client.Tcp_Read()
+            print(str(received_mes))
             #budzimy playera 1
             main.players[0].player_controls.playerGrid.thaw()
             main.players[0].player_controls.FrozenStateLabel.updateText("Twoja tura")
@@ -359,8 +363,11 @@ def freezePlayers():
             main.players[3].player_controls.setEnabled(False)
 
         elif(main.player_turn == 1):
+            main.gameBoard.listItems()
+            data = main.client.read_json_file('GameBoard.json')
+            main.client.Tcp_Write(data)
             main.players[1].player_controls.playerGrid.thaw()
-            main.players[1].player_controls.FrozenStateLabel.updateText("Twoja tura")
+            main.players[1].player_controls.FrozenStateLabel.updateText("Poczekaj! Tura gracza 2")
             main.players[1].player_controls.setEnabled(True)
 
             main.players[0].player_controls.playerGrid.freeze()
@@ -374,6 +381,7 @@ def freezePlayers():
             main.players[3].player_controls.playerGrid.freeze()
             main.players[3].player_controls.FrozenStateLabel.updateText("Nie twoja tura")
             main.players[3].player_controls.setEnabled(False)
+
         elif(main.player_turn == 2):
             main.players[2].player_controls.playerGrid.thaw()
             main.players[2].player_controls.FrozenStateLabel.updateText("Twoja tura")

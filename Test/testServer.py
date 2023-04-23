@@ -38,11 +38,18 @@ def Tcp_Close( ):
    s.close()
    return 
 
+
 Tcp_server_wait ( 5, 17098 )
 Tcp_server_next()
+f = open('GameBoard.json')
+# returns JSON object as 
+# a dictionary
+data = str(json.load(f))
+#print(data)
+
 
 while True:
-	
+	Tcp_Write(data)
 	print(str(Tcp_Read()))
 	print("----------------------------------------------")
 	print()

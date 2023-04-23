@@ -14,7 +14,7 @@ class Client:
         # returns JSON object as 
         # a dictionary
         data = str(json.load(f))
-        print(data)
+        #print(data)
         return data
 
     def Tcp_connect(self):
@@ -33,7 +33,8 @@ class Client:
         while a != '\r':
             a = self.s.recv(1).decode()
             b = b + a
-        return b
+        b_dict = eval(b) # dictionary format
+        return b_dict
 
     def Tcp_Close(self):
         self.s.close()
