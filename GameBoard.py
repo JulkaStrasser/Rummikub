@@ -11,13 +11,18 @@ class GameBoard(TileGridBaseClass):
         self.all_sequences = []
 
     def listItems(self):
-        logging.debug("Lista plytek na planszy:")
-        cellsList = self.findChildren(BoardCell)
-        for cell in cellsList:
-            logging.debug(str(cell.row) + str(cell.col))
-            status = cell.getCellStatus()
-            logging.debug(status[0])
-            logging.debug(status[1])
+        with open('GameBoard.txt', 'w') as f:
+            f.write('Lista plytek na planszy:')
+            logging.debug("Lista plytek na planszy:")
+            cellsList = self.findChildren(BoardCell)
+            for cell in cellsList:
+                logging.debug(str(cell.row) + str(cell.col))
+                f.write("rzad"+str(cell.row)+ ", kolumna" + str(cell.col))
+                status = cell.getCellStatus()
+                logging.debug(status[0])
+                logging.debug(status[1])
+                f.write(status[0])
+                f.write(str(status[1])+"\n")
     
     def detectSequences(self):
         logging.debug("Sasiedzi plytki")

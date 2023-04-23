@@ -321,6 +321,7 @@ def freezePlayers():
     main.change = False
     noPlayers = main.noPlayers 
     
+    
     if main.players[main.player_turn-1].player_grid.checkWinner() == True:
         # logging.debug('Gracz'+str(main.player_turn)+' jest zwyciezca')
         main.database.write("Gracz "+str(main.player_turn), "jest zwyciezca")
@@ -330,6 +331,7 @@ def freezePlayers():
         pass
     
     else:
+        main.gameBoard.listItems()
         main.players[main.player_turn-1].drawedTile = False
         main.database.write('Gracz'+str(main.player_turn+1),'Twoja tura')
         main.database.read_all_data()

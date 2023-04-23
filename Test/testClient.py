@@ -24,11 +24,27 @@ def Tcp_Close( ):
    s.close()
    return 
    
-jsonResult = {"first":"You're", "second":"Awsome!"}
-jsonResult = json.dumps(jsonResult)
+
+
+# a Python object (dict):
+x = {"board": []}
+cell = {"cell_0_0": {}}
+tile = {"empty": False, "color": "blue", "number": 3}
+cell["cell_0_0"] = tile
+
+cell1 = {"cell_0_1": {}}
+tile = {"empty": False, "color": "blue", "number": 1}
+cell1["cell_0_1"] = tile
+
+# cell["cell_0_0"] = tile
+x["board"].append(cell)
+x["board"].append(cell1)
+# convert into JSON:
+y = json.dumps(x)
+
 
 Tcp_connect('192.168.56.1', 17098)
-Tcp_Write(jsonResult)
+Tcp_Write(y)
 print(Tcp_Read())
 Tcp_Write('server')
 print(Tcp_Read())
