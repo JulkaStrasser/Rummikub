@@ -1,0 +1,17 @@
+{
+    "board": [{
+        "cell_0_0":{
+           
+                "empty": false,
+                "colour": "blue",
+                "number": "1"
+            },
+
+        "cell_1_0":{
+                "empty": false,
+                "colour": "blue",
+                "number": "3"
+            }
+
+    }]
+}
