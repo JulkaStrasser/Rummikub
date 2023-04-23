@@ -4,10 +4,12 @@
 import socket, time
 import json
 
+
 class Client:
-    def __init__(self,host_ip, port):
+    def __init__(self,host_ip, port,main):
         self.host_ip = host_ip
         self.port = port
+        self.tileCollection = main.tileCollection
 
     def read_json_file(self,file_name):
         f = open(file_name)
@@ -33,8 +35,31 @@ class Client:
         while a != '\r':
             a = self.s.recv(1).decode()
             b = b + a
-        b_dict = eval(b) # dictionary format
-        return b_dict
+        self.b_dict = eval(b) # dictionary format
+        self.JsonToGrid()
+        return self.b_dict
+
+    def JsonToGrid(self):
+        self.grid = []
+        #print(str(self.b_dict['board']))
+        for item in self.b_dict['board']:
+            #print(item)
+
+            # dostep do nazwy cell
+            cell_name = str(list(item.keys())[0])
+            #print(cell_name)
+            is_cell_empty = item[cell_name]['empty']
+            #print(is_cell_empty)
+            if is_cell_empty == True:
+                self.grid.append(None)
+            else:
+                color = item[cell_name]['color']
+                number = item[cell_name]['number']
+                tile_index = self.tileCollection.getTileColorNumber(color,number)
+                self.grid.append(tile_index)
+            
+            print(self.grid)
+            
 
     def Tcp_Close(self):
         self.s.close()

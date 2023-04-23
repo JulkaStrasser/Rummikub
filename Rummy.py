@@ -68,6 +68,7 @@ class TileCollection():
     def __init__(self,main):
         self.tiles = []
         index = 0
+        self.tileColors = main.tileColors
         for n in [1,2]:
             for tileColor in main.tileColors:
                 for tileVal in main.tileValues:
@@ -92,6 +93,16 @@ class TileCollection():
         else:
             return self.tiles[index]
 
+    # dorobic tutaj funkcje przeliczajaca tile index, gdy znany jest kolor i numer
+    def getTileColorNumber(self,color,number):
+        color_to_num = [-1,12,25,38]
+        color_index = self.tileColors.index(color)
+        if color_index == -1:
+            print("Nie ma takiego koloru!")
+        tile_index = color_to_num[color_index]+number
+        print("getTileColorNumber"+str(tile_index))
+        return tile_index
+    
     def printTileList(self):
         for tile in self.tiles:
             fred1 = str(tile.MasterIndex)
@@ -344,7 +355,7 @@ def freezePlayers():
         if main.player_turn == 0:
             #poczatek tury gracza 1 - czytamy dane od servera
             received_mes = main.client.Tcp_Read()
-            print(str(received_mes))
+            #print(str(received_mes))
             #budzimy playera 1
             main.players[0].player_controls.playerGrid.thaw()
             main.players[0].player_controls.FrozenStateLabel.updateText("Twoja tura")
@@ -505,8 +516,9 @@ class Main():
         self.gridArchiveManager = GridArchiveManager(self.players[0].player_grid, self.players[1].player_grid, self.players[2].player_grid, self.players[3].player_grid, self.gameBoard)
 
         self.tileCollection = TileCollection(self)
+
         self.tileBag = TileBag(self)
-        self.client = Client('172.16.35.55', 17098)
+        self.client = Client('172.16.35.55', 17098,self)
         self.client.Tcp_connect()
 
     def newGame(self):
@@ -521,6 +533,9 @@ class Main():
         self.players[1].player_grid.newDeal()
         self.players[2].player_grid.newDeal()
         self.players[3].player_grid.newDeal()
+
+        #do testowania
+        # self.tileCollection.getTileColorNumber("red",1)
     
 
 def getCellCol(cell):
