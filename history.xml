@@ -1445,35 +1445,155 @@
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
-		<action>Jest to : blue10</action>
+		<action>Jest to : red13</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 00 add tile blue 10</action>
+		<action>Cell 00 add tile red 13</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
-		<action>Jest to : black7</action>
+		<action>Jest to : yellow9</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 01 add tile black 7</action>
+		<action>Cell 01 add tile yellow 9</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
-		<action>Jest to : yellow7</action>
+		<action>Jest to : blue7</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 02 add tile yellow 7</action>
+		<action>Cell 02 add tile blue 7</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
-		<action>Jest to : red6</action>
+		<action>Jest to : blue1</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 03 add tile red 6</action>
+		<action>Cell 03 add tile blue 1</action>
+	</movement>
+	<movement>
+		<player>Rozdawanie plytek</player>
+		<action>Jest to : red7</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 04 add tile red 7</action>
+	</movement>
+	<movement>
+		<player>Rozdawanie plytek</player>
+		<action>Jest to : black3</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 05 add tile black 3</action>
+	</movement>
+	<movement>
+		<player>Rozdawanie plytek</player>
+		<action>Jest to : black6</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 06 add tile black 6</action>
+	</movement>
+	<movement>
+		<player>Rozdawanie plytek</player>
+		<action>Jest to : black5</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 07 add tile black 5</action>
+	</movement>
+	<movement>
+		<player>Rozdawanie plytek</player>
+		<action>Jest to : red1</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 08 add tile red 1</action>
+	</movement>
+	<movement>
+		<player>Rozdawanie plytek</player>
+		<action>Jest to : blue6</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 09 add tile blue 6</action>
+	</movement>
+	<movement>
+		<player>Rozdawanie plytek</player>
+		<action>Jest to : yellow3</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 010 add tile yellow 3</action>
+	</movement>
+	<movement>
+		<player>Rozdawanie plytek</player>
+		<action>Jest to : blue8</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 011 add tile blue 8</action>
+	</movement>
+	<movement>
+		<player>Rozdawanie plytek</player>
+		<action>Jest to : yellow6</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 012 add tile yellow 6</action>
+	</movement>
+	<movement>
+		<player>Rozdawanie plytek</player>
+		<action>Jest to : red13</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 013 add tile red 13</action>
+	</movement>
+	<movement>
+		<player>Rozdawanie plytek</player>
+		<action>Jest to : red11</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 014 add tile red 11</action>
+	</movement>
+	<movement>
+		<player>Rozdawanie plytek</player>
+		<action>Jest to : yellow12</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 00 add tile yellow 12</action>
+	</movement>
+	<movement>
+		<player>Rozdawanie plytek</player>
+		<action>Jest to : red2</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 01 add tile red 2</action>
+	</movement>
+	<movement>
+		<player>Rozdawanie plytek</player>
+		<action>Jest to : blue4</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 02 add tile blue 4</action>
+	</movement>
+	<movement>
+		<player>Rozdawanie plytek</player>
+		<action>Jest to : black12</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 03 add tile black 12</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
@@ -1485,187 +1605,11 @@
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
-		<action>Jest to : red12</action>
+		<action>Jest to : black6</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 05 add tile red 12</action>
-	</movement>
-	<movement>
-		<player>Rozdawanie plytek</player>
-		<action>Jest to : yellow10</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>Cell 06 add tile yellow 10</action>
-	</movement>
-	<movement>
-		<player>Rozdawanie plytek</player>
-		<action>Jest to : black13</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>Cell 07 add tile black 13</action>
-	</movement>
-	<movement>
-		<player>Rozdawanie plytek</player>
-		<action>Jest to : red9</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>Cell 08 add tile red 9</action>
-	</movement>
-	<movement>
-		<player>Rozdawanie plytek</player>
-		<action>Jest to : red2</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>Cell 09 add tile red 2</action>
-	</movement>
-	<movement>
-		<player>Rozdawanie plytek</player>
-		<action>Jest to : red9</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>Cell 010 add tile red 9</action>
-	</movement>
-	<movement>
-		<player>Rozdawanie plytek</player>
-		<action>Jest to : black1</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>Cell 011 add tile black 1</action>
-	</movement>
-	<movement>
-		<player>Rozdawanie plytek</player>
-		<action>Jest to : yellow9</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>Cell 012 add tile yellow 9</action>
-	</movement>
-	<movement>
-		<player>Rozdawanie plytek</player>
-		<action>Jest to : blue6</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>Cell 013 add tile blue 6</action>
-	</movement>
-	<movement>
-		<player>Rozdawanie plytek</player>
-		<action>Jest to : black10</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>Cell 014 add tile black 10</action>
-	</movement>
-	<movement>
-		<player>Rozdawanie plytek</player>
-		<action>Jest to : yellow2</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>Cell 00 add tile yellow 2</action>
-	</movement>
-	<movement>
-		<player>Rozdawanie plytek</player>
-		<action>Jest to : black9</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>Cell 01 add tile black 9</action>
-	</movement>
-	<movement>
-		<player>Rozdawanie plytek</player>
-		<action>Jest to : red4</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>Cell 02 add tile red 4</action>
-	</movement>
-	<movement>
-		<player>Rozdawanie plytek</player>
-		<action>Jest to : yellow12</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>Cell 03 add tile yellow 12</action>
-	</movement>
-	<movement>
-		<player>Rozdawanie plytek</player>
-		<action>Jest to : yellow6</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>Cell 04 add tile yellow 6</action>
-	</movement>
-	<movement>
-		<player>Rozdawanie plytek</player>
-		<action>Jest to : blue4</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>Cell 05 add tile blue 4</action>
-	</movement>
-	<movement>
-		<player>Rozdawanie plytek</player>
-		<action>Jest to : yellow11</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>Cell 06 add tile yellow 11</action>
-	</movement>
-	<movement>
-		<player>Rozdawanie plytek</player>
-		<action>Jest to : blue13</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>Cell 07 add tile blue 13</action>
-	</movement>
-	<movement>
-		<player>Rozdawanie plytek</player>
-		<action>Jest to : red3</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>Cell 08 add tile red 3</action>
-	</movement>
-	<movement>
-		<player>Rozdawanie plytek</player>
-		<action>Jest to : red5</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>Cell 09 add tile red 5</action>
-	</movement>
-	<movement>
-		<player>Rozdawanie plytek</player>
-		<action>Jest to : black12</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>Cell 010 add tile black 12</action>
-	</movement>
-	<movement>
-		<player>Rozdawanie plytek</player>
-		<action>Jest to : red7</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>Cell 011 add tile red 7</action>
-	</movement>
-	<movement>
-		<player>Rozdawanie plytek</player>
-		<action>Jest to : yellow13</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>Cell 012 add tile yellow 13</action>
+		<action>Cell 05 add tile black 6</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
@@ -1673,31 +1617,15 @@
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 013 add tile blue 5</action>
+		<action>Cell 06 add tile blue 5</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
-		<action>Jest to : blue2</action>
+		<action>Jest to : blue10</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 014 add tile blue 2</action>
-	</movement>
-	<movement>
-		<player>Rozdawanie plytek</player>
-		<action>Jest to : yellow1</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>Cell 00 add tile yellow 1</action>
-	</movement>
-	<movement>
-		<player>Rozdawanie plytek</player>
-		<action>Jest to : blue11</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>Cell 01 add tile blue 11</action>
+		<action>Cell 07 add tile blue 10</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
@@ -1705,23 +1633,95 @@
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 02 add tile red 11</action>
+		<action>Cell 08 add tile red 11</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
-		<action>Jest to : blue12</action>
+		<action>Jest to : yellow7</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 03 add tile blue 12</action>
+		<action>Cell 09 add tile yellow 7</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
-		<action>Jest to : yellow5</action>
+		<action>Jest to : red2</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 04 add tile yellow 5</action>
+		<action>Cell 010 add tile red 2</action>
+	</movement>
+	<movement>
+		<player>Rozdawanie plytek</player>
+		<action>Jest to : yellow1</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 011 add tile yellow 1</action>
+	</movement>
+	<movement>
+		<player>Rozdawanie plytek</player>
+		<action>Jest to : black8</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 012 add tile black 8</action>
+	</movement>
+	<movement>
+		<player>Rozdawanie plytek</player>
+		<action>Jest to : yellow12</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 013 add tile yellow 12</action>
+	</movement>
+	<movement>
+		<player>Rozdawanie plytek</player>
+		<action>Jest to : black13</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 014 add tile black 13</action>
+	</movement>
+	<movement>
+		<player>Rozdawanie plytek</player>
+		<action>Jest to : red4</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 00 add tile red 4</action>
+	</movement>
+	<movement>
+		<player>Rozdawanie plytek</player>
+		<action>Jest to : black1</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 01 add tile black 1</action>
+	</movement>
+	<movement>
+		<player>Rozdawanie plytek</player>
+		<action>Jest to : yellow9</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 02 add tile yellow 9</action>
+	</movement>
+	<movement>
+		<player>Rozdawanie plytek</player>
+		<action>Jest to : blue10</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 03 add tile blue 10</action>
+	</movement>
+	<movement>
+		<player>Rozdawanie plytek</player>
+		<action>Jest to : black7</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 04 add tile black 7</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
@@ -1733,59 +1733,51 @@
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
-		<action>Jest to : black4</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>Cell 06 add tile black 4</action>
-	</movement>
-	<movement>
-		<player>Rozdawanie plytek</player>
-		<action>Jest to : blue12</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>Cell 07 add tile blue 12</action>
-	</movement>
-	<movement>
-		<player>Rozdawanie plytek</player>
 		<action>Jest to : yellow7</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 08 add tile yellow 7</action>
+		<action>Cell 06 add tile yellow 7</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
-		<action>Jest to : blue9</action>
+		<action>Jest to : blue3</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 09 add tile blue 9</action>
+		<action>Cell 07 add tile blue 3</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
-		<action>Jest to : red4</action>
+		<action>Jest to : yellow11</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 010 add tile red 4</action>
+		<action>Cell 08 add tile yellow 11</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
-		<action>Jest to : black1</action>
+		<action>Jest to : black8</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 011 add tile black 1</action>
+		<action>Cell 09 add tile black 8</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
-		<action>Jest to : black3</action>
+		<action>Jest to : red1</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 012 add tile black 3</action>
+		<action>Cell 010 add tile red 1</action>
+	</movement>
+	<movement>
+		<player>Rozdawanie plytek</player>
+		<action>Jest to : blue13</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 011 add tile blue 13</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
@@ -1793,23 +1785,31 @@
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 013 add tile blue 2</action>
+		<action>Cell 012 add tile blue 2</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
-		<action>Jest to : yellow3</action>
+		<action>Jest to : black1</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 014 add tile yellow 3</action>
+		<action>Cell 013 add tile black 1</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
-		<action>Jest to : red3</action>
+		<action>Jest to : blue13</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 00 add tile red 3</action>
+		<action>Cell 014 add tile blue 13</action>
+	</movement>
+	<movement>
+		<player>Rozdawanie plytek</player>
+		<action>Jest to : blue1</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 00 add tile blue 1</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
@@ -1821,43 +1821,43 @@
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
-		<action>Jest to : black13</action>
+		<action>Jest to : yellow3</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 02 add tile black 13</action>
+		<action>Cell 02 add tile yellow 3</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
-		<action>Jest to : yellow1</action>
+		<action>Jest to : blue9</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 03 add tile yellow 1</action>
+		<action>Cell 03 add tile blue 9</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
-		<action>Jest to : black10</action>
+		<action>Jest to : yellow10</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 04 add tile black 10</action>
+		<action>Cell 04 add tile yellow 10</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
-		<action>Jest to : black2</action>
+		<action>Jest to : blue6</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 05 add tile black 2</action>
+		<action>Cell 05 add tile blue 6</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
-		<action>Jest to : red13</action>
+		<action>Jest to : red9</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 06 add tile red 13</action>
+		<action>Cell 06 add tile red 9</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
@@ -1869,59 +1869,59 @@
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
-		<action>Jest to : blue1</action>
+		<action>Jest to : black2</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 08 add tile blue 1</action>
+		<action>Cell 08 add tile black 2</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
-		<action>Jest to : yellow6</action>
+		<action>Jest to : black11</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 09 add tile yellow 6</action>
+		<action>Cell 09 add tile black 11</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
-		<action>Jest to : yellow13</action>
+		<action>Jest to : red7</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 010 add tile yellow 13</action>
+		<action>Cell 010 add tile red 7</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
-		<action>Jest to : black6</action>
+		<action>Jest to : black7</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 011 add tile black 6</action>
+		<action>Cell 011 add tile black 7</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
-		<action>Jest to : red10</action>
+		<action>Jest to : black9</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 012 add tile red 10</action>
+		<action>Cell 012 add tile black 9</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
-		<action>Jest to : yellow5</action>
+		<action>Jest to : red6</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 013 add tile yellow 5</action>
+		<action>Cell 013 add tile red 6</action>
 	</movement>
 	<movement>
 		<player>Rozdawanie plytek</player>
-		<action>Jest to : blue5</action>
+		<action>Jest to : yellow4</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 014 add tile blue 5</action>
+		<action>Cell 014 add tile yellow 4</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
@@ -1929,19 +1929,11 @@
 	</movement>
 	<movement>
 		<player>Gracz 1</player>
-		<action> dobral plytke. To:  blue10</action>
+		<action> dobral plytke. To:  red3</action>
 	</movement>
 	<movement>
 		<player>Gracz2</player>
-		<action>Cell 10 add tile blue 10</action>
-	</movement>
-	<movement>
-		<player>Gracz2</player>
-		<action>The multi drag list contains the following tiles</action>
-	</movement>
-	<movement>
-		<player>Gracz2</player>
-		<action>The multi drag list contains the following tilesPlayerGrid - blue 10</action>
+		<action>Cell 10 add tile red 3</action>
 	</movement>
 	<movement>
 		<player>Gracz2</player>
@@ -1949,19 +1941,7 @@
 	</movement>
 	<movement>
 		<player>Gracz2</player>
-		<action>The multi drag list contains the following tilesPlayerGrid - blue 10</action>
-	</movement>
-	<movement>
-		<player>Gracz2</player>
-		<action>The multi drag list contains the following tilesPlayerGrid - black 10</action>
-	</movement>
-	<movement>
-		<player>Gracz2</player>
-		<action>Remove tile in cell 014</action>
-	</movement>
-	<movement>
-		<player>Gracz2</player>
-		<action>Cell 13 add tile black 10</action>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 6</action>
 	</movement>
 	<movement>
 		<player>Gracz2</player>
@@ -1969,15 +1949,167 @@
 	</movement>
 	<movement>
 		<player>Gracz2</player>
-		<action>The multi drag list contains the following tilesPlayerGrid - blue 10</action>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 6</action>
 	</movement>
 	<movement>
 		<player>Gracz2</player>
-		<action>Remove tile in cell 00</action>
+		<action>The multi drag list contains the following tilesPlayerGrid - blue 6</action>
 	</movement>
 	<movement>
 		<player>Gracz2</player>
-		<action>Cell 12 add tile blue 10</action>
+		<action>Remove tile in cell 09</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 17 add tile blue 6</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 6</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Remove tile in cell 06</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 16 add tile black 6</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - blue 7</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - blue 7</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - red 7</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Remove tile in cell 04</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 112 add tile red 7</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - blue 7</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Remove tile in cell 02</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 111 add tile blue 7</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - blue 7</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - blue 7</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - blue 6</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - blue 7</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - blue 6</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - blue 8</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Remove tile in cell 011</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 14 add tile blue 8</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - blue 6</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - blue 7</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Remove tile in cell 111</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 13 add tile blue 7</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - blue 6</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Remove tile in cell 17</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 12 add tile blue 6</action>
 	</movement>
 	<movement>
 		<player>Gracz2</player>
@@ -2001,7 +2133,7 @@
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>The multi drag list contains the following tilesPlayerGrid - yellow 11</action>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 13</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
@@ -2009,35 +2141,19 @@
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>The multi drag list contains the following tilesPlayerGrid - yellow 11</action>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 13</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>The multi drag list contains the following tilesPlayerGrid - yellow 12</action>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 12</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>The multi drag list contains the following tiles</action>
+		<action>Remove tile in cell 014</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>The multi drag list contains the following tilesPlayerGrid - yellow 11</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>The multi drag list contains the following tilesPlayerGrid - yellow 12</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>The multi drag list contains the following tilesPlayerGrid - yellow 13</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>Remove tile in cell 012</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>Cell 17 add tile yellow 13</action>
+		<action>Cell 113 add tile black 13</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
@@ -2045,11 +2161,7 @@
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>The multi drag list contains the following tilesPlayerGrid - yellow 11</action>
-	</movement>
-	<movement>
-		<player>Gracz1</player>
-		<action>The multi drag list contains the following tilesPlayerGrid - yellow 12</action>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 12</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
@@ -2057,7 +2169,7 @@
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>Cell 16 add tile yellow 12</action>
+		<action>Cell 112 add tile black 12</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
@@ -2065,15 +2177,943 @@
 	</movement>
 	<movement>
 		<player>Gracz1</player>
-		<action>The multi drag list contains the following tilesPlayerGrid - yellow 11</action>
+		<action>The multi drag list contains the following tiles</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - red 11</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - yellow 12</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Remove tile in cell 00</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 111 add tile yellow 12</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Twoja tura</action>
+	</movement>
+	<movement>
+		<player>Gracz 1</player>
+		<action> dobral plytke. To:  red5</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 02 add tile red 5</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Twoja tura</action>
+	</movement>
+	<movement>
+		<player>Gracz 0</player>
+		<action> dobral plytke. To:  black9</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 00 add tile black 9</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Twoja tura</action>
+	</movement>
+	<movement>
+		<player>Gracz 1</player>
+		<action> dobral plytke. To:  black2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 04 add tile black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Twoja tura</action>
+	</movement>
+	<movement>
+		<player>Gracz 0</player>
+		<action> dobral plytke. To:  yellow2</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 03 add tile yellow 2</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Twoja tura</action>
+	</movement>
+	<movement>
+		<player>Gracz 1</player>
+		<action> dobral plytke. To:  black4</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 06 add tile black 4</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 3</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 3</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 4</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 3</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 4</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 5</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 3</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 4</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 5</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 6</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Remove tile in cell 16</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 07 add tile black 6</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 3</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 4</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 5</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Remove tile in cell 07</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 06 add tile black 5</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 3</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 4</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
 		<action>Remove tile in cell 06</action>
 	</movement>
 	<movement>
+		<player>Gracz2</player>
+		<action>Cell 05 add tile black 4</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 3</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Remove tile in cell 05</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 04 add tile black 3</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Remove tile in cell 04</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 03 add tile black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesGameBoard - black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesGameBoard - black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesGameBoard - black 3</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesGameBoard - black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesGameBoard - black 3</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesGameBoard - black 4</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesGameBoard - black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesGameBoard - black 3</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesGameBoard - black 4</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesGameBoard - black 5</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesGameBoard - black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesGameBoard - black 3</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesGameBoard - black 4</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesGameBoard - black 5</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesGameBoard - black 6</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesGameBoard - black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesGameBoard - black 3</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesGameBoard - black 4</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesGameBoard - black 5</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Remove tile in cell 06</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 19 add tile black 5</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesGameBoard - black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesGameBoard - black 3</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesGameBoard - black 4</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Remove tile in cell 05</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 18 add tile black 4</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesGameBoard - black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesGameBoard - black 3</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Remove tile in cell 04</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 17 add tile black 3</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesGameBoard - black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Remove tile in cell 03</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 16 add tile black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesGameBoard - black 6</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Remove tile in cell 07</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 110 add tile black 6</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Twoja tura</action>
+	</movement>
+	<movement>
+		<player>Gracz 0</player>
+		<action> dobral plytke. To:  black10</action>
+	</movement>
+	<movement>
 		<player>Gracz1</player>
-		<action>Cell 15 add tile yellow 11</action>
+		<action>Cell 014 add tile black 10</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 8</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 8</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 9</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 8</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 9</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 10</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 8</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 9</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 8</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 9</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 10</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Remove tile in cell 014</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 18 add tile black 10</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 8</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 9</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Remove tile in cell 00</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 17 add tile black 9</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 8</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Remove tile in cell 012</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 16 add tile black 8</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 10</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Twoja tura</action>
+	</movement>
+	<movement>
+		<player>Gracz 1</player>
+		<action> dobral plytke. To:  blue8</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 04 add tile blue 8</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Twoja tura</action>
+	</movement>
+	<movement>
+		<player>Gracz 0</player>
+		<action> dobral plytke. To:  yellow5</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 00 add tile yellow 5</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Twoja tura</action>
+	</movement>
+	<movement>
+		<player>Gracz 1</player>
+		<action> dobral plytke. To:  blue2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 05 add tile blue 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Twoja tura</action>
+	</movement>
+	<movement>
+		<player>Gracz 0</player>
+		<action> dobral plytke. To:  black5</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 012 add tile black 5</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Twoja tura</action>
+	</movement>
+	<movement>
+		<player>Gracz 1</player>
+		<action> dobral plytke. To:  blue11</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 06 add tile blue 11</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Twoja tura</action>
+	</movement>
+	<movement>
+		<player>Gracz 0</player>
+		<action> dobral plytke. To:  yellow13</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 014 add tile yellow 13</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Twoja tura</action>
+	</movement>
+	<movement>
+		<player>Gracz 1</player>
+		<action> dobral plytke. To:  yellow10</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 07 add tile yellow 10</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Twoja tura</action>
+	</movement>
+	<movement>
+		<player>Gracz 0</player>
+		<action> dobral plytke. To:  black4</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 11 add tile black 4</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 5</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Remove tile in cell 012</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 12 add tile black 5</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 6</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Remove tile in cell 05</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 13 add tile black 6</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Twoja tura</action>
+	</movement>
+	<movement>
+		<player>Gracz 1</player>
+		<action> dobral plytke. To:  red8</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 09 add tile red 8</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Twoja tura</action>
+	</movement>
+	<movement>
+		<player>Gracz 0</player>
+		<action> dobral plytke. To:  red12</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 05 add tile red 12</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Twoja tura</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Remove tile in cell 013</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 012 add tile red 13</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Twoja tura</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - red 11</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - red 11</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - red 12</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - red 11</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - red 12</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - red 13</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Remove tile in cell 012</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 37 add tile red 13</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - red 11</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - red 12</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Remove tile in cell 05</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 36 add tile red 12</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - red 11</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Remove tile in cell 08</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 35 add tile red 11</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesGameBoard - red 11</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesGameBoard - red 11</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesGameBoard - red 12</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesGameBoard - red 11</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesGameBoard - red 12</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesGameBoard - red 13</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Remove tile in cell 37</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 02 add tile red 13</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesGameBoard - red 11</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesGameBoard - red 12</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Remove tile in cell 36</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 01 add tile red 12</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesGameBoard - red 11</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Remove tile in cell 35</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 00 add tile red 11</action>
 	</movement>
 	<movement>
 		<player>Gracz1</player>
@@ -2089,15 +3129,7 @@
 	</movement>
 	<movement>
 		<player>Gracz2</player>
-		<action>The multi drag list contains the following tilesPlayerGrid - yellow 10</action>
-	</movement>
-	<movement>
-		<player>Gracz2</player>
-		<action>Remove tile in cell 06</action>
-	</movement>
-	<movement>
-		<player>Gracz2</player>
-		<action>Cell 14 add tile yellow 10</action>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 2</action>
 	</movement>
 	<movement>
 		<player>Gracz2</player>
@@ -2105,6 +3137,402 @@
 	</movement>
 	<movement>
 		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 3</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 3</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 4</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 3</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 4</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 5</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 3</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 4</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 5</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 6</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Remove tile in cell 110</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 08 add tile black 6</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 3</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 4</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 5</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Remove tile in cell 19</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 07 add tile black 5</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 3</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 4</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Remove tile in cell 18</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 06 add tile black 4</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 3</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Remove tile in cell 17</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 05 add tile black 3</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Remove tile in cell 16</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Cell 04 add tile black 2</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz2</player>
+		<action>Twoja tura</action>
+	</movement>
+	<movement>
+		<player>Gracz 0</player>
+		<action> dobral plytke. To:  blue3</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 05 add tile blue 3</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 4</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 4</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 5</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 4</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 5</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 6</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Remove tile in cell 13</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 17 add tile black 6</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 4</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 5</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Remove tile in cell 12</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 16 add tile black 5</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 4</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Remove tile in cell 11</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 15 add tile black 4</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 8</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 8</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 9</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Remove tile in cell 17</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 110 add tile black 9</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 8</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Remove tile in cell 16</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 19 add tile black 8</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 8</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 8</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 9</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 8</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 9</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 10</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Remove tile in cell 18</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 013 add tile black 10</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 8</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 9</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Remove tile in cell 110</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 012 add tile black 9</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tilesPlayerGrid - black 8</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Remove tile in cell 19</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>Cell 011 add tile black 8</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
+		<action>The multi drag list contains the following tiles</action>
+	</movement>
+	<movement>
+		<player>Gracz1</player>
 		<action>Twoja tura</action>
 	</movement>
 </History>

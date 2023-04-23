@@ -2,6 +2,7 @@ from TileGridBase import TileGridBaseClass
 from Cell import BoardCell
 import logging
 from PyQt5.QtWidgets import QMessageBox
+import json
 
 class GameBoard(TileGridBaseClass):
     def __init__(self, bgColor, fgColor, gridName, rows, cols,main):
@@ -11,18 +12,35 @@ class GameBoard(TileGridBaseClass):
         self.all_sequences = []
 
     def listItems(self):
-        with open('GameBoard.txt', 'w') as f:
-            f.write('Lista plytek na planszy:')
-            logging.debug("Lista plytek na planszy:")
+        with open('GameBoard.json', 'w') as f:
+            x = {"board": []}
             cellsList = self.findChildren(BoardCell)
             for cell in cellsList:
-                logging.debug(str(cell.row) + str(cell.col))
-                f.write("rzad"+str(cell.row)+ ", kolumna" + str(cell.col))
+                cellinka = {"cell_"+str(cell.row)+"_"+str(cell.col): {}}
                 status = cell.getCellStatus()
-                logging.debug(status[0])
-                logging.debug(status[1])
-                f.write(status[0])
-                f.write(str(status[1])+"\n")
+                if status[0]=="E" and status[1] == "m":
+                    tile = {"empty": True}
+                else:
+                    tile = {"empty": False, "color": status[0], "number": status[1]}
+                cellinka["cell_"+str(cell.row)+"_"+str(cell.col)] = tile
+                x["board"].append(cellinka)
+
+            y = json.dumps(x)
+            f.write(y)
+
+            
+
+            # f.write('Lista plytek na planszy:')
+            # logging.debug("Lista plytek na planszy:")
+            # cellsList = self.findChildren(BoardCell)
+            # for cell in cellsList:
+            #     logging.debug(str(cell.row) + str(cell.col))
+            #     f.write("rzad"+str(cell.row)+ ", kolumna" + str(cell.col))
+            #     status = cell.getCellStatus()
+            #     logging.debug(status[0])
+            #     logging.debug(status[1])
+            #     f.write(status[0])
+            #     f.write(str(status[1])+"\n")
     
     def detectSequences(self):
         logging.debug("Sasiedzi plytki")
