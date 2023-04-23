@@ -31,7 +31,8 @@ def Tcp_Read( ):
 		a = s.recv(1).decode()
 		b = b + a
 
-	return b
+	b_dict = eval(b) # dictionary format
+	return b_dict
 
 def Tcp_Close( ):
    s.close()
@@ -42,14 +43,10 @@ Tcp_server_next()
 
 while True:
 	
-	print(Tcp_Read())
+	print(str(Tcp_Read()))
 	print("----------------------------------------------")
 	print()
 
 	# Tcp_Write('hello')
-	# print(Tcp_Read())
-	# print("----------------------------------------------")
-	# print()
-
-	# Tcp_Write('client')
+	
 Tcp_Close()
