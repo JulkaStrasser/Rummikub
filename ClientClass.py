@@ -39,13 +39,14 @@ class Client:
         self.s.close()
         return 
    
-client = Client('192.168.56.1', 17098)
-data = client.read_json_file('GameBoard.json')
-client.Tcp_connect()
+# client = Client('192.168.56.1', 17098)
+# client.Tcp_connect()
 
-client.Tcp_Write(data)
-print(client.Tcp_Read())
-client.Tcp_Write('server')
-print(client.Tcp_Read())
+# data = client.read_json_file('GameBoard.json')
 
-client.Tcp_Close()
+# client.Tcp_Write(data)
+# print(client.Tcp_Read())
+# client.Tcp_Write('server')
+# print(client.Tcp_Read())
+
+# client.Tcp_Close()

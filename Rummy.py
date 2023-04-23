@@ -13,6 +13,7 @@ from ControlPanel import ControlPanel
 from Player import Player
 from GameBoard import GameBoard
 from History import History
+from ClientClass import Client
 from PyQt5.QtCore import QRegExp
 from PyQt5.QtGui import QRegExpValidator
 
@@ -331,7 +332,11 @@ def freezePlayers():
         pass
     
     else:
+        # zapisywanie i wysylanie planszy do serwera
         main.gameBoard.listItems()
+        data = main.client.read_json_file('GameBoard.json')
+        main.client.Tcp_Write(data)
+
         main.players[main.player_turn-1].drawedTile = False
         main.database.write('Gracz'+str(main.player_turn+1),'Twoja tura')
         main.database.read_all_data()
@@ -493,7 +498,8 @@ class Main():
 
         self.tileCollection = TileCollection(self)
         self.tileBag = TileBag(self)
-        
+        self.client = Client('172.16.35.55', 17098)
+        self.client.Tcp_connect()
 
     def newGame(self):
         self.gameBoard.removeAllTiles()

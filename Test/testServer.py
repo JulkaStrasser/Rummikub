@@ -39,8 +39,17 @@ def Tcp_Close( ):
 
 Tcp_server_wait ( 5, 17098 )
 Tcp_server_next()
-print(Tcp_Read())
-Tcp_Write('hello')
-print(Tcp_Read())
-Tcp_Write('client')
+
+while True:
+	
+	print(Tcp_Read())
+	print("----------------------------------------------")
+	print()
+
+	# Tcp_Write('hello')
+	# print(Tcp_Read())
+	# print("----------------------------------------------")
+	# print()
+
+	# Tcp_Write('client')
 Tcp_Close()
