@@ -60,7 +60,7 @@ class PlayerControls(QFrame):
             if self.main.tileBag.getNoOfTilesInBag() > 0:
                 nextTile = self.main.tileBag.getTileFromBag()
                 logging.info(self.playerName + " dobiera plytke. To:  " + str(nextTile.getColor()) + str(nextTile.getValue()))
-                self.main.database.write("Gracz "+str(self.main.player_turn), " dobral plytke. To:  " + str(nextTile.getColor()) + str(nextTile.getValue()))
+                #self.main.database.write("Gracz "+str(self.main.player_turn), " dobral plytke. To:  " + str(nextTile.getColor()) + str(nextTile.getValue()))
                 for cell in self.playerGrid.cellList:
                     status = cell.getCellStatus()
                     if status == "Empty":
@@ -88,7 +88,7 @@ class PlayerGrid(TileGridBaseClass):
             if self.main.tileBag.getNoOfTilesInBag() > 0:
                 nextTile = self.main.tileBag.getTileFromBag()
                 logging.info( " dobieranie plytki. Jest to : " + str(nextTile.getColor()) + str(nextTile.getValue()))
-                self.main.database.write("Rozdawanie plytek","Jest to : " + str(nextTile.getColor()) + str(nextTile.getValue()) )
+                #self.main.database.write("Rozdawanie plytek","Jest to : " + str(nextTile.getColor()) + str(nextTile.getValue()) )
                 for cell in self.cellList:
                     status = cell.getCellStatus()
                     if status == "Empty":

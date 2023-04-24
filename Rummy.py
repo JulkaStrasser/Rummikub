@@ -31,8 +31,8 @@ class TileBag():
 
         random.shuffle(self.tileBag)
         logging.info("Plytki sa przygotowane, pomieszane w worku")
-        main.database.write("Wszyscy","Plytki przygotowane do gry")
-        main.database.read_all_data()
+        # main.database.write("Wszyscy","Plytki przygotowane do gry")
+        # main.database.read_all_data()
 
     def getTileFromBag(self):
 
@@ -337,7 +337,7 @@ def freezePlayers():
     
     if main.players[main.player_turn-1].player_grid.checkWinner() == True:
         # logging.debug('Gracz'+str(main.player_turn)+' jest zwyciezca')
-        main.database.write("Gracz "+str(main.player_turn), "jest zwyciezca")
+        #main.database.write("Gracz "+str(main.player_turn), "jest zwyciezca")
         sys.exit()
 
     if main.gameBoard.detectSequences() != True:
@@ -348,8 +348,8 @@ def freezePlayers():
         
 
         main.players[main.player_turn-1].drawedTile = False
-        main.database.write('Gracz'+str(main.player_turn+1),'Twoja tura')
-        main.database.read_all_data()
+        # main.database.write('Gracz'+str(main.player_turn+1),'Twoja tura')
+        # main.database.read_all_data()
 
        
         if main.player_turn == 0:
@@ -477,7 +477,7 @@ class Main():
         self.isJson = True
         
         self.noPlayers = 4 #default number of players
-        self.database = History(self)
+        # self.database = History(self)
         self.tileColors = ["red", "black", "blue", "yellow"]
         self.tileOwner = ["none", "player", "board", "bag"]
         self.tileValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
@@ -519,7 +519,7 @@ class Main():
         self.tileCollection = TileCollection(self)
 
         self.tileBag = TileBag(self)
-        self.client = Client('172.16.35.55', 17098,self)
+        self.client = Client('127.0.0.1', 17098,self)
         self.client.Tcp_connect()
 
     def newGame(self):
