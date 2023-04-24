@@ -36,11 +36,13 @@ class Client:
             a = self.s.recv(1).decode()
             b = b + a
         self.b_dict = eval(b) # dictionary format
+        
         self.JsonToGrid()
-        return self.b_dict
+        self.b_dict
 
     def JsonToGrid(self):
         self.grid = []
+        self.grid.clear()
         #print(str(self.b_dict['board']))
         for item in self.b_dict['board']:
             #print(item)
@@ -59,6 +61,7 @@ class Client:
                 self.grid.append(tile_index)
             
             print(self.grid)
+            
             
 
     def Tcp_Close(self):

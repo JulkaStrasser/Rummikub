@@ -81,6 +81,9 @@ class TileGridBaseClass(QFrame):
 
     def restoreGridState(self, grid):
         self.removeAllTiles()
+        print(len(self.cellList))
+        print(len(grid))
+        print(grid)
         if len(self.cellList) != len(grid):
             logging.error("Problem z zaladowaniem planszy ")
             return

@@ -354,7 +354,8 @@ def freezePlayers():
        
         if main.player_turn == 0:
             #poczatek tury gracza 1 - czytamy dane od servera
-            received_mes = main.client.Tcp_Read()
+            received_grid = main.client.Tcp_Read()
+            main.gameBoard.restoreGridState(main.client.grid)
             #print(str(received_mes))
             #budzimy playera 1
             main.players[0].player_controls.playerGrid.thaw()
