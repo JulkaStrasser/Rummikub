@@ -20,7 +20,7 @@ class Client:
         return data
 
     def Tcp_connect(self):
-        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.s = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
         self.s.connect((self.host_ip, self.port))
         return
     

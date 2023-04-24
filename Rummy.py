@@ -519,7 +519,7 @@ class Main():
         self.tileCollection = TileCollection(self)
 
         self.tileBag = TileBag(self)
-        self.client = Client('127.0.0.1', 17098,self)
+        self.client = Client("localhost", 17098,self)
         self.client.Tcp_connect()
 
     def newGame(self):
